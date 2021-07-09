@@ -274,20 +274,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ImY-mH-nD6">
-                                <rect key="frame" x="0.0" y="88" width="414" height="375"/>
-                                <color key="backgroundColor" red="0.23521677730000001" green="0.24577317970000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </imageView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="IfJ-5S-a9y">
                                 <rect key="frame" x="0.0" y="463" width="414" height="350"/>
-                                <imageView key="tableHeaderView" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="nF7-3Y-WHD">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="238"/>
+                                <view key="tableHeaderView" contentMode="scaleToFill" id="0Ua-bo-HpQ">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="256"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" red="1" green="0.49327188729999999" blue="0.47399842739999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </imageView>
+                                </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Jpa-nF-cLd">
-                                        <rect key="frame" x="0.0" y="262.5" width="414" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="280.5" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Jpa-nF-cLd" id="ZLw-WY-tj8">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
@@ -297,21 +293,30 @@
                                 </prototypes>
                                 <sections/>
                             </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eph-6X-VPf" customClass="FSCalendar">
+                                <rect key="frame" x="0.0" y="88" width="414" height="375"/>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Q2-Vj-rYq"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="6Q2-Vj-rYq" firstAttribute="bottom" secondItem="IfJ-5S-a9y" secondAttribute="bottom" id="2Ib-T6-1Uz"/>
-                            <constraint firstItem="ImY-mH-nD6" firstAttribute="leading" secondItem="6Q2-Vj-rYq" secondAttribute="leading" id="HDX-Tg-a1G"/>
+                            <constraint firstItem="IfJ-5S-a9y" firstAttribute="trailing" secondItem="6Q2-Vj-rYq" secondAttribute="trailing" id="I63-oa-vgk"/>
+                            <constraint firstItem="eph-6X-VPf" firstAttribute="trailing" secondItem="6Q2-Vj-rYq" secondAttribute="trailing" id="IuB-x7-Xzs"/>
+                            <constraint firstItem="IfJ-5S-a9y" firstAttribute="top" secondItem="eph-6X-VPf" secondAttribute="bottom" id="JoR-xp-VJx"/>
+                            <constraint firstItem="IfJ-5S-a9y" firstAttribute="leading" secondItem="6Q2-Vj-rYq" secondAttribute="leading" id="Mls-SA-Bgz"/>
                             <constraint firstItem="IfJ-5S-a9y" firstAttribute="leading" secondItem="6Q2-Vj-rYq" secondAttribute="leading" id="NTI-Bg-D9A"/>
-                            <constraint firstItem="6Q2-Vj-rYq" firstAttribute="trailing" secondItem="ImY-mH-nD6" secondAttribute="trailing" id="i2U-4U-dj4"/>
+                            <constraint firstItem="eph-6X-VPf" firstAttribute="leading" secondItem="6Q2-Vj-rYq" secondAttribute="leading" id="ay3-EA-AIm"/>
+                            <constraint firstItem="6Q2-Vj-rYq" firstAttribute="bottom" secondItem="eph-6X-VPf" secondAttribute="bottom" constant="350" id="iSx-uo-12E"/>
                             <constraint firstItem="6Q2-Vj-rYq" firstAttribute="trailing" secondItem="IfJ-5S-a9y" secondAttribute="trailing" id="kJC-ug-hrM"/>
-                            <constraint firstItem="IfJ-5S-a9y" firstAttribute="top" secondItem="ImY-mH-nD6" secondAttribute="bottom" id="oP1-ii-aZi"/>
-                            <constraint firstItem="6Q2-Vj-rYq" firstAttribute="bottom" secondItem="ImY-mH-nD6" secondAttribute="bottom" constant="350" id="r8u-Mq-is9"/>
-                            <constraint firstItem="ImY-mH-nD6" firstAttribute="top" secondItem="6Q2-Vj-rYq" secondAttribute="top" id="uIu-rc-qgO"/>
+                            <constraint firstItem="eph-6X-VPf" firstAttribute="top" secondItem="6Q2-Vj-rYq" secondAttribute="top" id="ss9-4J-ixb"/>
+                            <constraint firstItem="IfJ-5S-a9y" firstAttribute="bottom" secondItem="6Q2-Vj-rYq" secondAttribute="bottom" id="tHk-Sd-c5i"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="カレンダー" id="X9M-81-YEh"/>
+                    <connections>
+                        <outlet property="calenderView" destination="eph-6X-VPf" id="d4s-tf-io5"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qrz-o3-jJY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
