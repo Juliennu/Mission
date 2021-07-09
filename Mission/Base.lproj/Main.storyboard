@@ -146,6 +146,12 @@
                     <navigationItem key="navigationItem" title="フォルダ" id="3CA-9s-jzK">
                         <barButtonItem key="rightBarButtonItem" title="編集" id="Z7X-BD-PmL"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="addNewFolderButton" destination="fhZ-UV-7sx" id="uwj-dD-gx8"/>
+                        <outlet property="editButton" destination="Z7X-BD-PmL" id="Ehi-JG-Lor"/>
+                        <outlet property="folderListSearchBar" destination="mq0-57-3HD" id="WPW-yz-037"/>
+                        <outlet property="folderListTableView" destination="yn7-X1-8Ck" id="OlV-by-k12"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OfL-VN-nfI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
