@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -16,6 +16,14 @@
 		1AF53D8E26982D5200124197 /* MissionInProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF53D8D26982D5200124197 /* MissionInProgressViewController.swift */; };
 		1AF53D9026982D6D00124197 /* CalenderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF53D8F26982D6D00124197 /* CalenderViewController.swift */; };
 		1AF53D9226982DD400124197 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF53D9126982DD400124197 /* SettingViewController.swift */; };
+		1AF53D96269AB01600124197 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF53D95269AB01600124197 /* SignUpViewController.swift */; };
+		1AF53D98269AB04000124197 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF53D97269AB04000124197 /* LoginViewController.swift */; };
+		1AF53D9A269AB07F00124197 /* CreateNewBingoSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF53D99269AB07F00124197 /* CreateNewBingoSheetViewController.swift */; };
+		1AF53D9C269AB0D200124197 /* EditBingoSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF53D9B269AB0D200124197 /* EditBingoSheetViewController.swift */; };
+		1AF53D9F269AB35B00124197 /* BingoSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF53D9E269AB35B00124197 /* BingoSheet.swift */; };
+		1AF53DA1269AB48700124197 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1AF53DA0269AB48700124197 /* GoogleService-Info.plist */; };
+		1AF53DA4269BD59400124197 /* CreateNewBingoSheet.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1AF53DA3269BD59400124197 /* CreateNewBingoSheet.storyboard */; };
+		1AF53DA6269BD62300124197 /* EditBingoSheet.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1AF53DA5269BD62300124197 /* EditBingoSheet.storyboard */; };
 		936D6B4EF3E715BD974D723E /* Pods_Mission.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF69F015799625E4ED317719 /* Pods_Mission.framework */; };
 /* End PBXBuildFile section */
 
@@ -31,6 +39,14 @@
 		1AF53D8D26982D5200124197 /* MissionInProgressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionInProgressViewController.swift; sourceTree = "<group>"; };
 		1AF53D8F26982D6D00124197 /* CalenderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalenderViewController.swift; sourceTree = "<group>"; };
 		1AF53D9126982DD400124197 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		1AF53D95269AB01600124197 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		1AF53D97269AB04000124197 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		1AF53D99269AB07F00124197 /* CreateNewBingoSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewBingoSheetViewController.swift; sourceTree = "<group>"; };
+		1AF53D9B269AB0D200124197 /* EditBingoSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBingoSheetViewController.swift; sourceTree = "<group>"; };
+		1AF53D9E269AB35B00124197 /* BingoSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BingoSheet.swift; sourceTree = "<group>"; };
+		1AF53DA0269AB48700124197 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		1AF53DA3269BD59400124197 /* CreateNewBingoSheet.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CreateNewBingoSheet.storyboard; sourceTree = "<group>"; };
+		1AF53DA5269BD62300124197 /* EditBingoSheet.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = EditBingoSheet.storyboard; sourceTree = "<group>"; };
 		A2450B72E47BBCA473C374D2 /* Pods-Mission.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mission.debug.xcconfig"; path = "Target Support Files/Pods-Mission/Pods-Mission.debug.xcconfig"; sourceTree = "<group>"; };
 		A24E4A19748CE46E21CDF486 /* Pods-Mission.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mission.release.xcconfig"; path = "Target Support Files/Pods-Mission/Pods-Mission.release.xcconfig"; sourceTree = "<group>"; };
 		AF69F015799625E4ED317719 /* Pods_Mission.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Mission.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -69,13 +85,15 @@
 		1AF53D7526981AB000124197 /* Mission */ = {
 			isa = PBXGroup;
 			children = (
+				1AF53D9D269AB0E800124197 /* Models */,
 				1AF53D8A26982B6A00124197 /* ViewControllers */,
+				1AF53DA2269BD4AB00124197 /* StoryBoards */,
 				1AF53D7626981AB000124197 /* AppDelegate.swift */,
 				1AF53D7826981AB000124197 /* SceneDelegate.swift */,
-				1AF53D7C26981AB000124197 /* Main.storyboard */,
 				1AF53D7F26981AB200124197 /* Assets.xcassets */,
 				1AF53D8126981AB200124197 /* LaunchScreen.storyboard */,
 				1AF53D8426981AB200124197 /* Info.plist */,
+				1AF53DA0269AB48700124197 /* GoogleService-Info.plist */,
 			);
 			path = Mission;
 			sourceTree = "<group>";
@@ -84,10 +102,6 @@
 			isa = PBXGroup;
 			children = (
 				1AF53D9326982E2700124197 /* CoreTabs */,
-				1AF53D8B26982BA000124197 /* FolderViewController.swift */,
-				1AF53D8D26982D5200124197 /* MissionInProgressViewController.swift */,
-				1AF53D8F26982D6D00124197 /* CalenderViewController.swift */,
-				1AF53D9126982DD400124197 /* SettingViewController.swift */,
 				1AF53D9426982E6900124197 /* Other */,
 			);
 			path = ViewControllers;
@@ -96,6 +110,10 @@
 		1AF53D9326982E2700124197 /* CoreTabs */ = {
 			isa = PBXGroup;
 			children = (
+				1AF53D8B26982BA000124197 /* FolderViewController.swift */,
+				1AF53D8D26982D5200124197 /* MissionInProgressViewController.swift */,
+				1AF53D8F26982D6D00124197 /* CalenderViewController.swift */,
+				1AF53D9126982DD400124197 /* SettingViewController.swift */,
 			);
 			path = CoreTabs;
 			sourceTree = "<group>";
@@ -103,8 +121,30 @@
 		1AF53D9426982E6900124197 /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				1AF53D95269AB01600124197 /* SignUpViewController.swift */,
+				1AF53D97269AB04000124197 /* LoginViewController.swift */,
+				1AF53D99269AB07F00124197 /* CreateNewBingoSheetViewController.swift */,
+				1AF53D9B269AB0D200124197 /* EditBingoSheetViewController.swift */,
 			);
 			path = Other;
+			sourceTree = "<group>";
+		};
+		1AF53D9D269AB0E800124197 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				1AF53D9E269AB35B00124197 /* BingoSheet.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		1AF53DA2269BD4AB00124197 /* StoryBoards */ = {
+			isa = PBXGroup;
+			children = (
+				1AF53D7C26981AB000124197 /* Main.storyboard */,
+				1AF53DA3269BD59400124197 /* CreateNewBingoSheet.storyboard */,
+				1AF53DA5269BD62300124197 /* EditBingoSheet.storyboard */,
+			);
+			path = StoryBoards;
 			sourceTree = "<group>";
 		};
 		77A91C04A997AEB003384887 /* Pods */ = {
@@ -113,7 +153,6 @@
 				A2450B72E47BBCA473C374D2 /* Pods-Mission.debug.xcconfig */,
 				A24E4A19748CE46E21CDF486 /* Pods-Mission.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -184,6 +223,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1AF53DA1269AB48700124197 /* GoogleService-Info.plist in Resources */,
+				1AF53DA4269BD59400124197 /* CreateNewBingoSheet.storyboard in Resources */,
+				1AF53DA6269BD62300124197 /* EditBingoSheet.storyboard in Resources */,
 				1AF53D8326981AB200124197 /* LaunchScreen.storyboard in Resources */,
 				1AF53D8026981AB200124197 /* Assets.xcassets in Resources */,
 				1AF53D7E26981AB000124197 /* Main.storyboard in Resources */,
@@ -240,8 +282,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				1AF53D9026982D6D00124197 /* CalenderViewController.swift in Sources */,
+				1AF53D96269AB01600124197 /* SignUpViewController.swift in Sources */,
+				1AF53D9F269AB35B00124197 /* BingoSheet.swift in Sources */,
+				1AF53D9C269AB0D200124197 /* EditBingoSheetViewController.swift in Sources */,
 				1AF53D8C26982BA000124197 /* FolderViewController.swift in Sources */,
 				1AF53D7726981AB000124197 /* AppDelegate.swift in Sources */,
+				1AF53D9A269AB07F00124197 /* CreateNewBingoSheetViewController.swift in Sources */,
+				1AF53D98269AB04000124197 /* LoginViewController.swift in Sources */,
 				1AF53D7926981AB000124197 /* SceneDelegate.swift in Sources */,
 				1AF53D9226982DD400124197 /* SettingViewController.swift in Sources */,
 				1AF53D8E26982D5200124197 /* MissionInProgressViewController.swift in Sources */,

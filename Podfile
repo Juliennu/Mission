@@ -7,8 +7,18 @@ target 'Mission' do
 
   # Pods for Mission
 pod 'Appirater'
+pod 'Eureka'
 
+#Calendar
 pod 'FSCalendar'
-pod 'CalculateCalendarLogic' 
+pod 'CalculateCalendarLogic'
+
+#Firebase
+pod 'Firebase/Core'
+pod 'Firebase/Auth'
+pod 'Firebase/Database'
+pod 'Firebase/Analytics'
+pod 'Firebase/Crashlytics'
+pod 'Firebase/Storage'
 
 end
