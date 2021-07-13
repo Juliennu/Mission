@@ -24,6 +24,7 @@
 		1AF53DA1269AB48700124197 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1AF53DA0269AB48700124197 /* GoogleService-Info.plist */; };
 		1AF53DA4269BD59400124197 /* CreateNewBingoSheet.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1AF53DA3269BD59400124197 /* CreateNewBingoSheet.storyboard */; };
 		1AF53DA6269BD62300124197 /* EditBingoSheet.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1AF53DA5269BD62300124197 /* EditBingoSheet.storyboard */; };
+		1AF53DA8269D33C400124197 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF53DA7269D33C400124197 /* AuthManager.swift */; };
 		936D6B4EF3E715BD974D723E /* Pods_Mission.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF69F015799625E4ED317719 /* Pods_Mission.framework */; };
 /* End PBXBuildFile section */
 
@@ -47,6 +48,7 @@
 		1AF53DA0269AB48700124197 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1AF53DA3269BD59400124197 /* CreateNewBingoSheet.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CreateNewBingoSheet.storyboard; sourceTree = "<group>"; };
 		1AF53DA5269BD62300124197 /* EditBingoSheet.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = EditBingoSheet.storyboard; sourceTree = "<group>"; };
+		1AF53DA7269D33C400124197 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		A2450B72E47BBCA473C374D2 /* Pods-Mission.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mission.debug.xcconfig"; path = "Target Support Files/Pods-Mission/Pods-Mission.debug.xcconfig"; sourceTree = "<group>"; };
 		A24E4A19748CE46E21CDF486 /* Pods-Mission.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mission.release.xcconfig"; path = "Target Support Files/Pods-Mission/Pods-Mission.release.xcconfig"; sourceTree = "<group>"; };
 		AF69F015799625E4ED317719 /* Pods_Mission.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Mission.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -133,6 +135,7 @@
 			isa = PBXGroup;
 			children = (
 				1AF53D9E269AB35B00124197 /* BingoSheet.swift */,
+				1AF53DA7269D33C400124197 /* AuthManager.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -282,6 +285,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1AF53D9026982D6D00124197 /* CalenderViewController.swift in Sources */,
+				1AF53DA8269D33C400124197 /* AuthManager.swift in Sources */,
 				1AF53D96269AB01600124197 /* SignUpViewController.swift in Sources */,
 				1AF53D9F269AB35B00124197 /* BingoSheet.swift in Sources */,
 				1AF53D9C269AB0D200124197 /* EditBingoSheetViewController.swift in Sources */,

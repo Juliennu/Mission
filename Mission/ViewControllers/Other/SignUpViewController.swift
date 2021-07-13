@@ -6,24 +6,45 @@
 //
 
 import UIKit
+import Firebase
 
-class SignUpViewController: UIViewController {
+public class SignUpViewController: UIViewController {
+    
+//    let email = "test@gmail.com"
+//    let password = "123456"
 
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        
     }
+//
+//    public func createAnonymousUserToFirestore() {
+//        Auth.auth().signInAnonymously() {( authResult, error) in
+//            if let error = error {
+//                print("匿名認証情報の保存に失敗しました: ", error)
+//                return
+//            }
+//            guard let user = authResult?.user else { return }
+//
+//            let isAnonymous = user.isAnonymous
+//            let uid = user.uid
+//
+//            if let user = Auth.auth().currentUser, user.isAnonymous {
+//                let credential = EmailAuthProvider.credential(withEmail: self.email, password: self.password)
+//                user.link(with: credential) { authResult, error in
+//                    if let error = error {
+//                        print("メールアドレス認証情報の保存に失敗しました: ", error)
+//                        return
+//                    }
+//                    print(authResult?.user.uid)
+//                }
+//
+//            }
+//
+//        }
+//    }
+//
+
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

@@ -12,7 +12,7 @@ import Firebase
 class CreateNewBingoSheetViewController: FormViewController {
     
 
-    
+    let db = Firestore.firestore()
     
     let bingosheet = [BingoSheet]()
     
@@ -47,8 +47,21 @@ class CreateNewBingoSheetViewController: FormViewController {
                 row.value = "3x3"//初期値
             }.onChange({ [unowned self] row in
                 //値変更時の処理
+                if row.value == "3x3" {
+                    //タスク入力欄を9個にする
+                } else {
+                    //タスク入力欄を16個にする
+                }
                 self.selectedSquare = row.value!
                 print(self.selectedSquare)
+            })
+            
+            <<< TextRow() { row in
+                row.title = "タスク"
+                row.placeholder = "タスクを入力"
+            }.onChange({ row in
+                self.bonus = row.value!
+                print(self.bonus)
             })
             
             <<< DateRow() { row in
@@ -67,9 +80,10 @@ class CreateNewBingoSheetViewController: FormViewController {
                 self.bonus = row.value!
                 print(self.bonus)
             })
-
-        
     }
+    
+    
+    
     
     private func setUpRightBarButtonItem() {
         saveButton = UIBarButtonItem(title: "保存", style: .done, target: self, action: #selector(didTapSaveButton))
@@ -78,14 +92,31 @@ class CreateNewBingoSheetViewController: FormViewController {
     }
     
     @objc private func didTapSaveButton() {
-        guard let title = bingosheetTitle else { return }
-        //Firebaseへの保存処理を書く
         
-        
-        print("保存ボタンが押されました")
+        registerBingoSheetToFirestore()
         self.navigationController?.popToRootViewController(animated: true)
     }
     
+    
+    private func registerBingoSheetToFirestore() {
+        //Firebaseへの保存処理を書く
+        guard let title = bingosheetTitle else { return }
+        
+        var ref: DocumentReference? = nil
+        ref = db.collection("users") .addDocument(data: [
+            "bingoSheetTitle": title,
+            "selectedSquare": selectedSquare,
+            "deadLine": deadline,
+            "bonus": bonus
+        ]) { err in
+            if let err = err {
+                print("データベースへの保存に失敗しました: ", err)
+            } else {
+                print("データベースへの保存に成功しました: ", ref!.documentID)
+            }
+        }
+        
+    }
     
     
     

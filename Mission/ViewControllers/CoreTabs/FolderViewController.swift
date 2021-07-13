@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 
 class FolderViewController: UIViewController {
 
@@ -18,6 +19,8 @@ class FolderViewController: UIViewController {
         let storyboard = UIStoryboard.init(name: "CreateNewBingoSheet", bundle: nil)
         let createNewBingoSheetVC = storyboard.instantiateViewController(withIdentifier: "CreateNewBingoSheetViewController") as! CreateNewBingoSheetViewController
         navigationController?.pushViewController(createNewBingoSheetVC, animated: true)
+        //新規ビンゴカード作成時に匿名認証をする
+        createAnonymousUserToFirestore()
     }
     
     var bingosheet = [BingoSheet]()
@@ -39,6 +42,21 @@ class FolderViewController: UIViewController {
 
 }
 
+public func createAnonymousUserToFirestore() {
+    Auth.auth().signInAnonymously() {( authResult, error) in
+        if let error = error {
+            print("認証情報の保存に失敗しました: ", error)
+            return
+        }
+        guard let user = authResult?.user else { return }
+        
+        let isAnonymous = user.isAnonymous
+        let uid = user.uid
+    }
+}
+
+
+// MARK: - Delegates
 extension FolderViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
