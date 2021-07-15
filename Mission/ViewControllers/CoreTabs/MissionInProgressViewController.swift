@@ -12,23 +12,39 @@ class MissionInProgressViewController: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var bingoCollectionView: UICollectionView!
-    @IBOutlet weak var bannerView: UIImageView!
     
     
+    @IBOutlet weak var bannerView: UIImageView!//Admobを表示予定
     
-    
-    
+    let titles = ["死ぬまでにやりたいこと", "デイリーミッション", "週末用"]
+    let tasks = ["洗い物", "洗濯物", "掃除機かけ", "ゴミ出し","手紙を出す", "鳥小屋の掃除", "ふるさと納税", "単語帳10ページ", "買い物"]
+    let layout = UICollectionViewFlowLayout()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        setUpBingoCollectionView()
+        setUpScrollView()
+
+    }
+    
+    private func setUpBingoCollectionView() {
+        bingoCollectionView.delegate = self
+        bingoCollectionView.dataSource = self
+        bingoCollectionView.register(BingoCollectionViewCell.self, forCellWithReuseIdentifier: "cellId")
+        bingoCollectionView.backgroundColor = .clear
+        
+        bingoCollectionView.layer.borderWidth = 1.0
+        bingoCollectionView.layer.borderColor = UIColor.systemGray2.cgColor
+        
+        bingoCollectionView.collectionViewLayout = layout
+    }
+    
+    private func setUpScrollView() {
         
         scrollView.delegate = self
-        
-        let titles = ["死ぬまでにやりたいこと", "デイリーミッション", "週末用"]
         //横幅
         let width: CGFloat = 350
-        
-        
         //タブのx座標．0から始まり，少しずつずらしていく．
         var originX: CGFloat = 0
         
@@ -37,16 +53,52 @@ class MissionInProgressViewController: UIViewController {
             titleLabel.text = title
             //次のタブのx座標を用意する
             originX += width
-            
         }
-        
         //scrollViewのcontentSizeを，タブ全体のサイズに合わせてあげる(ここ重要！)
         //最終的なoriginX = タブ全体の横幅 になります
         scrollView.contentSize = CGSize(width: width, height: 505)
+    }
+ 
+}
 
+
+// MARK: - Delegates
+extension MissionInProgressViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {//@sectionとは何かわからない。
+        return 1//デフォルト値1のためメソッドごと消して良い
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return tasks.count
+    }
+    
+//    //個別のレイアウトを作る場合使用
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+//        let sideOfSquare = collectionView.frame.width / 3
+//        return .init(width: sideOfSquare, height: sideOfSquare)
+//    }
+    
+    //cell同士のスペース
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = bingoCollectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! BingoCollectionViewCell
+        cell.taskLabel.text = tasks[indexPath.row]
+        return cell
+    }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let task = tasks[indexPath.row]
+        print(task)
         
     }
 }
+
+
 
 extension MissionInProgressViewController: UIScrollViewDelegate {
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
@@ -55,5 +107,41 @@ extension MissionInProgressViewController: UIScrollViewDelegate {
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         guard scrollView == self.scrollView else { return }
+    }
+}
+
+
+
+
+//MARK: - MissionInProgressCollectionViewCell
+
+class BingoCollectionViewCell: UICollectionViewCell {
+    
+    let taskLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .black
+        label.textAlignment = .center
+        label.text = "タスク１"
+        label.clipsToBounds = true
+        label.backgroundColor = .yellow
+        return label
+    }()
+
+    override init(frame: CGRect) {//＠これは何？→カスタムUIViewの初期化を記述
+        super.init(frame: frame)
+        
+        addSubview(taskLabel)
+        
+        taskLabel.frame.size = self.frame.size
+        
+        self.layer.borderWidth = 1.0
+        self.layer.borderColor = UIColor.systemGray.cgColor
+    
+        
+    }
+    required init?(coder: NSCoder) {//＠これは何？→よくわからない。swiftの場合、override init(frame: CGRect)とセットで必要になる模様。
+        
+        fatalError("init(coder:) has not been implemented")
+
     }
 }
