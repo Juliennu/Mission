@@ -17,7 +17,7 @@ class MissionInProgressViewController: UIViewController {
     @IBOutlet weak var bannerView: UIImageView!//Admobを表示予定
     
     let titles = ["死ぬまでにやりたいこと", "デイリーミッション", "週末用"]
-    let tasks = ["洗い物", "洗濯物", "掃除機かけ", "ゴミ出し","手紙を出す", "鳥小屋の掃除", "ふるさと納税", "単語帳10ページ", "買い物"]
+    let tasks = ["洗い物", "洗濯物", "掃除機かけ", "ゴミ出し","手紙を出す", "鳥小屋の掃除", "ふるさと納税", "単語帳10,000ページ", "ドラッグストアでシャンプーを買う"]
     let layout = UICollectionViewFlowLayout()
     
     override func viewDidLoad() {
@@ -65,33 +65,48 @@ class MissionInProgressViewController: UIViewController {
 // MARK: - Delegates
 extension MissionInProgressViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    func numberOfSections(in collectionView: UICollectionView) -> Int {//@sectionとは何かわからない。
-        return 1//デフォルト値1のためメソッドごと消して良い
-    }
+//    func numberOfSections(in collectionView: UICollectionView) -> Int {//@sectionとは何かわからない。
+//        return 1//デフォルト値1のためメソッドごと消して良い
+//    }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return tasks.count
+        return tasks.count//@Firebaseからデータを持ってきたい
     }
     
-//    //個別のレイアウトを作る場合使用
+//    //collectionViewのHeaderからの距離。0なのでいらない
 //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-//        let sideOfSquare = collectionView.frame.width / 3
-//        return .init(width: sideOfSquare, height: sideOfSquare)
+//        return 0
 //    }
+    //セルのサイズ
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let sideOfSquare = collectionView.frame.width / 3
+        return .init(width: sideOfSquare, height: sideOfSquare)
+    }
     
     //cell同士のスペース
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
     
+    //行間のスペース
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = bingoCollectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! BingoCollectionViewCell
-        cell.taskLabel.text = tasks[indexPath.row]
+        cell.taskLabel.text = tasks[indexPath.row]//@Firebaseからデータを持ってきたい
         return cell
     }
     
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = bingoCollectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! BingoCollectionViewCell
+        cell.backgroundColor = .blue//@タップ時に色を変えたい
+        //@タップ時にイラストを表示したい
+        
+        
+        
         let task = tasks[indexPath.row]
         print(task)
         
@@ -117,13 +132,24 @@ extension MissionInProgressViewController: UIScrollViewDelegate {
 
 class BingoCollectionViewCell: UICollectionViewCell {
     
+    
+    
+    
+    
+    
+    
+    
+    
     let taskLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
         label.textAlignment = .center
         label.text = "タスク１"
         label.clipsToBounds = true
-        label.backgroundColor = .yellow
+        //@lavelを折り返して全文表示したい
+        label.lineBreakMode = .byWordWrapping//単語単位で区切って改行
+        label.numberOfLines = 0//最大制限なし（必要なだけ行数を使用）
+//        label.backgroundColor = .yellow
         return label
     }()
 
@@ -136,6 +162,7 @@ class BingoCollectionViewCell: UICollectionViewCell {
         
         self.layer.borderWidth = 1.0
         self.layer.borderColor = UIColor.systemGray.cgColor
+        self.layer.backgroundColor = UIColor.systemPink.cgColor
     
         
     }
