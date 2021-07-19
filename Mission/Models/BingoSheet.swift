@@ -9,7 +9,7 @@ import Foundation
 import Firebase
 
 
-class BingoSheet {
+public class BingoSheet {
     
     enum BingoSheetType {
         case type3x3

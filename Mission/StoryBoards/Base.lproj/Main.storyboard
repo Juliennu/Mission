@@ -209,13 +209,9 @@
                                 <viewLayoutGuide key="contentLayoutGuide" id="wec-vE-Dyx"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="Zc1-pz-oOm"/>
                             </scrollView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="music.note.list" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="b8h-Zu-AiW">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" placeholderIntrinsicWidth="320" placeholderIntrinsicHeight="50" image="music.note.list" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="b8h-Zu-AiW" customClass="GADBannerView">
                                 <rect key="frame" x="47" y="763.5" width="320" height="49"/>
                                 <color key="backgroundColor" systemColor="systemTealColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="320" id="Lj0-gb-7vv"/>
-                                    <constraint firstAttribute="height" constant="50" id="ezX-R8-3fP"/>
-                                </constraints>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="ZR4-7M-VMP"/>
@@ -231,7 +227,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Misson In Progress" id="mV3-XO-KDK"/>
                     <connections>
-                        <outlet property="bannerView" destination="b8h-Zu-AiW" id="rTf-yC-ee6"/>
+                        <outlet property="bannerView" destination="b8h-Zu-AiW" id="HA7-ZZ-H1J"/>
                         <outlet property="bingoCollectionView" destination="xTT-Yk-JwF" id="kDR-LF-HUo"/>
                         <outlet property="scrollView" destination="qLI-CP-aQo" id="5xW-Du-K3v"/>
                         <outlet property="titleLabel" destination="SNj-tx-iuv" id="9rg-Qm-I6g"/>

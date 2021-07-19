@@ -16,6 +16,8 @@
 		1A8393BC269D85D900904EC4 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 1A8393BB269D85D900904EC4 /* FirebaseAuth */; };
 		1A8393BE269D85D900904EC4 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 1A8393BD269D85D900904EC4 /* FirebaseFirestore */; };
 		1A8393C0269D85D900904EC4 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 1A8393BF269D85D900904EC4 /* FirebaseDatabase */; };
+		1AE1456F26A0630F000D3E7E /* BingoLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE1456E26A0630F000D3E7E /* BingoLogic.swift */; };
+		1AE1457126A123A7000D3E7E /* AppTrackingTransparency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE1457026A123A7000D3E7E /* AppTrackingTransparency.swift */; };
 		1AF53D7726981AB000124197 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF53D7626981AB000124197 /* AppDelegate.swift */; };
 		1AF53D7926981AB000124197 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF53D7826981AB000124197 /* SceneDelegate.swift */; };
 		1AF53D7E26981AB000124197 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1AF53D7C26981AB000124197 /* Main.storyboard */; };
@@ -34,9 +36,12 @@
 		1AF53DA4269BD59400124197 /* CreateNewBingoSheet.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1AF53DA3269BD59400124197 /* CreateNewBingoSheet.storyboard */; };
 		1AF53DA6269BD62300124197 /* EditBingoSheet.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1AF53DA5269BD62300124197 /* EditBingoSheet.storyboard */; };
 		1AF53DA8269D33C400124197 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF53DA7269D33C400124197 /* AuthManager.swift */; };
+		6D546517E02DB685069E9757 /* Pods_Mission.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 887364F2851DD1790A544432 /* Pods_Mission.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1AE1456E26A0630F000D3E7E /* BingoLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BingoLogic.swift; sourceTree = "<group>"; };
+		1AE1457026A123A7000D3E7E /* AppTrackingTransparency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTrackingTransparency.swift; sourceTree = "<group>"; };
 		1AF53D7326981AB000124197 /* Mission.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mission.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AF53D7626981AB000124197 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1AF53D7826981AB000124197 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -57,6 +62,9 @@
 		1AF53DA3269BD59400124197 /* CreateNewBingoSheet.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CreateNewBingoSheet.storyboard; sourceTree = "<group>"; };
 		1AF53DA5269BD62300124197 /* EditBingoSheet.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = EditBingoSheet.storyboard; sourceTree = "<group>"; };
 		1AF53DA7269D33C400124197 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
+		4F1A3C448898190338617A19 /* Pods-Mission.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mission.release.xcconfig"; path = "Target Support Files/Pods-Mission/Pods-Mission.release.xcconfig"; sourceTree = "<group>"; };
+		887364F2851DD1790A544432 /* Pods_Mission.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Mission.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8C97ED0CDAEA34C9C0A6F931 /* Pods-Mission.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mission.debug.xcconfig"; path = "Target Support Files/Pods-Mission/Pods-Mission.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,17 +81,28 @@
 				1A736703269D894C003D263D /* FSCalendar in Frameworks */,
 				1A8393BC269D85D900904EC4 /* FirebaseAuth in Frameworks */,
 				1A736709269D8B60003D263D /* Eureka in Frameworks */,
+				6D546517E02DB685069E9757 /* Pods_Mission.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		14E26432E458F25E1D1561D1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				887364F2851DD1790A544432 /* Pods_Mission.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		1AF53D6A26981AB000124197 = {
 			isa = PBXGroup;
 			children = (
 				1AF53D7526981AB000124197 /* Mission */,
 				1AF53D7426981AB000124197 /* Products */,
+				DF95DA7AD24E79F5B8E49DF5 /* Pods */,
+				14E26432E458F25E1D1561D1 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -147,6 +166,8 @@
 			children = (
 				1AF53D9E269AB35B00124197 /* BingoSheet.swift */,
 				1AF53DA7269D33C400124197 /* AuthManager.swift */,
+				1AE1456E26A0630F000D3E7E /* BingoLogic.swift */,
+				1AE1457026A123A7000D3E7E /* AppTrackingTransparency.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -161,6 +182,15 @@
 			path = StoryBoards;
 			sourceTree = "<group>";
 		};
+		DF95DA7AD24E79F5B8E49DF5 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				8C97ED0CDAEA34C9C0A6F931 /* Pods-Mission.debug.xcconfig */,
+				4F1A3C448898190338617A19 /* Pods-Mission.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -168,9 +198,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1AF53D8726981AB200124197 /* Build configuration list for PBXNativeTarget "Mission" */;
 			buildPhases = (
+				C98415C51E028A51AC1BB9B0 /* [CP] Check Pods Manifest.lock */,
 				1AF53D6F26981AB000124197 /* Sources */,
 				1AF53D7026981AB000124197 /* Frameworks */,
 				1AF53D7126981AB000124197 /* Resources */,
+				022E9A5F80C6E2F809186314 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -246,6 +278,48 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		022E9A5F80C6E2F809186314 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Mission/Pods-Mission-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Mission/Pods-Mission-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Mission/Pods-Mission-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C98415C51E028A51AC1BB9B0 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Mission-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		1AF53D6F26981AB000124197 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -260,6 +334,8 @@
 				1AF53D7726981AB000124197 /* AppDelegate.swift in Sources */,
 				1AF53D9A269AB07F00124197 /* CreateNewBingoSheetViewController.swift in Sources */,
 				1AF53D98269AB04000124197 /* LoginViewController.swift in Sources */,
+				1AE1456F26A0630F000D3E7E /* BingoLogic.swift in Sources */,
+				1AE1457126A123A7000D3E7E /* AppTrackingTransparency.swift in Sources */,
 				1AF53D7926981AB000124197 /* SceneDelegate.swift in Sources */,
 				1AF53D9226982DD400124197 /* SettingViewController.swift in Sources */,
 				1AF53D8E26982D5200124197 /* MissionInProgressViewController.swift in Sources */,
@@ -343,6 +419,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -406,6 +483,7 @@
 		};
 		1AF53D8826981AB200124197 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8C97ED0CDAEA34C9C0A6F931 /* Pods-Mission.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -425,6 +503,7 @@
 		};
 		1AF53D8926981AB200124197 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4F1A3C448898190338617A19 /* Pods-Mission.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
