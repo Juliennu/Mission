@@ -25,21 +25,32 @@ class MissionInProgressViewController: UIViewController {
     
     
     let titles = ["死ぬまでにやりたいこと", "デイリーミッション", "週末用"]
-    let tasks = ["洗い物", "洗濯物", "掃除機かけ", "ゴミ出し","手紙を出す", "鳥小屋の掃除", "ふるさと納税", "単語帳10,000ページ", "ドラッグストアでシャンプーを買った後にスーパーでパイナップルを買う"]
+    
+    let tasks = [//task arrayは二次元配列にする
+        ["洗い物", "洗濯物", "掃除機かけ"],
+        ["ゴミ出し","手紙を出す", "鳥小屋の掃除"],
+        ["ふるさと納税", "単語帳10,000ページ", "ドラッグストアでシャンプーを買った後にスーパーでパイナップルを買う"]
+    ]
+    
+    //タスクの完了状況を管理する配列
+    var tasksAreDone = [[Bool]]()
+    
+    
     let layout = UICollectionViewFlowLayout()
     //let bingoLogic = BingoLogic(isDone: true, bingoWidth: 3)
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         setUpBingoCollectionView()
         setUpScrollView()
-        
         setUpVannerView()
-//        addBannerViewToView(bannerView)
         
-        
-        
+
+        tasksAreDone = [[Bool]](repeating: [Bool](repeating: false, count: tasks.count), count: tasks.count)
+//        tasksAreDone[0] = true//クリック時にtrueに置き換えたい
+//        print(tasksAreDone[0, 0])//二次元配列の座標の示し方がわからない
+//        print("タスク配列の要素数の合計: ", tasks.capacity)//要素の合計数を取得できる
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -80,39 +91,16 @@ class MissionInProgressViewController: UIViewController {
             // Step 4 - Create an ad request and load the adaptive banner ad.
             bannerView.load(GADRequest())
           }
+    
     private func setUpVannerView() {
-        // In this case, we instantiate the banner with desired ad size.
-//        bannerView.adSize = GADCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(viewWidth)
-//        bannerView = GADBannerView(adSize: kGADAdSizeBanner)//320x50のバナービュー
-        bannerView.adUnitID = "ca-app-pub-3940256099942544/2435281174"
+        bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
         bannerView.rootViewController = self
-//        bannerView.load(GADRequest())//広告読み込み
         bannerView.delegate = self
     }
     
     
     
-//    func addBannerViewToView(_ bannerView: GADBannerView) {
-//        bannerView.translatesAutoresizingMaskIntoConstraints = false
-//        view.addSubview(bannerView)
-//        view.addConstraints(
-//            [NSLayoutConstraint(item: bannerView,
-//                                attribute: .bottom,
-//                                relatedBy: .equal,
-//                                toItem: view.safeAreaLayoutGuide.bottomAnchor,
-//                                attribute: .top,
-//                                multiplier: 1,
-//                                constant: 0),
-//             NSLayoutConstraint(item: bannerView,
-//                                attribute: .centerX,
-//                                relatedBy: .equal,
-//                                toItem: view,
-//                                attribute: .centerX,
-//                                multiplier: 1,
-//                                constant: 0)
-//            ])
-//    }
-    
+
     private func setUpBingoCollectionView() {
         bingoCollectionView.delegate = self
         bingoCollectionView.dataSource = self
@@ -150,18 +138,16 @@ class MissionInProgressViewController: UIViewController {
 // MARK: - CollectionView Delegates
 extension MissionInProgressViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    //    func numberOfSections(in collectionView: UICollectionView) -> Int {//@sectionとは何かわからない。
-    //        return 1//デフォルト値1のためメソッドごと消して良い
-    //    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return tasks.count//@Firebaseからデータを持ってきたい
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return tasks.count
     }
     
-    //    //collectionViewのHeaderからの距離。0なのでいらない
-    //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-    //        return 0
-    //    }
+    
+    //セルの数
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return tasks[section].count//@Firebaseからデータを持ってきたい
+    }
+    
     //セルのサイズ
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let sideOfSquare = collectionView.frame.width / 3
@@ -178,22 +164,36 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
         return 0
     }
     
+    //セルの中身
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = bingoCollectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! BingoCollectionViewCell
-        cell.taskLabel.text = tasks[indexPath.row]//@Firebaseからデータを持ってきたい
+        cell.taskLabel.text = tasks[indexPath.section][indexPath.row]//@Firebaseからデータを持ってきたい
         return cell
     }
     
-    
+    //セルタップ時の挙動
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         //@タップ時に色を変えたい
         //@タップ時にイラストを表示したい
         let cell = bingoCollectionView.cellForItem(at: indexPath)
-        //        cell?.backgroundColor = .yellow
+//                cell?.backgroundColor = .yellow
+        
+        let task = tasks[indexPath.section][indexPath.row]
+        let taskIsDone = tasksAreDone[indexPath.section][indexPath.row]
+        
+        //セルタップ時にtrue/falseを切り替える
+        if taskIsDone == false {
+            tasksAreDone[indexPath.section][indexPath.row] = true
+            cell?.backgroundColor = .gray
+        } else {
+            tasksAreDone[indexPath.section][indexPath.row] = false
+            cell?.backgroundColor = .yellow
+        }
+       
         
         
-        let task = tasks[indexPath.row]
         print(task)
+        print(tasksAreDone)
         
     }
 }
@@ -213,34 +213,33 @@ extension MissionInProgressViewController: UIScrollViewDelegate {
 //MARK:- Admob BannerView Delegate
 extension MissionInProgressViewController: GADBannerViewDelegate {
     func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
-        // Add banner to view and add constraints as above.
-//        addBannerViewToView(bannerView)
-        bannerView.alpha = 0
-        UIView.animate(withDuration: 1, animations: {
-            bannerView.alpha = 1
-        })
-        print("bannerViewDidReceiveAd")
+        
+//        bannerView.alpha = 0
+//        UIView.animate(withDuration: 1, animations: {
+//            bannerView.alpha = 1
+//        })
+        print("bannerView:広告を受信しました")
     }
-    
+//
     func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
-        print("bannerView:didFailToReceiveAdWithError: \(error.localizedDescription)")
+        print("bannerView:広告の受信に失敗しました: \(error.localizedDescription)")
     }
-    
-    func bannerViewDidRecordImpression(_ bannerView: GADBannerView) {
-        print("bannerViewDidRecordImpression")
-    }
-    
-    func bannerViewWillPresentScreen(_ bannerView: GADBannerView) {
-        print("bannerViewWillPresentScreen")
-    }
-    
-    func bannerViewWillDismissScreen(_ bannerView: GADBannerView) {
-        print("bannerViewWillDIsmissScreen")
-    }
-    
-    func bannerViewDidDismissScreen(_ bannerView: GADBannerView) {
-        print("bannerViewDidDismissScreen")
-    }
+//
+//    func bannerViewDidRecordImpression(_ bannerView: GADBannerView) {
+//        print("bannerViewDidRecordImpression")
+//    }
+//
+//    func bannerViewWillPresentScreen(_ bannerView: GADBannerView) {
+//        print("bannerViewWillPresentScreen")
+//    }
+//
+//    func bannerViewWillDismissScreen(_ bannerView: GADBannerView) {
+//        print("bannerViewWillDIsmissScreen")
+//    }
+//
+//    func bannerViewDidDismissScreen(_ bannerView: GADBannerView) {
+//        print("bannerViewDidDismissScreen")
+//    }
 }
 
 
@@ -280,7 +279,8 @@ class BingoCollectionViewCell: UICollectionViewCell {
         //lavelを折り返して全文表示
         label.lineBreakMode = .byWordWrapping//単語単位で区切って改行
         label.numberOfLines = 0//最大制限なし（必要なだけ行数を使用）
-        label.backgroundColor = .yellow
+//        label.backgroundColor = .yellow
+        label.backgroundColor = .clear
         
         return label
     }()
@@ -294,11 +294,12 @@ class BingoCollectionViewCell: UICollectionViewCell {
         
         taskLabel.frame.size = self.frame.size
         imageView.frame.size = self.frame.size
-        imageView.isHidden = true
+        imageView.isHidden = true//タスククリア前はイメージ表示しない
         
         self.layer.borderWidth = 1.0
         self.layer.borderColor = UIColor.systemGray.cgColor
-        //        self.layer.backgroundColor = UIColor.systemPink.cgColor
+    
+        self.layer.backgroundColor = UIColor.yellow.cgColor
         
         
         
