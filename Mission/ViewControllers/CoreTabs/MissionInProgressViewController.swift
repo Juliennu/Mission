@@ -32,7 +32,7 @@ class MissionInProgressViewController: UIViewController {
         ["ふるさと納税", "単語帳10,000ページ", "ドラッグストアでシャンプーを買った後にスーパーでパイナップルを買う"]
     ]
     
-    //タスクの完了状況を管理する配列
+    //タスクの完了状況を管理する二次元配列
     var tasksAreDone = [[Bool]]()
     
     
@@ -46,7 +46,7 @@ class MissionInProgressViewController: UIViewController {
         setUpScrollView()
         setUpVannerView()
         
-
+        //初期値は全てfalseにする
         tasksAreDone = [[Bool]](repeating: [Bool](repeating: false, count: tasks.count), count: tasks.count)
 //        tasksAreDone[0] = true//クリック時にtrueに置き換えたい
 //        print(tasksAreDone[0, 0])//二次元配列の座標の示し方がわからない
@@ -173,15 +173,17 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
     
     //セルタップ時の挙動
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        //@タップ時に色を変えたい
         //@タップ時にイラストを表示したい
         let cell = bingoCollectionView.cellForItem(at: indexPath)
 //                cell?.backgroundColor = .yellow
         
         let task = tasks[indexPath.section][indexPath.row]
         let taskIsDone = tasksAreDone[indexPath.section][indexPath.row]
-        //結果シートの縦の列
-//        let taskIsDoneColumn = tasksAreDone[indexPath.]
+        
+        
+        
+        
+
         
         //セルタップ時にtrue/falseを切り替え、trueの時backgroundColorを灰色にする
         if taskIsDone == false {
@@ -193,22 +195,45 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
         }
         
         //縦横斜めが揃ったら「ビンゴ」と表示する
-        //まず横の判定
-        if tasksAreDone[indexPath.section] == [true, true, true] {
-            print("横ビンゴ！")
-        //縦の判定
-        }
         
         //横の判定
+        if tasksAreDone[indexPath.section] == [true, true, true] {
+            print("よこビンゴ！")
+        }
+        
+        //結果シートの縦の列を配列に格納
+        let tasksAreDoneColumn = [tasksAreDone[0][indexPath.row], tasksAreDone[1][indexPath.row], tasksAreDone[2][indexPath.row]]
+        //縦の判定
+        if tasksAreDoneColumn == [true, true, true] {
+            print("たてビンゴ！")
+        }
+        
+        //結果シートの斜めの列を配列に格納
+        //@これだと１回斜めビンゴになって以降、セルタップ時に毎回斜めビンゴ判定されてしまうので要修正
+        let tasksAreDoneDiagonalArray1 = [tasksAreDone[0][0], tasksAreDone[1][1], tasksAreDone[2][2]]
+        let tasksAreDoneDiagonalArray2 = [tasksAreDone[0][2], tasksAreDone[1][1], tasksAreDone[2][0]]
+        //斜めの判定
+        if tasksAreDoneDiagonalArray1 == [true, true, true] || tasksAreDoneDiagonalArray2 == [true, true, true]{
+            print("ななめビンゴ！")
+        }
+        
+        //ビンゴシート達成の判定
+        if tasksAreDone == [[true, true, true], [true, true, true], [true, true, true]] {
+            print("ビンゴシートクリア！")
+        }
         
        
         
         
-//        print(task)
-        print(tasksAreDone[indexPath.section])//横一列
-        print(indexPath)
-//        print(tasksAreDone)
-        
+        print(task)
+//        print(tasksAreDone[indexPath.section])//横一列
+        print(indexPath)//[2, 1]
+//        print(indexPath.section)//2
+//        print(indexPath.row)//1
+        print(tasksAreDoneColumn)//[false, false, true]
+//        print(tasksAreDone)//[[false, false, false], [false, false, false], [false, true, false]]
+//        print(tasksAreDone[2][1])//true
+//
     }
 }
 
