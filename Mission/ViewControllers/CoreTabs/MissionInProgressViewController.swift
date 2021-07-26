@@ -180,8 +180,10 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
         
         let task = tasks[indexPath.section][indexPath.row]
         let taskIsDone = tasksAreDone[indexPath.section][indexPath.row]
+        //結果シートの縦の列
+//        let taskIsDoneColumn = tasksAreDone[indexPath.]
         
-        //セルタップ時にtrue/falseを切り替える
+        //セルタップ時にtrue/falseを切り替え、trueの時backgroundColorを灰色にする
         if taskIsDone == false {
             tasksAreDone[indexPath.section][indexPath.row] = true
             cell?.backgroundColor = .gray
@@ -189,11 +191,23 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
             tasksAreDone[indexPath.section][indexPath.row] = false
             cell?.backgroundColor = .yellow
         }
+        
+        //縦横斜めが揃ったら「ビンゴ」と表示する
+        //まず横の判定
+        if tasksAreDone[indexPath.section] == [true, true, true] {
+            print("横ビンゴ！")
+        //縦の判定
+        }
+        
+        //横の判定
+        
        
         
         
-        print(task)
-        print(tasksAreDone)
+//        print(task)
+        print(tasksAreDone[indexPath.section])//横一列
+        print(indexPath)
+//        print(tasksAreDone)
         
     }
 }
