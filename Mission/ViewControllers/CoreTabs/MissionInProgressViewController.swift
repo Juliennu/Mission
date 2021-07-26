@@ -175,23 +175,20 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         //@タップ時にイラストを表示したい
         let cell = bingoCollectionView.cellForItem(at: indexPath)
-//                cell?.backgroundColor = .yellow
         
         let task = tasks[indexPath.section][indexPath.row]
         let taskIsDone = tasksAreDone[indexPath.section][indexPath.row]
         
-        
-        
-        
-
-        
+    
         //セルタップ時にtrue/falseを切り替え、trueの時backgroundColorを灰色にする
         if taskIsDone == false {
             tasksAreDone[indexPath.section][indexPath.row] = true
             cell?.backgroundColor = .gray
+            cell?.isHighlighted = true
         } else {
             tasksAreDone[indexPath.section][indexPath.row] = false
             cell?.backgroundColor = .yellow
+            cell?.isHighlighted = false
         }
         
         //縦横斜めが揃ったら「ビンゴ」と表示する
@@ -209,14 +206,33 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
         }
         
         //結果シートの斜めの列を配列に格納
-        //@これだと１回斜めビンゴになって以降、セルタップ時に毎回斜めビンゴ判定されてしまうので要修正
+        //@これだと１回斜めビンゴになって以降、セルタップ時に毎回斜めビンゴ認定されてしまうので要修正
         let tasksAreDoneDiagonalArray1 = [tasksAreDone[0][0], tasksAreDone[1][1], tasksAreDone[2][2]]
         let tasksAreDoneDiagonalArray2 = [tasksAreDone[0][2], tasksAreDone[1][1], tasksAreDone[2][0]]
+        //斜めビンゴの対象となるセルのindexPathをInt型の二次元配列にする
+        let diagonalArrayIndexPaths = [[0, 0], [1, 1], [2, 2], [0, 2], [2, 0]]
+        let indexPathInt = indexPath.map({element in Int(element)})
         //斜めの判定
-        if tasksAreDoneDiagonalArray1 == [true, true, true] || tasksAreDoneDiagonalArray2 == [true, true, true]{
-            print("ななめビンゴ！")
+        if diagonalArrayIndexPaths.contains(indexPathInt) {
+            if tasksAreDoneDiagonalArray1 == [true, true, true] {
+                print("ななめビンゴ1！")
+            }
+            if tasksAreDoneDiagonalArray2 == [true, true, true] {
+                print("ななめビンゴ2！")
+            }
         }
         
+//        if tasksAreDoneDiagonalArray1.contains(taskIsDone) {
+//            if tasksAreDoneDiagonalArray1 == [true, true, true] {
+//                print("ななめビンゴ！")
+//            }
+//        }
+//        if tasksAreDoneDiagonalArray2.contains(taskIsDone) {
+//            if tasksAreDoneDiagonalArray2 == [true, true, true] {
+//                print("ななめビンゴ！")
+//            }
+//        }
+
         //ビンゴシート達成の判定
         if tasksAreDone == [[true, true, true], [true, true, true], [true, true, true]] {
             print("ビンゴシートクリア！")
@@ -225,15 +241,18 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
        
         
         
-        print(task)
-//        print(tasksAreDone[indexPath.section])//横一列
-        print(indexPath)//[2, 1]
+//        print(task)
+//        print("よこ", tasksAreDone[indexPath.section])//横一列
+//        print(indexPath)//[2, 1]
 //        print(indexPath.section)//2
 //        print(indexPath.row)//1
-        print(tasksAreDoneColumn)//[false, false, true]
+//        print("たて", tasksAreDoneColumn)//[false, false, true]
 //        print(tasksAreDone)//[[false, false, false], [false, false, false], [false, true, false]]
 //        print(tasksAreDone[2][1])//true
-//
+//        print("ななめ１", tasksAreDoneDiagonalArray1)
+//        print("ななめ２",tasksAreDoneDiagonalArray2)
+//        print(type(of: indexPath))//IndexPath
+
     }
 }
 
@@ -294,6 +313,7 @@ class BingoCollectionViewCell: UICollectionViewCell {
                 imageView.isHidden = false
                 self.taskLabel.alpha = 0.3//alphaは薄さのこと。数字が大きいほど濃い。
             } else {
+                imageView.isHidden = true
                 self.taskLabel.alpha = 1.0
             }
         }
@@ -303,7 +323,8 @@ class BingoCollectionViewCell: UICollectionViewCell {
     
     let imageView: UIImageView = {
         let image = UIImageView()
-        image.image = UIImage(named: "checkMarkImage")
+        image.image = UIImage(named: "medalImage")//thumbsUpImage, checkMarkImage, medalImage
+        //＠設定画面でスタンプのデザインを選べるようにしたい
         return image
     }()
     
@@ -324,16 +345,29 @@ class BingoCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
+    //＠BingoCollectionViewCellクラスはセルの設定なのでbingoCollectionViewの方に書くべき
+//    let statusTextLabel: UILabel = {
+//        let label = UILabel()
+//        label.textColor = .black
+//        label.textAlignment = .center
+//        label.text = "Bingo!"
+//        label.backgroundColor = .white
+//        return label
+//    }()
+    
     
     override init(frame: CGRect) {//＠これは何？→カスタムUIViewの初期化を記述
         super.init(frame: frame)
         
         addSubview(taskLabel)
         addSubview(imageView)
+//        addSubview(statusTextLabel)
         
         taskLabel.frame.size = self.frame.size
-        imageView.frame.size = self.frame.size
+        imageView.frame.size = self.frame.size//＠イメージサイズはセルの大きさより少し小さくしたい
         imageView.isHidden = true//タスククリア前はイメージ表示しない
+//        statusTextLabel.frame.size = self.frame.size//＠サイズはビンゴシート全体の真ん中に大きく表示したい
+//        statusTextLabel.isHidden = true//ビンゴ前はテキスト表示しない
         
         self.layer.borderWidth = 1.0
         self.layer.borderColor = UIColor.systemGray.cgColor
