@@ -46,6 +46,7 @@ class MissionInProgressViewController: UIViewController {
         setUpScrollView()
         setUpVannerView()
         setUpBingoStatusLabel()
+        setUpSoundPrepare()
         //初期値は全てfalseにする
         tasksAreDone = [[Bool]](repeating: [Bool](repeating: false, count: tasks.count), count: tasks.count)
 //        tasksAreDone[0] = true//クリック時にtrueに置き換えたい
@@ -91,6 +92,9 @@ class MissionInProgressViewController: UIViewController {
             // Step 4 - Create an ad request and load the adaptive banner ad.
             bannerView.load(GADRequest())
           }
+    
+    
+    
     
     private func setUpBingoStatusLabel() {
         bingoStatusLabel.isHidden = true
@@ -194,10 +198,13 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
             cell?.backgroundColor = UIColor.black.withAlphaComponent(0.15)//薄い黒色
             cell?.isOpaque = false//透過にする
             cell?.isHighlighted = true
+            taskIsDoneSoundPlay()
+            
         } else {
             tasksAreDone[indexPath.section][indexPath.row] = false
             cell?.backgroundColor = .yellow
             cell?.isHighlighted = false
+            taskIsUndoneSoundPlay()
         }
         
         //縦横斜めが揃ったら「ビンゴ」と表示する
@@ -206,6 +213,7 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
         if tasksAreDone[indexPath.section] == [true, true, true] {
             print("よこビンゴ！")
             bingoStatusLabel.isHidden = false
+            bingoSoundPlay()
         }
         
         //結果シートの縦の列を配列に格納
@@ -214,6 +222,7 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
         if tasksAreDoneColumn == [true, true, true] {
             print("たてビンゴ！")
             bingoStatusLabel.isHidden = false
+            bingoSoundPlay()
         }
         
         //結果シートの斜めの列を配列に格納
@@ -232,12 +241,14 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
                tasksAreDoneDiagonalArray1 == [true, true, true] {
                 print("ななめビンゴ1！")
                 bingoStatusLabel.isHidden = false
+                bingoSoundPlay()
             }
             
             if indexPath.section + indexPath.row == 2,
                tasksAreDoneDiagonalArray2 == [true, true, true] {
                 print("ななめビンゴ2！")
                 bingoStatusLabel.isHidden = false
+                bingoSoundPlay()
             }
 //        }
         
@@ -248,6 +259,7 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
             print("ビンゴシートクリア！")
             bingoStatusLabel.text = "CLEAR!"
             bingoStatusLabel.isHidden = false
+            clearSoundPlay()
         }
         
        

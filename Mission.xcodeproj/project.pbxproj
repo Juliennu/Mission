@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A487C8626B050A1000CC727 /* Sound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A487C8526B050A1000CC727 /* Sound.swift */; };
+		1A487C8A26B053CE000CC727 /* po.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1A487C8926B053CE000CC727 /* po.mp3 */; };
+		1A487C8C26B053D5000CC727 /* ka.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1A487C8B26B053D5000CC727 /* ka.mp3 */; };
+		1A487C8E26B053DB000CC727 /* pon.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1A487C8D26B053DB000CC727 /* pon.mp3 */; };
+		1A487C9026B058A8000CC727 /* shuuun.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1A487C8F26B058A7000CC727 /* shuuun.mp3 */; };
+		1A487C9226B05CE9000CC727 /* done.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1A487C9126B05CE9000CC727 /* done.mp3 */; };
+		1A487C9426B05DF3000CC727 /* huin.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1A487C9326B05DF2000CC727 /* huin.mp3 */; };
+		1A487C9626B05F8D000CC727 /* piko.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1A487C9526B05F8C000CC727 /* piko.mp3 */; };
+		1A487C9826B05FF0000CC727 /* pioooin.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1A487C9726B05FF0000CC727 /* pioooin.mp3 */; };
 		1A736703269D894C003D263D /* FSCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = 1A736702269D894C003D263D /* FSCalendar */; };
 		1A736706269D8B08003D263D /* CalculateCalendarLogic in Frameworks */ = {isa = PBXBuildFile; productRef = 1A736705269D8B08003D263D /* CalculateCalendarLogic */; };
 		1A736709269D8B60003D263D /* Eureka in Frameworks */ = {isa = PBXBuildFile; productRef = 1A736708269D8B60003D263D /* Eureka */; };
@@ -40,6 +49,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1A487C8526B050A1000CC727 /* Sound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sound.swift; sourceTree = "<group>"; };
+		1A487C8926B053CE000CC727 /* po.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = po.mp3; sourceTree = "<group>"; };
+		1A487C8B26B053D5000CC727 /* ka.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ka.mp3; sourceTree = "<group>"; };
+		1A487C8D26B053DB000CC727 /* pon.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = pon.mp3; sourceTree = "<group>"; };
+		1A487C8F26B058A7000CC727 /* shuuun.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = shuuun.mp3; sourceTree = "<group>"; };
+		1A487C9126B05CE9000CC727 /* done.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = done.mp3; sourceTree = "<group>"; };
+		1A487C9326B05DF2000CC727 /* huin.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = huin.mp3; sourceTree = "<group>"; };
+		1A487C9526B05F8C000CC727 /* piko.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = piko.mp3; sourceTree = "<group>"; };
+		1A487C9726B05FF0000CC727 /* pioooin.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = pioooin.mp3; sourceTree = "<group>"; };
 		1AE1456E26A0630F000D3E7E /* BingoLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BingoLogic.swift; sourceTree = "<group>"; };
 		1AE1457026A123A7000D3E7E /* AppTrackingTransparency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTrackingTransparency.swift; sourceTree = "<group>"; };
 		1AF53D7326981AB000124197 /* Mission.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mission.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -96,6 +114,30 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		1A487C8726B052F8000CC727 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				1A487C8826B05311000CC727 /* Sounds */,
+				1AF53D7F26981AB200124197 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		1A487C8826B05311000CC727 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				1A487C8D26B053DB000CC727 /* pon.mp3 */,
+				1A487C8B26B053D5000CC727 /* ka.mp3 */,
+				1A487C9326B05DF2000CC727 /* huin.mp3 */,
+				1A487C8926B053CE000CC727 /* po.mp3 */,
+				1A487C8F26B058A7000CC727 /* shuuun.mp3 */,
+				1A487C9726B05FF0000CC727 /* pioooin.mp3 */,
+				1A487C9126B05CE9000CC727 /* done.mp3 */,
+				1A487C9526B05F8C000CC727 /* piko.mp3 */,
+			);
+			path = Sounds;
+			sourceTree = "<group>";
+		};
 		1AF53D6A26981AB000124197 = {
 			isa = PBXGroup;
 			children = (
@@ -117,13 +159,12 @@
 		1AF53D7526981AB000124197 /* Mission */ = {
 			isa = PBXGroup;
 			children = (
+				1A487C8726B052F8000CC727 /* Resources */,
 				1AF53D9D269AB0E800124197 /* Models */,
 				1AF53D8A26982B6A00124197 /* ViewControllers */,
 				1AF53DA2269BD4AB00124197 /* StoryBoards */,
 				1AF53D7626981AB000124197 /* AppDelegate.swift */,
 				1AF53D7826981AB000124197 /* SceneDelegate.swift */,
-				1AF53D7F26981AB200124197 /* Assets.xcassets */,
-				1AF53D8126981AB200124197 /* LaunchScreen.storyboard */,
 				1AF53D8426981AB200124197 /* Info.plist */,
 				1AF53DA0269AB48700124197 /* GoogleService-Info.plist */,
 			);
@@ -153,10 +194,10 @@
 		1AF53D9426982E6900124197 /* Other */ = {
 			isa = PBXGroup;
 			children = (
-				1AF53D95269AB01600124197 /* SignUpViewController.swift */,
-				1AF53D97269AB04000124197 /* LoginViewController.swift */,
 				1AF53D99269AB07F00124197 /* CreateNewBingoSheetViewController.swift */,
 				1AF53D9B269AB0D200124197 /* EditBingoSheetViewController.swift */,
+				1AF53D95269AB01600124197 /* SignUpViewController.swift */,
+				1AF53D97269AB04000124197 /* LoginViewController.swift */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -168,6 +209,7 @@
 				1AF53DA7269D33C400124197 /* AuthManager.swift */,
 				1AE1456E26A0630F000D3E7E /* BingoLogic.swift */,
 				1AE1457026A123A7000D3E7E /* AppTrackingTransparency.swift */,
+				1A487C8526B050A1000CC727 /* Sound.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -178,6 +220,7 @@
 				1AF53D7C26981AB000124197 /* Main.storyboard */,
 				1AF53DA3269BD59400124197 /* CreateNewBingoSheet.storyboard */,
 				1AF53DA5269BD62300124197 /* EditBingoSheet.storyboard */,
+				1AF53D8126981AB200124197 /* LaunchScreen.storyboard */,
 			);
 			path = StoryBoards;
 			sourceTree = "<group>";
@@ -267,11 +310,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A487C8C26B053D5000CC727 /* ka.mp3 in Resources */,
 				1AF53DA1269AB48700124197 /* GoogleService-Info.plist in Resources */,
+				1A487C9426B05DF3000CC727 /* huin.mp3 in Resources */,
 				1AF53DA4269BD59400124197 /* CreateNewBingoSheet.storyboard in Resources */,
 				1AF53DA6269BD62300124197 /* EditBingoSheet.storyboard in Resources */,
+				1A487C9226B05CE9000CC727 /* done.mp3 in Resources */,
+				1A487C9026B058A8000CC727 /* shuuun.mp3 in Resources */,
 				1AF53D8326981AB200124197 /* LaunchScreen.storyboard in Resources */,
 				1AF53D8026981AB200124197 /* Assets.xcassets in Resources */,
+				1A487C9626B05F8D000CC727 /* piko.mp3 in Resources */,
+				1A487C8E26B053DB000CC727 /* pon.mp3 in Resources */,
+				1A487C8A26B053CE000CC727 /* po.mp3 in Resources */,
+				1A487C9826B05FF0000CC727 /* pioooin.mp3 in Resources */,
 				1AF53D7E26981AB000124197 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -335,6 +386,7 @@
 				1AF53D9A269AB07F00124197 /* CreateNewBingoSheetViewController.swift in Sources */,
 				1AF53D98269AB04000124197 /* LoginViewController.swift in Sources */,
 				1AE1456F26A0630F000D3E7E /* BingoLogic.swift in Sources */,
+				1A487C8626B050A1000CC727 /* Sound.swift in Sources */,
 				1AE1457126A123A7000D3E7E /* AppTrackingTransparency.swift in Sources */,
 				1AF53D7926981AB000124197 /* SceneDelegate.swift in Sources */,
 				1AF53D9226982DD400124197 /* SettingViewController.swift in Sources */,

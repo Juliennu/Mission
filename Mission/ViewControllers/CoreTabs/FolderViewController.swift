@@ -15,6 +15,7 @@ class FolderViewController: UIViewController {
     
     @IBOutlet weak var editButton: UIBarButtonItem!
     @IBOutlet weak var addNewFolderButton: UIButton!
+    
     @IBAction func didTappedAddNewFolderButton(_ sender: Any) {
         let storyboard = UIStoryboard.init(name: "CreateNewBingoSheet", bundle: nil)
         let createNewBingoSheetVC = storyboard.instantiateViewController(withIdentifier: "CreateNewBingoSheetViewController") as! CreateNewBingoSheetViewController
@@ -27,6 +28,7 @@ class FolderViewController: UIViewController {
 //    var titleArray = ["死ぬまでにやりたいこと", "週末用", "デイリーミッション"]
 //    var currentItems = [String]()
     
+    let db = Firestore.firestore()
     
     
     override func viewDidLoad() {
@@ -37,23 +39,44 @@ class FolderViewController: UIViewController {
         searchBar.delegate = self
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellId")
+        
+        
+        readDataFromFirestore()
+        
     }
     
-
-}
-
-public func createAnonymousUserToFirestore() {
-    Auth.auth().signInAnonymously() {( authResult, error) in
-        if let error = error {
-            print("認証情報の保存に失敗しました: ", error)
-            return
+    public func readDataFromFirestore() {
+        //Firestoreからコレクションのすべてのドキュメントを取得する
+        db.collection("bingoSheets").getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Firestoreから情報の取得に失敗しました。", err)
+            } else {
+                for document in querySnapshot!.documents {
+                    print("Firestoreから情報を取得しました！", "\(document.documentID) => \(document.data())")
+                }
+            }
         }
-        guard let user = authResult?.user else { return }
-        
-        let isAnonymous = user.isAnonymous
-        let uid = user.uid
     }
+    
+    
+    
+    
+    public func createAnonymousUserToFirestore() {
+        Auth.auth().signInAnonymously() {( authResult, error) in
+            if let error = error {
+                print("認証情報の保存に失敗しました: ", error)
+                return
+            }
+            guard let user = authResult?.user else { return }
+            
+            let isAnonymous = user.isAnonymous
+            let uid = user.uid
+        }
+    }
+
 }
+
+
 
 
 // MARK: - Delegates

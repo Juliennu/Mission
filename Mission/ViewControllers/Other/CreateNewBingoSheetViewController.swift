@@ -14,7 +14,7 @@ class CreateNewBingoSheetViewController: FormViewController {
     
     let db = Firestore.firestore()
     
-    let bingosheet = [BingoSheet]()
+    let bingosheet = [BingoSheet]()//@今のところ意味なし
     
     var bingosheetTitle: String?
     var selectedSquare = "3x3"
@@ -34,17 +34,17 @@ class CreateNewBingoSheetViewController: FormViewController {
         
         //Eureka Formの作成
     form
-        +++ Section(header: "ビンゴシートの名前を入力してください。", footer: "未入力の場合は「タイトルなし」となります。")
+        +++ Section(header: "", footer: "未入力の場合は「タイトルなし」となります。")//"ビンゴシートの名前を入力してください。"
         <<< TextRow() { row in
             row.title = "ビンゴ名"
-            row.placeholder = ""//ビンゴシートの名前を入力
+            row.placeholder = "ビンゴシートの名前を入力"
         }.onChange({ row in
             self.bingosheetTitle = row.value ?? "タイトルなし"
 //            print(self.bingosheetTitle)
         })
         
         
-        +++ Section(header: "タスク設定", footer: "タスクを9つまで入力できます。\n未入力の欄がある場合はボーナスマスになります。")/*"マスの数を選んでください"*/
+        +++ Section(header: "", footer: "タスクを9つまで入力できます。\n未入力の欄がある場合はボーナスマスになります。")/*"マスの数を選んでください""タスク設定"*/
 //        <<< SegmentedRow<String>() { row in
 //            row.options = ["3x3", "4x4"]
 //            row.value = "3x3"//初期値
@@ -132,7 +132,7 @@ class CreateNewBingoSheetViewController: FormViewController {
             self.taskArray[8] = self.taskString
         })
         
-        +++ Section(header: "ごほうび設定", footer: "未入力の場合は「ごほうびなし」となります。")
+        +++ Section(header: "", footer: "未入力の場合は「ごほうびなし」となります。")//"タスク設定"
         <<< TextRow() { row in
             row.title = "クリアごほうび"
             row.placeholder = "全クリア時のごほうびを入力"
@@ -182,7 +182,7 @@ class CreateNewBingoSheetViewController: FormViewController {
     @objc private func didTapSaveButton() {
         
         registerBingoSheetToFirestore()
-        
+        navigationController?.popToRootViewController(animated: true)
     }
     
     
@@ -212,6 +212,11 @@ class CreateNewBingoSheetViewController: FormViewController {
         }
         
     }
+    
+    
+    
+    
+    
     
     enum RepeatInterval: String, CaseIterable, CustomStringConvertible {
         case Never = "しない"
