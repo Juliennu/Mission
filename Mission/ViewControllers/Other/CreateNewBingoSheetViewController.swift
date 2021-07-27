@@ -43,20 +43,20 @@ class CreateNewBingoSheetViewController: FormViewController {
         })
         
         
-        +++ Section("マスの数を選んでください")
-        <<< SegmentedRow<String>() { row in
-            row.options = ["3x3", "4x4"]
-            row.value = "3x3"//初期値
-        }.onChange({ [unowned self] row in
-            //値変更時の処理
-            if row.value == "3x3" {
-                //＠タスク入力欄を9個にする
-            } else {
-                //＠タスク入力欄を16個にする
-            }
-            self.selectedSquare = row.value!
-            print(self.selectedSquare)
-        })
+        +++ Section(/*"マスの数を選んでください"*/)
+//        <<< SegmentedRow<String>() { row in
+//            row.options = ["3x3", "4x4"]
+//            row.value = "3x3"//初期値
+//        }.onChange({ [unowned self] row in
+//            //値変更時の処理
+//            if row.value == "3x3" {
+//                //＠タスク入力欄を9個にする
+//            } else {
+//                //＠タスク入力欄を16個にする
+//            }
+//            self.selectedSquare = row.value!
+//            print(self.selectedSquare)
+//        })
         
         <<< TextRow() { row in
             row.title = "タスク1"

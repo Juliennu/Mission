@@ -16,7 +16,7 @@ class MissionInProgressViewController: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var bingoCollectionView: UICollectionView!
-    
+    @IBOutlet weak var bingoStatusLabel: UILabel!
     
     
     @IBOutlet weak var bannerView: GADBannerView!//Admobを表示予定
@@ -45,7 +45,7 @@ class MissionInProgressViewController: UIViewController {
         setUpBingoCollectionView()
         setUpScrollView()
         setUpVannerView()
-        
+        setUpBingoStatusLabel()
         //初期値は全てfalseにする
         tasksAreDone = [[Bool]](repeating: [Bool](repeating: false, count: tasks.count), count: tasks.count)
 //        tasksAreDone[0] = true//クリック時にtrueに置き換えたい
@@ -91,6 +91,13 @@ class MissionInProgressViewController: UIViewController {
             // Step 4 - Create an ad request and load the adaptive banner ad.
             bannerView.load(GADRequest())
           }
+    
+    private func setUpBingoStatusLabel() {
+        bingoStatusLabel.isHidden = true
+        bingoStatusLabel.layer.cornerRadius = 20
+        bingoStatusLabel.clipsToBounds = true//この設定を入れないと角丸にならない
+    }
+    
     
     private func setUpVannerView() {
         bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
@@ -178,12 +185,14 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
         
         let task = tasks[indexPath.section][indexPath.row]
         let taskIsDone = tasksAreDone[indexPath.section][indexPath.row]
-        
+        bingoStatusLabel.text = "BINGO!"
+        bingoStatusLabel.isHidden = true
     
         //セルタップ時にtrue/falseを切り替え、trueの時backgroundColorを灰色にする
         if taskIsDone == false {
             tasksAreDone[indexPath.section][indexPath.row] = true
-            cell?.backgroundColor = .gray
+            cell?.backgroundColor = UIColor.black.withAlphaComponent(0.15)//薄い黒色
+            cell?.isOpaque = false//透過にする
             cell?.isHighlighted = true
         } else {
             tasksAreDone[indexPath.section][indexPath.row] = false
@@ -196,6 +205,7 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
         //横の判定
         if tasksAreDone[indexPath.section] == [true, true, true] {
             print("よこビンゴ！")
+            bingoStatusLabel.isHidden = false
         }
         
         //結果シートの縦の列を配列に格納
@@ -203,6 +213,7 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
         //縦の判定
         if tasksAreDoneColumn == [true, true, true] {
             print("たてビンゴ！")
+            bingoStatusLabel.isHidden = false
         }
         
         //結果シートの斜めの列を配列に格納
@@ -220,28 +231,23 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
             if indexPath.section == indexPath.row,
                tasksAreDoneDiagonalArray1 == [true, true, true] {
                 print("ななめビンゴ1！")
+                bingoStatusLabel.isHidden = false
             }
             
             if indexPath.section + indexPath.row == 2,
                tasksAreDoneDiagonalArray2 == [true, true, true] {
                 print("ななめビンゴ2！")
+                bingoStatusLabel.isHidden = false
             }
 //        }
         
-//        if tasksAreDoneDiagonalArray1.contains(taskIsDone) {
-//            if tasksAreDoneDiagonalArray1 == [true, true, true] {
-//                print("ななめビンゴ！")
-//            }
-//        }
-//        if tasksAreDoneDiagonalArray2.contains(taskIsDone) {
-//            if tasksAreDoneDiagonalArray2 == [true, true, true] {
-//                print("ななめビンゴ！")
-//            }
-//        }
+
 
         //ビンゴシート達成の判定
         if tasksAreDone == [[true, true, true], [true, true, true], [true, true, true]] {
             print("ビンゴシートクリア！")
+            bingoStatusLabel.text = "CLEAR!"
+            bingoStatusLabel.isHidden = false
         }
         
        
@@ -351,17 +357,6 @@ class BingoCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    //＠BingoCollectionViewCellクラスはセルの設定なのでbingoCollectionViewの方に書くべき
-//    let statusTextLabel: UILabel = {
-//        let label = UILabel()
-//        label.textColor = .black
-//        label.textAlignment = .center
-//        label.text = "Bingo!"
-//        label.backgroundColor = .white
-//        return label
-//    }()
-    
-    
     override init(frame: CGRect) {//＠これは何？→カスタムUIViewの初期化を記述
         super.init(frame: frame)
         
@@ -372,8 +367,6 @@ class BingoCollectionViewCell: UICollectionViewCell {
         taskLabel.frame.size = self.frame.size
         imageView.frame.size = self.frame.size//＠イメージサイズはセルの大きさより少し小さくしたい
         imageView.isHidden = true//タスククリア前はイメージ表示しない
-//        statusTextLabel.frame.size = self.frame.size//＠サイズはビンゴシート全体の真ん中に大きく表示したい
-//        statusTextLabel.isHidden = true//ビンゴ前はテキスト表示しない
         
         self.layer.borderWidth = 1.0
         self.layer.borderColor = UIColor.systemGray.cgColor
