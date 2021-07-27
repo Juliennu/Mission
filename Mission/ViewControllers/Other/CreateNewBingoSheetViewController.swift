@@ -18,10 +18,11 @@ class CreateNewBingoSheetViewController: FormViewController {
     
     var bingosheetTitle: String?
     var selectedSquare = "3x3"
+    var taskString = "Bonus"
     var taskArray = [String]()
     var deadline = Date()
     var repeatInterval = ""
-    var bonus = ""
+    var reward = ""
     
     var saveButton: UIBarButtonItem!
     
@@ -29,21 +30,21 @@ class CreateNewBingoSheetViewController: FormViewController {
         super.viewDidLoad()
         
         setUpRightBarButtonItem()
-        
+        taskArray = [String](repeating: "Bonus", count: 9)
         
         //Eureka Formの作成
     form
-        +++
-        TextRow() { row in
+        +++ Section(header: "ビンゴシートの名前を入力してください。", footer: "未入力の場合は「タイトルなし」となります。")
+        <<< TextRow() { row in
             row.title = "ビンゴ名"
-            row.placeholder = "ビンゴシートの名前を入力"
+            row.placeholder = ""//ビンゴシートの名前を入力
         }.onChange({ row in
-            self.bingosheetTitle = row.value!
-            print(self.bingosheetTitle)
+            self.bingosheetTitle = row.value ?? "タイトルなし"
+//            print(self.bingosheetTitle)
         })
         
         
-        +++ Section(/*"マスの数を選んでください"*/)
+        +++ Section(header: "タスク設定", footer: "タスクを9つまで入力できます。\n未入力の欄がある場合はボーナスマスになります。")/*"マスの数を選んでください"*/
 //        <<< SegmentedRow<String>() { row in
 //            row.options = ["3x3", "4x4"]
 //            row.value = "3x3"//初期値
@@ -58,20 +59,86 @@ class CreateNewBingoSheetViewController: FormViewController {
 //            print(self.selectedSquare)
 //        })
         
+        
         <<< TextRow() { row in
             row.title = "タスク1"
             row.placeholder = "タスクを入力"
-            self.taskArray.append(row.value ?? "")//@titleが保存されない
-            print(taskArray)
-        }
+        }.onChange({row in
+            self.taskString = row.value ?? "Bonus"
+            self.taskArray[0] = self.taskString
+        })
         
-        +++ Section("ボーナス設定")
         <<< TextRow() { row in
-            row.title = "クリアボーナス"
-            row.placeholder = "全クリア時のボーナスを入力"
+            row.title = "タスク2"
+            row.placeholder = "タスクを入力"
+        }.onChange({row in
+            self.taskString = row.value ?? "Bonus"
+            self.taskArray[1] = self.taskString
+        })
+        
+        <<< TextRow() { row in
+            row.title = "タスク3"
+            row.placeholder = "タスクを入力"
+        }.onChange({row in
+            self.taskString = row.value ?? "Bonus"
+            self.taskArray[2] = self.taskString
+        })
+        
+        <<< TextRow() { row in
+            row.title = "タスク4"
+            row.placeholder = "タスクを入力"
+        }.onChange({row in
+            self.taskString = row.value ?? "Bonus"
+            self.taskArray[3] = self.taskString
+        })
+        
+        <<< TextRow() { row in
+            row.title = "タスク5"
+            row.placeholder = "タスクを入力"
+        }.onChange({row in
+            self.taskString = row.value ?? "Bonus"
+            self.taskArray[4] = self.taskString
+        })
+        
+        <<< TextRow() { row in
+            row.title = "タスク6"
+            row.placeholder = "タスクを入力"
+        }.onChange({row in
+            self.taskString = row.value ?? "Bonus"
+            self.taskArray[5] = self.taskString
+        })
+        
+        <<< TextRow() { row in
+            row.title = "タスク7"
+            row.placeholder = "タスクを入力"
+        }.onChange({row in
+            self.taskString = row.value ?? "Bonus"
+            self.taskArray[6] = self.taskString
+        })
+        
+        <<< TextRow() { row in
+            row.title = "タスク8"
+            row.placeholder = "タスクを入力"
+        }.onChange({row in
+            self.taskString = row.value ?? "Bonus"
+            self.taskArray[7] = self.taskString
+        })
+        
+        <<< TextRow() { row in
+            row.title = "タスク9"
+            row.placeholder = "タスクを入力"
+        }.onChange({row in
+            self.taskString = row.value ?? "Bonus"
+            self.taskArray[8] = self.taskString
+        })
+        
+        +++ Section(header: "ごほうび設定", footer: "未入力の場合は「ごほうびなし」となります。")
+        <<< TextRow() { row in
+            row.title = "クリアごほうび"
+            row.placeholder = "全クリア時のごほうびを入力"
         }.onChange({ row in
-            self.bonus = row.value!
-            print(self.bonus)
+            self.reward = row.value ?? "ごほうびなし"
+//            print(self.bonus)
         })
         
         
@@ -84,7 +151,7 @@ class CreateNewBingoSheetViewController: FormViewController {
                 row.value = Date()//＠日本語表示に直したい（2021/7/18）
             }.onChange({ row in
                 self.deadline = row.value!
-                print(self.deadline)
+//                print(self.deadline)
             })
             
             <<< PushRow<RepeatInterval>("繰り返し")/*これがタグ*/ {
@@ -101,7 +168,6 @@ class CreateNewBingoSheetViewController: FormViewController {
         
         
     }
-    
     
     
     
@@ -128,15 +194,15 @@ class CreateNewBingoSheetViewController: FormViewController {
         
         let dogData = [
             "bingoSheetTitle": title,
-            "selectedSquare": selectedSquare,
+//            "selectedSquare": selectedSquare,
             "task": taskArray,
             "deadLine": deadline,
-            "bonus": bonus
+            "reward": reward
         ] as [String : Any]
         
         
-        
-        ref = db.collection("users") .addDocument(data: dogData) { err in
+        print(taskArray)
+        ref = db.collection("bingoSheets") .addDocument(data: dogData) { err in
             if let err = err {
                 print("データベースへの保存に失敗しました: ", err)
             } else {
