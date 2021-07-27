@@ -210,17 +210,23 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
         let tasksAreDoneDiagonalArray1 = [tasksAreDone[0][0], tasksAreDone[1][1], tasksAreDone[2][2]]
         let tasksAreDoneDiagonalArray2 = [tasksAreDone[0][2], tasksAreDone[1][1], tasksAreDone[2][0]]
         //斜めビンゴの対象となるセルのindexPathをInt型の二次元配列にする
-        let diagonalArrayIndexPaths = [[0, 0], [1, 1], [2, 2], [0, 2], [2, 0]]
-        let indexPathInt = indexPath.map({element in Int(element)})
+//        let diagonalArrayIndexPaths = [[0, 0], [1, 1], [2, 2], [0, 2], [2, 0]]
+        //IndexPath型をInt型に変換
+//        let indexPathInt = indexPath.map({element in Int(element)})
         //斜めの判定
-        if diagonalArrayIndexPaths.contains(indexPathInt) {
-            if tasksAreDoneDiagonalArray1 == [true, true, true] {
+//        if //diagonalArrayIndexPaths.contains(indexPathInt),
+//           tasksAreDone[indexPath.section][indexPath.row] == true {
+            
+            if indexPath.section == indexPath.row,
+               tasksAreDoneDiagonalArray1 == [true, true, true] {
                 print("ななめビンゴ1！")
             }
-            if tasksAreDoneDiagonalArray2 == [true, true, true] {
+            
+            if indexPath.section + indexPath.row == 2,
+               tasksAreDoneDiagonalArray2 == [true, true, true] {
                 print("ななめビンゴ2！")
             }
-        }
+//        }
         
 //        if tasksAreDoneDiagonalArray1.contains(taskIsDone) {
 //            if tasksAreDoneDiagonalArray1 == [true, true, true] {
