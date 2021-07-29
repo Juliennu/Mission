@@ -35,6 +35,8 @@ class MissionInProgressViewController: UIViewController {
     //タスクの完了状況を管理する二次元配列
     var tasksAreDone = [[Bool]]()
     
+    //ビンゴシートの完了状況を管理するBool型
+    var bingoSheetIsDone = false
     
     let layout = UICollectionViewFlowLayout()
     //let bingoLogic = BingoLogic(isDone: true, bingoWidth: 3)
@@ -54,6 +56,7 @@ class MissionInProgressViewController: UIViewController {
 //        print("タスク配列の要素数の合計: ", tasks.capacity)//要素の合計数を取得できる
     }
     
+//MARK: - AdMob バナー広告の設定
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         // Note loadBannerAd is called in viewDidAppear as this is the first time that
@@ -95,16 +98,17 @@ class MissionInProgressViewController: UIViewController {
     
     
     
-    
+//MARK: - functions
     private func setUpBingoStatusLabel() {
         bingoStatusLabel.isHidden = true
-        bingoStatusLabel.layer.cornerRadius = 20
-        bingoStatusLabel.clipsToBounds = true//この設定を入れないと角丸にならない
+        bingoStatusLabel.backgroundColor = .clear
+//        bingoStatusLabel.layer.cornerRadius = 20
+//        bingoStatusLabel.clipsToBounds = true//この設定を入れないと角丸にならない
     }
     
     
     private func setUpVannerView() {
-        bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+        bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"//※Apple申請前に本番用IDに変更する
         bannerView.rootViewController = self
         bannerView.delegate = self
     }
@@ -141,6 +145,15 @@ class MissionInProgressViewController: UIViewController {
         //scrollViewのcontentSizeを，タブ全体のサイズに合わせてあげる(ここ重要！)
         //最終的なoriginX = タブ全体の横幅 になります
         scrollView.contentSize = CGSize(width: width, height: 505)
+    }
+    
+    //ビンゴになった時の挙動
+    func bingoAction() {
+//        sleep(1)//1秒止める
+        bingoStatusLabel.isHidden = false
+        bingoSoundPlay()
+//        sleep(2)//2秒止める
+//        bingoStatusLabel.isHidden = true
     }
     
 }
@@ -197,6 +210,7 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
             tasksAreDone[indexPath.section][indexPath.row] = true
             cell?.backgroundColor = UIColor.black.withAlphaComponent(0.15)//薄い黒色
             cell?.isOpaque = false//透過にする
+            
             cell?.isHighlighted = true
             taskIsDoneSoundPlay()
             
@@ -208,12 +222,10 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
         }
         
         //縦横斜めが揃ったら「ビンゴ」と表示する
-        
         //横の判定
         if tasksAreDone[indexPath.section] == [true, true, true] {
             print("よこビンゴ！")
-            bingoStatusLabel.isHidden = false
-            bingoSoundPlay()
+            bingoAction()
         }
         
         //結果シートの縦の列を配列に格納
@@ -221,14 +233,24 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
         //縦の判定
         if tasksAreDoneColumn == [true, true, true] {
             print("たてビンゴ！")
-            bingoStatusLabel.isHidden = false
-            bingoSoundPlay()
+            bingoAction()
         }
         
         //結果シートの斜めの列を配列に格納
-        //@これだと１回斜めビンゴになって以降、セルタップ時に毎回斜めビンゴ認定されてしまうので要修正
         let tasksAreDoneDiagonalArray1 = [tasksAreDone[0][0], tasksAreDone[1][1], tasksAreDone[2][2]]
         let tasksAreDoneDiagonalArray2 = [tasksAreDone[0][2], tasksAreDone[1][1], tasksAreDone[2][0]]
+            
+            if indexPath.section == indexPath.row,
+               tasksAreDoneDiagonalArray1 == [true, true, true] {
+                print("ななめビンゴ1！")
+                bingoAction()
+            }
+            
+            if indexPath.section + indexPath.row == 2,
+               tasksAreDoneDiagonalArray2 == [true, true, true] {
+                print("ななめビンゴ2！")
+                bingoAction()
+            }
         //斜めビンゴの対象となるセルのindexPathをInt型の二次元配列にする
 //        let diagonalArrayIndexPaths = [[0, 0], [1, 1], [2, 2], [0, 2], [2, 0]]
         //IndexPath型をInt型に変換
@@ -236,20 +258,6 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
         //斜めの判定
 //        if //diagonalArrayIndexPaths.contains(indexPathInt),
 //           tasksAreDone[indexPath.section][indexPath.row] == true {
-            
-            if indexPath.section == indexPath.row,
-               tasksAreDoneDiagonalArray1 == [true, true, true] {
-                print("ななめビンゴ1！")
-                bingoStatusLabel.isHidden = false
-                bingoSoundPlay()
-            }
-            
-            if indexPath.section + indexPath.row == 2,
-               tasksAreDoneDiagonalArray2 == [true, true, true] {
-                print("ななめビンゴ2！")
-                bingoStatusLabel.isHidden = false
-                bingoSoundPlay()
-            }
 //        }
         
 
@@ -257,6 +265,8 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
         //ビンゴシート達成の判定
         if tasksAreDone == [[true, true, true], [true, true, true], [true, true, true]] {
             print("ビンゴシートクリア！")
+            bingoSheetIsDone = true
+//            sleep(1)
             bingoStatusLabel.text = "CLEAR!"
             bingoStatusLabel.isHidden = false
             clearSoundPlay()

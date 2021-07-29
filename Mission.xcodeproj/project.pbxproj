@@ -206,8 +206,8 @@
 			isa = PBXGroup;
 			children = (
 				1AF53D9E269AB35B00124197 /* BingoSheet.swift */,
-				1AF53DA7269D33C400124197 /* AuthManager.swift */,
 				1AE1456E26A0630F000D3E7E /* BingoLogic.swift */,
+				1AF53DA7269D33C400124197 /* AuthManager.swift */,
 				1AE1457026A123A7000D3E7E /* AppTrackingTransparency.swift */,
 				1A487C8526B050A1000CC727 /* Sound.swift */,
 			);
