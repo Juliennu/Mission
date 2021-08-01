@@ -14,9 +14,10 @@ class FolderViewController: UIViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     
     @IBOutlet weak var editButton: UIBarButtonItem!
-    @IBOutlet weak var addNewFolderButton: UIButton!
+    @IBOutlet weak var addNewBingoSheetButton: UIButton!
     
-    @IBAction func didTappedAddNewFolderButton(_ sender: Any) {
+    //ビンゴシート新規作成ボタン押下時の処理
+    @IBAction func didTappedAddNewBingoSheetButton(_ sender: Any) {
         let storyboard = UIStoryboard.init(name: "CreateNewBingoSheet", bundle: nil)
         let createNewBingoSheetVC = storyboard.instantiateViewController(withIdentifier: "CreateNewBingoSheetViewController") as! CreateNewBingoSheetViewController
         navigationController?.pushViewController(createNewBingoSheetVC, animated: true)
@@ -24,30 +25,29 @@ class FolderViewController: UIViewController {
         createAnonymousUserToFirestore()
     }
     
-    var bingosheet = [BingoSheet]()
-    var titleArray = [String]()//"死ぬまでにやりたいこと", "週末用", "デイリーミッション"
-//    var currentItems = [String]()
+//    var bingosheet = [BingoSheet]()
+    var titleArray = [String]()//@配列なので順番がぐちゃぐちゃになってしまう。配列にしない or createdAtで作成日順に並び替えする
     
     let db = Firestore.firestore()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+//        readDataFromFirestore()
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellId")
 
         tableView.delegate = self
         tableView.dataSource = self
         searchBar.delegate = self
-        
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellId")
-        
-        readDataFromFirestore()
-        
+ 
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        tableView.reloadData()
+        titleArray = []//@画面表示ごとに初期化、Firebaseと通信しているのであとでなんとかしたい
+        readDataFromFirestore()
     }
     
     //Firestore
@@ -63,9 +63,12 @@ class FolderViewController: UIViewController {
 //            }
 //
 //        }
+//        //信号の初期化
+//        let semaphore = DispatchSemaphore(value: 0)
 
         //Firestoreからコレクションのすべてのドキュメントを取得する
         db.collection("bingoSheets").getDocuments() { (querySnapshot, err) in
+            //非同期処理：記述された順番は関係なく、getDocumentsの処理が完了したらクロージャを実行する
             if let err = err {
                 print("Firestoreから情報の取得に失敗しました。", err)
             } else {
@@ -74,12 +77,16 @@ class FolderViewController: UIViewController {
                     //Firestoreから特定のフィールドのみを抜き出す。nilチェック
                     guard let bingoSheetTitle = document.get("bingoSheetTitle") else { return }
                     self.titleArray.append(bingoSheetTitle as! String)//Any型をString型に変換
-                    
+//                    //処理が完了した際にカウントを増加させる
+//                    semaphore.signal()
                 }
+//                print(self.titleArray)
+                self.tableView.reloadData()
             }
         }
-        print(self.titleArray)
-        tableView.reloadData()
+//        //signalが呼ばれるまで待つ->非同期処理の結果を待つことができる。
+//        semaphore.wait()
+
     }
     
     
@@ -95,6 +102,8 @@ class FolderViewController: UIViewController {
             
             let isAnonymous = user.isAnonymous
             let uid = user.uid
+            
+            print(isAnonymous, uid)
         }
     }
 
@@ -105,13 +114,13 @@ class FolderViewController: UIViewController {
 
 // MARK: - Delegates
 extension FolderViewController: UITableViewDelegate, UITableViewDataSource {
+    //初期値1なのでメソッドごと消して良い
+//    func numberOfSections(in tableView: UITableView) -> Int {
+//        return 1
+//    }
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
+    //cellの数
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(titleArray.count)
         return titleArray.count
         
     }
@@ -120,7 +129,6 @@ extension FolderViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath)
         cell.textLabel?.text = titleArray[indexPath.row]//bingosheet[indexPath.row].title
-        print(titleArray[indexPath.row])
         return cell
     }
     

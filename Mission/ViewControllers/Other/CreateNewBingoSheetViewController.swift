@@ -175,6 +175,7 @@ class CreateNewBingoSheetViewController: FormViewController {
     
     private func setUpRightBarButtonItem() {
         saveButton = UIBarButtonItem(title: "保存", style: .done, target: self, action: #selector(didTapSaveButton))
+        
         self.navigationItem.rightBarButtonItem = saveButton
         //        saveButton.isEnabled = false
     }
@@ -201,7 +202,7 @@ class CreateNewBingoSheetViewController: FormViewController {
         ] as [String : Any]
         
         
-        print(taskArray)
+//        print(taskArray)
         ref = db.collection("bingoSheets") .addDocument(data: dogData) { err in
             if let err = err {
                 print("データベースへの保存に失敗しました: ", err)
