@@ -12,7 +12,7 @@ import Firebase
 class CreateNewBingoSheetViewController: FormViewController {
     
     
-    let db = Firestore.firestore()
+//    let db = Firestore.firestore()
     
     let bingosheet = [BingoSheet]()//@今のところ意味なし
     
@@ -23,6 +23,7 @@ class CreateNewBingoSheetViewController: FormViewController {
     var deadline = Date()
     var repeatInterval = ""
     var reward = ""
+   
     
     var saveButton: UIBarButtonItem!
     
@@ -198,7 +199,8 @@ class CreateNewBingoSheetViewController: FormViewController {
 //            "selectedSquare": selectedSquare,
             "task": taskArray,
             "deadLine": deadline,
-            "reward": reward
+            "reward": reward,
+            "creatdAt": Timestamp()
         ] as [String : Any]
         
         

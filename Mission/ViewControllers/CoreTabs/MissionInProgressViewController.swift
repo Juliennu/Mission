@@ -200,7 +200,7 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
         //@タップ時にイラストを表示したい
         let cell = bingoCollectionView.cellForItem(at: indexPath)
         
-        let task = tasks[indexPath.section][indexPath.row]
+//        let task = tasks[indexPath.section][indexPath.row]
         let taskIsDone = tasksAreDone[indexPath.section][indexPath.row]
         bingoStatusLabel.text = "BINGO!"
         bingoStatusLabel.isHidden = true
@@ -270,6 +270,16 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
             bingoStatusLabel.text = "CLEAR!"
             bingoStatusLabel.isHidden = false
             clearSoundPlay()
+            
+            //ごほうびをアラート表示
+            //UIAlertControllerクラスのインスタンスを生成
+            let actionSheet = UIAlertController(title: "ビンゴシートクリア", message: "おやつタイム", preferredStyle: .alert)//.actionSheet:画面下部から出てくるアラート//.alert:画面中央に表示されるアラート
+            //UIAlertControllerにActionを追加
+            actionSheet.addAction(UIAlertAction(title: "Get", style: .default, handler: nil))
+            //Alertを表示
+            present(actionSheet, animated: true, completion: nil)
+           
+            
         }
         
        

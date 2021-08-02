@@ -13,7 +13,7 @@ class FolderViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
     
-    @IBOutlet weak var editButton: UIBarButtonItem!
+//    @IBOutlet weak var editButton: UIBarButtonItem!
     @IBOutlet weak var addNewBingoSheetButton: UIButton!
     
     //ビンゴシート新規作成ボタン押下時の処理
@@ -26,9 +26,7 @@ class FolderViewController: UIViewController {
     }
     
 //    var bingosheet = [BingoSheet]()
-    var titleArray = [String]()//@配列なので順番がぐちゃぐちゃになってしまう。配列にしない or createdAtで作成日順に並び替えする
-    
-    let db = Firestore.firestore()
+
     
     
     override func viewDidLoad() {
@@ -40,6 +38,7 @@ class FolderViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         searchBar.delegate = self
+        setUpEditButton()
  
     }
     
@@ -53,19 +52,6 @@ class FolderViewController: UIViewController {
     //Firestore
     public func readDataFromFirestore() {
 
-//        //単一のdocumentの内容を取得する
-//        db.collection("bingoSheets").document("bingoSheetTitle").getDocument{ (document, err) in
-//            if let document = document, document.exists {
-//                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-//                print("ドキュメントデータ: ", dataDescription)
-//            } else {
-//                print("ドキュメントデータが存在しません。")
-//            }
-//
-//        }
-//        //信号の初期化
-//        let semaphore = DispatchSemaphore(value: 0)
-
         //Firestoreからコレクションのすべてのドキュメントを取得する
         db.collection("bingoSheets").getDocuments() { (querySnapshot, err) in
             //非同期処理：記述された順番は関係なく、getDocumentsの処理が完了したらクロージャを実行する
@@ -76,17 +62,18 @@ class FolderViewController: UIViewController {
 //                    print("Firestoreから情報を取得しました！", "\(document.documentID) => \(document.data())")
                     //Firestoreから特定のフィールドのみを抜き出す。nilチェック
                     guard let bingoSheetTitle = document.get("bingoSheetTitle") else { return }
-                    self.titleArray.append(bingoSheetTitle as! String)//Any型をString型に変換
-//                    //処理が完了した際にカウントを増加させる
-//                    semaphore.signal()
+                    titleArray.append(bingoSheetTitle as! String)//Any型をString型に変換
+                    
+                    //ビンゴシートを作成日順に並び替え
+//                    guard let createdAt =  document.get("createdAt") else { return }
+//                    self.titleArray.sort.{ (b1, b2) -> Bool in
+//                        let b1Date = b1
+//                    }
                 }
-//                print(self.titleArray)
+
                 self.tableView.reloadData()
             }
         }
-//        //signalが呼ばれるまで待つ->非同期処理の結果を待つことができる。
-//        semaphore.wait()
-
     }
     
     
@@ -106,8 +93,28 @@ class FolderViewController: UIViewController {
             print(isAnonymous, uid)
         }
     }
+    
+    private func setUpEditButton() {
+        navigationItem.rightBarButtonItem = editButtonItem//押すとDoneに切り替わる
+        navigationItem.rightBarButtonItem?.title = "編集"
+        
+    }
+    //editButtonを押した時の処理
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        //override前の処理を継続してさせる
+        super.setEditing(editing, animated: animated)
+        //tableViewの編集モードを切り替える
+        tableView.isEditing = editing//editingはBool型でeditButtonに依存する変数
+        
+        if tableView.isEditing {
+            navigationItem.rightBarButtonItem?.title = "完了"
+        } else {
+            navigationItem.rightBarButtonItem?.title = "編集"
+        }
+    }
 
 }
+
 
 
 
@@ -138,8 +145,27 @@ extension FolderViewController: UITableViewDelegate, UITableViewDataSource {
         let storyboard = UIStoryboard.init(name: "EditBingoSheet", bundle: nil)
         let editBingoSheetVC = storyboard.instantiateViewController(withIdentifier: "EditBingoSheetViewController") as! EditBingoSheetViewController
         navigationController?.pushViewController(editBingoSheetVC, animated: true)
+       
     }
     
+    //cell編集
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        
+        //＠Firestoreから削除
+        
+        //tableViewCellの削除
+        tableView.deleteRows(at: [indexPath], with: .automatic)
+    }
+    
+    //cellの編集スタイル
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        //横スワイプでdeleteをオフにする
+        if tableView.isEditing {
+            return .delete
+        } else {
+            return .none
+        }
+    }
     
 }
 

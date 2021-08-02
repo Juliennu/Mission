@@ -25,6 +25,7 @@
 		1A8393BC269D85D900904EC4 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 1A8393BB269D85D900904EC4 /* FirebaseAuth */; };
 		1A8393BE269D85D900904EC4 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 1A8393BD269D85D900904EC4 /* FirebaseFirestore */; };
 		1A8393C0269D85D900904EC4 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 1A8393BF269D85D900904EC4 /* FirebaseDatabase */; };
+		1AC54A6626B77F930016E08E /* Something.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC54A6526B77F930016E08E /* Something.swift */; };
 		1AE1456F26A0630F000D3E7E /* BingoLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE1456E26A0630F000D3E7E /* BingoLogic.swift */; };
 		1AE1457126A123A7000D3E7E /* AppTrackingTransparency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE1457026A123A7000D3E7E /* AppTrackingTransparency.swift */; };
 		1AF53D7726981AB000124197 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF53D7626981AB000124197 /* AppDelegate.swift */; };
@@ -58,6 +59,7 @@
 		1A487C9326B05DF2000CC727 /* huin.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = huin.mp3; sourceTree = "<group>"; };
 		1A487C9526B05F8C000CC727 /* piko.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = piko.mp3; sourceTree = "<group>"; };
 		1A487C9726B05FF0000CC727 /* pioooin.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = pioooin.mp3; sourceTree = "<group>"; };
+		1AC54A6526B77F930016E08E /* Something.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Something.swift; sourceTree = "<group>"; };
 		1AE1456E26A0630F000D3E7E /* BingoLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BingoLogic.swift; sourceTree = "<group>"; };
 		1AE1457026A123A7000D3E7E /* AppTrackingTransparency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTrackingTransparency.swift; sourceTree = "<group>"; };
 		1AF53D7326981AB000124197 /* Mission.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mission.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -210,6 +212,7 @@
 				1AF53DA7269D33C400124197 /* AuthManager.swift */,
 				1AE1457026A123A7000D3E7E /* AppTrackingTransparency.swift */,
 				1A487C8526B050A1000CC727 /* Sound.swift */,
+				1AC54A6526B77F930016E08E /* Something.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -384,6 +387,7 @@
 				1AF53D8C26982BA000124197 /* FolderViewController.swift in Sources */,
 				1AF53D7726981AB000124197 /* AppDelegate.swift in Sources */,
 				1AF53D9A269AB07F00124197 /* CreateNewBingoSheetViewController.swift in Sources */,
+				1AC54A6626B77F930016E08E /* Something.swift in Sources */,
 				1AF53D98269AB04000124197 /* LoginViewController.swift in Sources */,
 				1AE1456F26A0630F000D3E7E /* BingoLogic.swift in Sources */,
 				1A487C8626B050A1000CC727 /* Sound.swift in Sources */,
