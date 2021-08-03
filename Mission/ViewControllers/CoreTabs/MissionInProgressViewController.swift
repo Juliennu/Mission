@@ -13,7 +13,7 @@ import GoogleMobileAds
 
 class MissionInProgressViewController: UIViewController {
     
-    @IBOutlet weak var scrollView: UIScrollView!
+//    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var bingoCollectionView: UICollectionView!
     @IBOutlet weak var bingoStatusLabel: UILabel!
@@ -45,15 +45,17 @@ class MissionInProgressViewController: UIViewController {
         super.viewDidLoad()
 
         setUpBingoCollectionView()
-        setUpScrollView()
+//        setUpScrollView()
         setUpVannerView()
         setUpBingoStatusLabel()
         setUpSoundPrepare()
+        addEventListner()
         //初期値は全てfalseにする
         tasksAreDone = [[Bool]](repeating: [Bool](repeating: false, count: tasks.count), count: tasks.count)
 //        tasksAreDone[0] = true//クリック時にtrueに置き換えたい
 //        print(tasksAreDone[0, 0])//二次元配列の座標の示し方がわからない
 //        print("タスク配列の要素数の合計: ", tasks.capacity)//要素の合計数を取得できる
+        
     }
     
 //MARK: - AdMob バナー広告の設定
@@ -100,6 +102,29 @@ class MissionInProgressViewController: UIViewController {
     
 //MARK: - functions
     
+    private func addEventListner() {
+        let rightSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(swiped))
+        rightSwipeGesture.direction = .right
+        bingoCollectionView.addGestureRecognizer(rightSwipeGesture)
+        
+        
+        let leftSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(swiped))
+        leftSwipeGesture.direction = .left
+        bingoCollectionView.addGestureRecognizer(leftSwipeGesture)
+    }
+    
+    @objc func swiped(sender: UISwipeGestureRecognizer) {
+        switch sender.direction {
+        case .right:
+            print("右スワイプ")
+        case .left:
+            print("左スワイプ")
+        default:
+            break
+        }
+    }
+    
+    
     private func setUpBingoStatusLabel() {
         bingoStatusLabel.isHidden = true
         bingoStatusLabel.backgroundColor = .clear
@@ -129,24 +154,24 @@ class MissionInProgressViewController: UIViewController {
         bingoCollectionView.collectionViewLayout = layout
     }
     
-    private func setUpScrollView() {
-        
-        scrollView.delegate = self
-        //横幅
-        let width: CGFloat = 350
-        //タブのx座標．0から始まり，少しずつずらしていく．
-        var originX: CGFloat = 0
-        
-        for title in titles {
-            titleLabel.frame = CGRect(x: originX, y: 0, width: width, height: 23.5)
-            titleLabel.text = title
-            //次のタブのx座標を用意する
-            originX += width
-        }
-        //scrollViewのcontentSizeを，タブ全体のサイズに合わせてあげる(ここ重要！)
-        //最終的なoriginX = タブ全体の横幅 になります
-        scrollView.contentSize = CGSize(width: width, height: 505)
-    }
+//    private func setUpScrollView() {
+//
+//        scrollView.delegate = self
+//        //横幅
+//        let width: CGFloat = 350
+//        //タブのx座標．0から始まり，少しずつずらしていく．
+//        var originX: CGFloat = 0
+//
+//        for title in titles {
+//            titleLabel.frame = CGRect(x: originX, y: 0, width: width, height: 23.5)
+//            titleLabel.text = title
+//            //次のタブのx座標を用意する
+//            originX += width
+//        }
+//        //scrollViewのcontentSizeを，タブ全体のサイズに合わせてあげる(ここ重要！)
+//        //最終的なoriginX = タブ全体の横幅 になります
+//        scrollView.contentSize = CGSize(width: width, height: 505)
+//    }
     
     //ビンゴになった時の挙動
     func bingoAction() {
@@ -304,15 +329,15 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
 
 
 //MARK:- ScrollView Delegate
-extension MissionInProgressViewController: UIScrollViewDelegate {
-    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        guard scrollView == self.scrollView else { return }
-    }
-    
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        guard scrollView == self.scrollView else { return }
-    }
-}
+//extension MissionInProgressViewController: UIScrollViewDelegate {
+//    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+//        guard scrollView == self.scrollView else { return }
+//    }
+//
+//    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+//        guard scrollView == self.scrollView else { return }
+//    }
+//}
 
 //MARK:- Admob BannerView Delegate
 extension MissionInProgressViewController: GADBannerViewDelegate {

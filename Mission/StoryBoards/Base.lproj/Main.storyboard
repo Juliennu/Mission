@@ -167,69 +167,53 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qLI-CP-aQo">
-                                <rect key="frame" x="0.0" y="118" width="414" height="505"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="死ぬまでにやりたいこと" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SNj-tx-iuv">
-                                        <rect key="frame" x="97" y="10" width="220" height="23.5"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="BINGO!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A0S-oD-UT8">
-                                        <rect key="frame" x="97" y="213" width="220" height="79"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" red="0.99953407049999998" green="0.98835557699999999" blue="0.47265523669999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <fontDescription key="fontDescription" name="PartyLetPlain" family="Party LET" pointSize="61"/>
-                                        <color key="textColor" red="0.58081901069999997" green="0.088427625600000004" blue="0.31863921880000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="xTT-Yk-JwF">
-                                        <rect key="frame" x="20" y="65.5" width="374" height="374"/>
-                                        <color key="backgroundColor" red="0.99953407049999998" green="0.98835557699999999" blue="0.47265523669999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="374" id="2hH-7H-dOs"/>
-                                            <constraint firstAttribute="width" constant="374" id="mJo-jU-ehV"/>
-                                        </constraints>
-                                        <collectionViewLayout key="collectionViewLayout" id="zAm-sf-Tzs"/>
-                                        <cells>
-                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="cellId" id="CPJ-kt-8B9" customClass="BingoCollectionViewCell" customModule="Mission" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="kgM-M7-h2g">
-                                                    <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                </collectionViewCellContentView>
-                                                <size key="customSize" width="100" height="100"/>
-                                            </collectionViewCell>
-                                        </cells>
-                                    </collectionView>
-                                </subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="xTT-Yk-JwF">
+                                <rect key="frame" x="20" y="261" width="374" height="374"/>
+                                <color key="backgroundColor" red="0.99953407049999998" green="0.98835557699999999" blue="0.47265523669999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstItem="xTT-Yk-JwF" firstAttribute="centerX" secondItem="qLI-CP-aQo" secondAttribute="centerX" id="4jR-cp-xBr"/>
-                                    <constraint firstAttribute="bottom" secondItem="xTT-Yk-JwF" secondAttribute="bottom" constant="50.5" id="9Dx-pG-bof"/>
-                                    <constraint firstAttribute="trailing" secondItem="xTT-Yk-JwF" secondAttribute="trailing" constant="32" id="EwK-nc-PG5"/>
-                                    <constraint firstItem="xTT-Yk-JwF" firstAttribute="centerY" secondItem="qLI-CP-aQo" secondAttribute="centerY" id="G1o-w7-yD0"/>
-                                    <constraint firstItem="SNj-tx-iuv" firstAttribute="centerX" secondItem="qLI-CP-aQo" secondAttribute="centerX" id="NZ2-WG-EDA"/>
-                                    <constraint firstItem="SNj-tx-iuv" firstAttribute="top" secondItem="Zc1-pz-oOm" secondAttribute="top" constant="10" id="fEh-WU-3O4"/>
+                                    <constraint firstAttribute="height" constant="374" id="2hH-7H-dOs"/>
+                                    <constraint firstAttribute="width" constant="374" id="mJo-jU-ehV"/>
                                 </constraints>
-                                <viewLayoutGuide key="contentLayoutGuide" id="wec-vE-Dyx"/>
-                                <viewLayoutGuide key="frameLayoutGuide" id="Zc1-pz-oOm"/>
-                            </scrollView>
+                                <collectionViewLayout key="collectionViewLayout" id="zAm-sf-Tzs"/>
+                                <label key="backgroundView" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BINGO!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="A0S-oD-UT8">
+                                    <rect key="frame" x="0.0" y="0.0" width="374" height="374"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" red="0.99953407049999998" green="0.98835557699999999" blue="0.47265523669999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <fontDescription key="fontDescription" name="PartyLetPlain" family="Party LET" pointSize="61"/>
+                                    <color key="textColor" red="0.58081901069999997" green="0.088427625600000004" blue="0.31863921880000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="cellId" id="CPJ-kt-8B9" customClass="BingoCollectionViewCell" customModule="Mission" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="kgM-M7-h2g">
+                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </collectionViewCellContentView>
+                                        <size key="customSize" width="100" height="100"/>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" placeholderIntrinsicWidth="320" placeholderIntrinsicHeight="50" image="music.note.list" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="b8h-Zu-AiW" customClass="GADBannerView">
                                 <rect key="frame" x="47" y="763.5" width="320" height="49"/>
                                 <color key="backgroundColor" systemColor="systemTealColor"/>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="死ぬまでにやりたいこと" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SNj-tx-iuv">
+                                <rect key="frame" x="97" y="165" width="220" height="23.5"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="ZR4-7M-VMP"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="qLI-CP-aQo" firstAttribute="leading" secondItem="ZR4-7M-VMP" secondAttribute="leading" id="3af-kt-kPj"/>
                             <constraint firstItem="b8h-Zu-AiW" firstAttribute="bottom" secondItem="ZR4-7M-VMP" secondAttribute="bottom" id="ATF-fQ-bQ1"/>
                             <constraint firstItem="b8h-Zu-AiW" firstAttribute="centerX" secondItem="H6O-QD-PoY" secondAttribute="centerX" id="La6-oi-Fvo"/>
-                            <constraint firstItem="qLI-CP-aQo" firstAttribute="trailing" secondItem="ZR4-7M-VMP" secondAttribute="trailing" id="Rms-8r-uyk"/>
-                            <constraint firstItem="b8h-Zu-AiW" firstAttribute="top" secondItem="qLI-CP-aQo" secondAttribute="bottom" constant="140" id="Uoe-nu-zyk"/>
-                            <constraint firstItem="qLI-CP-aQo" firstAttribute="top" secondItem="ZR4-7M-VMP" secondAttribute="top" constant="30" id="Vhy-xS-iS5"/>
+                            <constraint firstItem="xTT-Yk-JwF" firstAttribute="centerX" secondItem="H6O-QD-PoY" secondAttribute="centerX" id="UhD-3b-QdD"/>
+                            <constraint firstItem="xTT-Yk-JwF" firstAttribute="centerY" secondItem="H6O-QD-PoY" secondAttribute="centerY" id="dBE-yh-VDU"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Misson In Progress" id="mV3-XO-KDK"/>
@@ -237,13 +221,12 @@
                         <outlet property="bannerView" destination="b8h-Zu-AiW" id="HA7-ZZ-H1J"/>
                         <outlet property="bingoCollectionView" destination="xTT-Yk-JwF" id="kDR-LF-HUo"/>
                         <outlet property="bingoStatusLabel" destination="A0S-oD-UT8" id="Zb5-do-C0e"/>
-                        <outlet property="scrollView" destination="qLI-CP-aQo" id="5xW-Du-K3v"/>
                         <outlet property="titleLabel" destination="SNj-tx-iuv" id="9rg-Qm-I6g"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cdr-wu-g4M" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-796" y="832"/>
+            <point key="canvasLocation" x="-797.10144927536237" y="831.69642857142856"/>
         </scene>
         <!--カレンダー-->
         <scene sceneID="USD-h7-TRc">

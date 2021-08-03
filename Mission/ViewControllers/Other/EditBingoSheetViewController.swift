@@ -39,12 +39,14 @@ class EditBingoSheetViewController: UIViewController {
     
     //ビンゴシート開始ボタン押下時の挙動
     @objc private func startButtonTapped() {
+        //ビンゴシートの並び順を固定
+        //MissionInprogressVCのビンゴシートを生成？（このタイミング？）
         //MissionInprogressVCへ遷移
         
-//        let storyboard = UIStoryboard.init(name: "MissionInProgress", bundle: nil)
-//        let missionInProgressVC = storyboard.instantiateViewController(identifier: "MissionInProgressViewController") as! MissionInProgressViewController
-//
-//        navigationController?.pushViewController(missionInProgressVC, animated: true)
+        let storyboard = UIStoryboard.init(name: "MissionInProgress", bundle: nil)
+        let missionInProgressVC = storyboard.instantiateViewController(identifier: "MissionInProgressViewController") as! MissionInProgressViewController
+
+        navigationController?.pushViewController(missionInProgressVC, animated: true)
     }
 
     private func setUpBingoCollectionView() {
@@ -60,14 +62,16 @@ class EditBingoSheetViewController: UIViewController {
     }
     
     private func addEventListner() {
+        //インスタンスを生成
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongGesture))
+        //viewにインスタンスを追加
         bingoCollectionView.addGestureRecognizer(longPressGesture)
     }
 
-    //collectionViewをドラッグ＆ドロップで並び替え
+    //collectionViewをドラッグ＆ドロップで並び替えるメソッド
     @objc func handleLongGesture(gesture: UILongPressGestureRecognizer) {
 
-        switch(gesture.state) {
+        switch gesture.state {
 
         case UIGestureRecognizer.State.began:
             guard let selectedIndexPath = bingoCollectionView.indexPathForItem(at: gesture.location(in: bingoCollectionView)) else {
@@ -128,6 +132,12 @@ extension EditBingoSheetViewController: UICollectionViewDelegate, UICollectionVi
         return cell
     }
     
+    //セルタップ時の挙動
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        //cellのテキストラベルを編集できるようにしたい
+        let cell = bingoCollectionView.cellForItem(at: indexPath)
+        print(cell)//Optional(<Mission.EditBingoCollectionViewCell: 0x13d8dc830; baseClass = UICollectionViewCell; frame = (0 0; 116.667 116.667); layer = <CALayer: 0x6000025a7be0>>)
+    }
     
 //    このメソッドを実装していなくても、collectionView(_:moveItemAt:to:)メソッドを実装していれば、コレクションビューはすべてのアイテムの並び替えを許可します。
 //    func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
@@ -140,12 +150,6 @@ extension EditBingoSheetViewController: UICollectionViewDelegate, UICollectionVi
         tasks.insert(tempTask, at: destinationIndexPath.item)
     }
     
-    
-//    private func collectionView(collectionView: UICollectionView, moveItemAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) {
-//
-//        let tempTask = tasks.remove(at: sourceIndexPath.item) //.removeAtIndex(sourceIndexPath.item)
-//        tasks.insert(tempTask, at: destinationIndexPath.item)//.insert(tempTask, atIndex: destinationIndexPath.item)
-//        }
     
     
 }
