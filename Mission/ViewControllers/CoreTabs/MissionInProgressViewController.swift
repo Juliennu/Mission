@@ -99,6 +99,7 @@ class MissionInProgressViewController: UIViewController {
     
     
 //MARK: - functions
+    
     private func setUpBingoStatusLabel() {
         bingoStatusLabel.isHidden = true
         bingoStatusLabel.backgroundColor = .clear
@@ -160,6 +161,7 @@ class MissionInProgressViewController: UIViewController {
 
 
 // MARK: - CollectionView Delegates
+
 extension MissionInProgressViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
