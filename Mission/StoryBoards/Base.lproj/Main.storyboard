@@ -216,7 +216,10 @@
                             <constraint firstItem="xTT-Yk-JwF" firstAttribute="centerY" secondItem="H6O-QD-PoY" secondAttribute="centerY" id="dBE-yh-VDU"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Misson In Progress" id="mV3-XO-KDK"/>
+                    <navigationItem key="navigationItem" title="Misson In Progress" id="mV3-XO-KDK">
+                        <barButtonItem key="leftBarButtonItem" title="Item" id="rGc-hJ-oZw"/>
+                        <barButtonItem key="rightBarButtonItem" title="Item" id="gZB-4p-kaM"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="bannerView" destination="b8h-Zu-AiW" id="HA7-ZZ-H1J"/>
                         <outlet property="bingoCollectionView" destination="xTT-Yk-JwF" id="kDR-LF-HUo"/>

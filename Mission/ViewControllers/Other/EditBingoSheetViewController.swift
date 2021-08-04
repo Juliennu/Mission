@@ -89,7 +89,7 @@ class EditBingoSheetViewController: UIViewController {
             bingoCollectionView.endInteractiveMovement()
 
         default:
-            //移動の取り消し
+            //移動の取消
             bingoCollectionView.cancelInteractiveMovement()
         }
     }
@@ -134,7 +134,7 @@ extension EditBingoSheetViewController: UICollectionViewDelegate, UICollectionVi
     
     //セルタップ時の挙動
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        //cellのテキストラベルを編集できるようにしたい
+        //＠cellのテキストラベルを編集できるようにしたい
         let cell = bingoCollectionView.cellForItem(at: indexPath)
         print(cell)//Optional(<Mission.EditBingoCollectionViewCell: 0x13d8dc830; baseClass = UICollectionViewCell; frame = (0 0; 116.667 116.667); layer = <CALayer: 0x6000025a7be0>>)
     }

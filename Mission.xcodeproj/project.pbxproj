@@ -26,6 +26,7 @@
 		1A8393BE269D85D900904EC4 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 1A8393BD269D85D900904EC4 /* FirebaseFirestore */; };
 		1A8393C0269D85D900904EC4 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 1A8393BF269D85D900904EC4 /* FirebaseDatabase */; };
 		1AC54A6626B77F930016E08E /* Something.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC54A6526B77F930016E08E /* Something.swift */; };
+		1AC54A6826B90D190016E08E /* add-folder.png in Resources */ = {isa = PBXBuildFile; fileRef = 1AC54A6726B90D190016E08E /* add-folder.png */; };
 		1AE1456F26A0630F000D3E7E /* BingoLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE1456E26A0630F000D3E7E /* BingoLogic.swift */; };
 		1AE1457126A123A7000D3E7E /* AppTrackingTransparency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE1457026A123A7000D3E7E /* AppTrackingTransparency.swift */; };
 		1AF53D7726981AB000124197 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF53D7626981AB000124197 /* AppDelegate.swift */; };
@@ -60,6 +61,7 @@
 		1A487C9526B05F8C000CC727 /* piko.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = piko.mp3; sourceTree = "<group>"; };
 		1A487C9726B05FF0000CC727 /* pioooin.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = pioooin.mp3; sourceTree = "<group>"; };
 		1AC54A6526B77F930016E08E /* Something.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Something.swift; sourceTree = "<group>"; };
+		1AC54A6726B90D190016E08E /* add-folder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add-folder.png"; sourceTree = "<group>"; };
 		1AE1456E26A0630F000D3E7E /* BingoLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BingoLogic.swift; sourceTree = "<group>"; };
 		1AE1457026A123A7000D3E7E /* AppTrackingTransparency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTrackingTransparency.swift; sourceTree = "<group>"; };
 		1AF53D7326981AB000124197 /* Mission.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mission.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -121,6 +123,7 @@
 			children = (
 				1A487C8826B05311000CC727 /* Sounds */,
 				1AF53D7F26981AB200124197 /* Assets.xcassets */,
+				1AC54A6726B90D190016E08E /* add-folder.png */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -322,6 +325,7 @@
 				1A487C9026B058A8000CC727 /* shuuun.mp3 in Resources */,
 				1AF53D8326981AB200124197 /* LaunchScreen.storyboard in Resources */,
 				1AF53D8026981AB200124197 /* Assets.xcassets in Resources */,
+				1AC54A6826B90D190016E08E /* add-folder.png in Resources */,
 				1A487C9626B05F8D000CC727 /* piko.mp3 in Resources */,
 				1A487C8E26B053DB000CC727 /* pon.mp3 in Resources */,
 				1A487C8A26B053CE000CC727 /* po.mp3 in Resources */,

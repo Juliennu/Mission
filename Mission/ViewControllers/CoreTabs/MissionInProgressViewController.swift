@@ -13,16 +13,18 @@ import GoogleMobileAds
 
 class MissionInProgressViewController: UIViewController {
     
+    private var scrollView: UIScrollView!
+    private var pageControl: UIPageControl!
 //    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var bingoCollectionView: UICollectionView!
     @IBOutlet weak var bingoStatusLabel: UILabel!
+    @IBOutlet weak var bannerView: GADBannerView!//Admobを表示
     
     
-    @IBOutlet weak var bannerView: GADBannerView!//Admobを表示予定
 //    let viewWidth = UIScreen.main.bounds.size.width
     
-    
+    let imageNameArray: [String] = ["ashitaka","kaya", "nausicaa", "san", "yupa"]
     
     let titles = ["死ぬまでにやりたいこと", "デイリーミッション", "週末用"]
     
@@ -43,13 +45,17 @@ class MissionInProgressViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        setUpScrollView()
+        setUpImageView()
+        setUpPageControl()
+        
+        setUpBarButtonItem()
         setUpBingoCollectionView()
 //        setUpScrollView()
         setUpVannerView()
         setUpBingoStatusLabel()
         setUpSoundPrepare()
-        addEventListner()
+//        addEventListner()
         //初期値は全てfalseにする
         tasksAreDone = [[Bool]](repeating: [Bool](repeating: false, count: tasks.count), count: tasks.count)
 //        tasksAreDone[0] = true//クリック時にtrueに置き換えたい
@@ -102,27 +108,117 @@ class MissionInProgressViewController: UIViewController {
     
 //MARK: - functions
     
-    private func addEventListner() {
-        let rightSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(swiped))
-        rightSwipeGesture.direction = .right
-        bingoCollectionView.addGestureRecognizer(rightSwipeGesture)
+    func setUpScrollView() {
+        // scrollViewの画面表示サイズを指定
+        scrollView = UIScrollView(frame: CGRect(x: 0, y: 150, width: self.view.frame.size.width, height: 470))
+        // scrollViewのサイズを指定（幅は1ページに表示するViewの幅×ページ数）
+        scrollView.contentSize = CGSize(width: Int(self.view.frame.size.width) * imageNameArray.count, height: 200)
+        // scrollViewのデリゲートになる
+        scrollView.delegate = self
+        scrollView.backgroundColor = .systemPink
         
-        
-        let leftSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(swiped))
-        leftSwipeGesture.direction = .left
-        bingoCollectionView.addGestureRecognizer(leftSwipeGesture)
+        // ページ単位のスクロールを可能にする
+        scrollView.isPagingEnabled = true
+        // 水平方向のスクロールインジケータを非表示にする
+        scrollView.showsHorizontalScrollIndicator = false
+        self.view.addSubview(scrollView)
+        //viewを最背面に移動
+        self.view.sendSubviewToBack(scrollView)
     }
     
-    @objc func swiped(sender: UISwipeGestureRecognizer) {
-        switch sender.direction {
-        case .right:
-            print("右スワイプ")
-        case .left:
-            print("左スワイプ")
-        default:
-            break
+    func setUpImageView() {
+        //配列の個数分UIImageViewを生成
+        for i in 0..<imageNameArray.count {
+            //x座標をviewの幅 * i ずらしていく
+            let positionX = CGFloat(Int(self.view.frame.size.width) * i)
+            //imageViewの表示位置とサイズ、画像の設定
+            let imageView = createImageView(x: positionX, y: 0, width: self.view.frame.size.width, height: 470, image: imageNameArray[i])
+            scrollView.addSubview(imageView)
         }
     }
+
+    // UIImageViewを生成するメソッド
+    func createImageView(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat, image: String) -> UIImageView {
+        let imageView = UIImageView(frame: CGRect(x: x, y: y, width: width, height: height))
+        let image = UIImage(named:  image)
+        imageView.image = image
+        return imageView
+    }
+    
+    func setUpPageControl() {
+        // pageControlの表示位置とサイズの設定
+        pageControl = UIPageControl(frame: CGRect(x: 0, y: 630, width: self.view.frame.size.width, height: 30))//y: 370
+        // pageControlのページ数を設定
+        pageControl.numberOfPages = imageNameArray.count
+        //ページ数が1の時ドットが表示されなくなる
+        pageControl.hidesForSinglePage = true
+        //pageControl上をスクロールすることでページを切り替えられる->＠ページ切り替えできない
+        pageControl.allowsContinuousInteraction = true
+        // pageControlのドットの色
+        pageControl.pageIndicatorTintColor = UIColor.gray
+        // pageControlの現在のページのドットの色
+        pageControl.currentPageIndicatorTintColor = UIColor.systemPink
+        self.view.addSubview(pageControl)
+    }
+    
+    
+    private func setUpBarButtonItem() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "シェア", style: .plain, target: self, action: #selector(shared))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "中断", style: .plain, target: self, action: #selector(canceled))
+        navigationItem.leftBarButtonItem?.tintColor = .red
+    }
+    
+    //シェア
+    @objc func shared() {
+        UIGraphicsBeginImageContextWithOptions(view.frame.size, false, 0.0)//スクリーンショットを撮る座標と縦横幅を指定
+        view.drawHierarchy(in: view.frame, afterScreenUpdates: true)
+        let screenShotImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!  //スリーンショットがUIImage型で取得できる
+        UIGraphicsEndImageContext()
+        
+        let activityViewController = UIActivityViewController(activityItems: ["ビンゴミッションに挑戦中！", screenShotImage], applicationActivities: nil)
+        self.present(activityViewController, animated: true, completion: nil)
+    }
+    
+    //中断
+    @objc func canceled() {
+        //中断をアラート表示
+        //UIAlertControllerクラスのインスタンスを生成
+        let actionSheet = UIAlertController(title: "挑戦中のビンゴシートを中断しますか", message: "この画面からビンゴシートが削除されます", preferredStyle: .actionSheet)//.actionSheet:画面下部から出てくるアラート//.alert:画面中央に表示されるアラート
+        //UIAlertControllerにActionを追加
+        actionSheet.addAction(UIAlertAction(title: "OK", style: .destructive, handler: nil))
+        actionSheet.addAction(UIAlertAction(title: "キャンセル", style: .cancel, handler: nil))
+        //Alertを表示
+        present(actionSheet, animated: true, completion: nil)
+        
+        //@OKだった時のビンゴシート中断処理
+        
+    }
+    
+//    //左右スワイプでビンゴシートの切り替え
+//    private func addEventListner() {
+//        //右スワイプ
+//        let rightSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(swiped))
+//        rightSwipeGesture.direction = .right
+//        bingoCollectionView.addGestureRecognizer(rightSwipeGesture)
+//
+//        //左スワイプ
+//        let leftSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(swiped))
+//        leftSwipeGesture.direction = .left
+//        bingoCollectionView.addGestureRecognizer(leftSwipeGesture)
+//    }
+//
+//    @objc func swiped(sender: UISwipeGestureRecognizer) {
+//        switch sender.direction {
+//        case .right:
+//            print("右スワイプ")
+//            //配列の一つ隣のアイテムを表示
+//        case .left:
+//            print("左スワイプ")
+//            //配列の一つ前のアイテムを表示
+//        default:
+//            break
+//        }
+//    }
     
     
     private func setUpBingoStatusLabel() {
@@ -294,7 +390,7 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
             print("ビンゴシートクリア！")
             bingoSheetIsDone = true
 //            sleep(1)
-            bingoStatusLabel.text = "CLEAR!"
+            bingoStatusLabel.text = "Complete!"
             bingoStatusLabel.isHidden = false
             clearSoundPlay()
             
@@ -329,15 +425,25 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
 
 
 //MARK:- ScrollView Delegate
-//extension MissionInProgressViewController: UIScrollViewDelegate {
-//    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-//        guard scrollView == self.scrollView else { return }
-//    }
-//
-//    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-//        guard scrollView == self.scrollView else { return }
-//    }
-//}
+// scrollViewのページ移動に合わせてpageControlの表示も移動させる
+extension MissionInProgressViewController: UIScrollViewDelegate {
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        pageControl.currentPage = Int(scrollView.contentOffset.x / scrollView.frame.size.width)
+        //@pageControlのcurrentPageの移動に合わせてscrollViewのページも移動させたい
+    }
+    
+    //    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+    //        guard scrollView == self.scrollView else { return }
+    //    }
+    //
+    //    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+    //        guard scrollView == self.scrollView else { return }
+    //    }
+    
+}
+
+
 
 //MARK:- Admob BannerView Delegate
 extension MissionInProgressViewController: GADBannerViewDelegate {
@@ -394,7 +500,7 @@ class BingoCollectionViewCell: UICollectionViewCell {
     
     let imageView: UIImageView = {
         let image = UIImageView()
-        image.image = UIImage(named: "medalImage")//thumbsUpImage, checkMarkImage, medalImage
+        image.image = UIImage(named: "bingoImage2")//thumbsUpImage, checkMarkImage, medalImage
         //＠設定画面でスタンプのデザインを選べるようにしたい
         return image
     }()
