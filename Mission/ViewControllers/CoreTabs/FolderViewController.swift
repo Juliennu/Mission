@@ -61,8 +61,8 @@ class FolderViewController: UIViewController {
                 for document in querySnapshot!.documents {
 //                    print("Firestoreから情報を取得しました！", "\(document.documentID) => \(document.data())")
                     //Firestoreから特定のフィールドのみを抜き出す。nilチェック
-                    guard let bingoSheetTitle = document.get("bingoSheetTitle") else { return }
-                    titleArray.append(bingoSheetTitle as! String)//Any型をString型に変換
+                    guard let title = document.get("title") else { return }
+                    titleArray.append(title as! String)//Any型をString型に変換
                     
                     //ビンゴシートを作成日順に並び替え
 //                    guard let createdAt =  document.get("createdAt") else { return }

@@ -177,6 +177,8 @@ class MissionInProgressViewController: UIViewController {
         
         let activityViewController = UIActivityViewController(activityItems: ["ビンゴミッションに挑戦中！", screenShotImage], applicationActivities: nil)
         self.present(activityViewController, animated: true, completion: nil)
+        
+        //@シュミレーター上でimageとして保存しようとするとクラッシュするのを直す
     }
     
     //中断
@@ -190,7 +192,7 @@ class MissionInProgressViewController: UIViewController {
         //Alertを表示
         present(actionSheet, animated: true, completion: nil)
         
-        //@OKだった時のビンゴシート中断処理
+        //@OKだった時のビンゴシート中断処理を実装
         
     }
     
@@ -224,6 +226,8 @@ class MissionInProgressViewController: UIViewController {
     private func setUpBingoStatusLabel() {
         bingoStatusLabel.isHidden = true
         bingoStatusLabel.backgroundColor = .clear
+        //viewを最前面に持ってくる->@最前面に来ない
+        self.view.bringSubviewToFront(bingoStatusLabel)
 //        bingoStatusLabel.layer.cornerRadius = 20
 //        bingoStatusLabel.clipsToBounds = true//この設定を入れないと角丸にならない
     }

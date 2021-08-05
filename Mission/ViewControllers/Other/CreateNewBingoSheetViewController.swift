@@ -14,15 +14,16 @@ class CreateNewBingoSheetViewController: FormViewController {
     
 //    let db = Firestore.firestore()
     
-    let bingosheet = [BingoSheet]()//@今のところ意味なし
+    var bingosheets: BingoSheet?
+    var taskString = "free"
+//    var repeatInterval = ""
+//    var selectedSquare = "3x3"
     
     var bingosheetTitle: String?
-    var selectedSquare = "3x3"
-    var taskString = "Bonus"
     var taskArray = [String]()
     var deadline = Date()
-    var repeatInterval = ""
     var reward = ""
+
    
     
     var saveButton: UIBarButtonItem!
@@ -32,20 +33,26 @@ class CreateNewBingoSheetViewController: FormViewController {
         
         setUpRightBarButtonItem()
         taskArray = [String](repeating: "Bonus", count: 9)
+        bingosheets?.tasks = [String](repeating: "free", count: 9)
+//        bingosheets?.title = "No Title"
+//        bingosheets?.reward = "No Reward"
+        
         
         //Eureka Formの作成
     form
-        +++ Section(header: "", footer: "未入力の場合は「タイトルなし」となります。")//"ビンゴシートの名前を入力してください。"
+        +++ Section(header: "", footer: "未入力の場合は No Title となります。")//"ビンゴシートの名前を入力してください。"
         <<< TextRow() { row in
             row.title = "ビンゴ名"
             row.placeholder = "ビンゴシートの名前を入力"
         }.onChange({ row in
-            self.bingosheetTitle = row.value ?? "タイトルなし"
-//            print(self.bingosheetTitle)
+            self.bingosheets?.title = row.value ?? "No Title"
+            self.bingosheetTitle = row.value ?? "No Title"
+            print(self.bingosheetTitle)
+            print(self.bingosheets?.title)
         })
         
         
-        +++ Section(header: "", footer: "タスクを9つまで入力できます。\n未入力の欄がある場合はボーナスマスになります。")/*"マスの数を選んでください""タスク設定"*/
+        +++ Section(header: "", footer: "タスクを9つまで入力できます。\n未入力の欄はfreeマスになります。")/*"マスの数を選んでください""タスク設定"*/
 //        <<< SegmentedRow<String>() { row in
 //            row.options = ["3x3", "4x4"]
 //            row.value = "3x3"//初期値
@@ -65,81 +72,86 @@ class CreateNewBingoSheetViewController: FormViewController {
             row.title = "タスク1"
             row.placeholder = "タスクを入力"
         }.onChange({row in
-            self.taskString = row.value ?? "Bonus"
+            self.taskString = row.value ?? "free"
+            self.bingosheets?.tasks![0] = self.taskString
             self.taskArray[0] = self.taskString
+            print(self.bingosheets?.tasks![0])
+            print(self.taskArray[0])
         })
         
         <<< TextRow() { row in
             row.title = "タスク2"
             row.placeholder = "タスクを入力"
         }.onChange({row in
-            self.taskString = row.value ?? "Bonus"
-            self.taskArray[1] = self.taskString
+            self.taskString = row.value ?? "free"
+            self.bingosheets?.tasks![1] = self.taskString
         })
         
         <<< TextRow() { row in
             row.title = "タスク3"
             row.placeholder = "タスクを入力"
         }.onChange({row in
-            self.taskString = row.value ?? "Bonus"
-            self.taskArray[2] = self.taskString
+            self.taskString = row.value ?? "free"
+            self.bingosheets?.tasks![2] = self.taskString
         })
         
         <<< TextRow() { row in
             row.title = "タスク4"
             row.placeholder = "タスクを入力"
         }.onChange({row in
-            self.taskString = row.value ?? "Bonus"
-            self.taskArray[3] = self.taskString
+            self.taskString = row.value ?? "free"
+            self.bingosheets?.tasks![3] = self.taskString
         })
         
         <<< TextRow() { row in
             row.title = "タスク5"
             row.placeholder = "タスクを入力"
         }.onChange({row in
-            self.taskString = row.value ?? "Bonus"
-            self.taskArray[4] = self.taskString
+            self.taskString = row.value ?? "free"
+            self.bingosheets?.tasks![4] = self.taskString
         })
         
         <<< TextRow() { row in
             row.title = "タスク6"
             row.placeholder = "タスクを入力"
         }.onChange({row in
-            self.taskString = row.value ?? "Bonus"
-            self.taskArray[5] = self.taskString
+            self.taskString = row.value ?? "free"
+            self.bingosheets?.tasks![5] = self.taskString
         })
         
         <<< TextRow() { row in
             row.title = "タスク7"
             row.placeholder = "タスクを入力"
         }.onChange({row in
-            self.taskString = row.value ?? "Bonus"
-            self.taskArray[6] = self.taskString
+            self.taskString = row.value ?? "free"
+            self.bingosheets?.tasks![6] = self.taskString
         })
         
         <<< TextRow() { row in
             row.title = "タスク8"
             row.placeholder = "タスクを入力"
         }.onChange({row in
-            self.taskString = row.value ?? "Bonus"
-            self.taskArray[7] = self.taskString
+            self.taskString = row.value ?? "free"
+            self.bingosheets?.tasks![7] = self.taskString
         })
         
         <<< TextRow() { row in
             row.title = "タスク9"
             row.placeholder = "タスクを入力"
         }.onChange({row in
-            self.taskString = row.value ?? "Bonus"
-            self.taskArray[8] = self.taskString
+            self.taskString = row.value ?? "free"
+            self.bingosheets?.tasks![8] = self.taskString
         })
         
-        +++ Section(header: "", footer: "未入力の場合は「ごほうびなし」となります。")//"タスク設定"
+        +++ Section(header: "", footer: "未入力の場合は　No Reward となります。")//"タスク設定"
         <<< TextRow() { row in
             row.title = "クリアごほうび"
             row.placeholder = "全クリア時のごほうびを入力"
         }.onChange({ row in
-            self.reward = row.value ?? "ごほうびなし"
-//            print(self.bonus)
+            self.bingosheets?.reward = row.value ?? "No Reward"
+            self.reward = row.value ?? "No Reward"
+            print(self.bingosheets?.reward)
+            print(self.reward)
         })
         
         
@@ -151,21 +163,23 @@ class CreateNewBingoSheetViewController: FormViewController {
                 row.title = "期限"
                 row.value = Date()//＠日本語表示に直したい（2021/7/18）
             }.onChange({ row in
+                self.bingosheets?.deadline = row.value!
                 self.deadline = row.value!
-//                print(self.deadline)
+                print(self.bingosheets?.deadline)
+                print(self.deadline)
             })
             
-            <<< PushRow<RepeatInterval>("繰り返し")/*これがタグ*/ {
-                $0.title = $0.tag
-                $0.options = RepeatInterval.allCases
-                $0.value = .Never//初期値
-            }.onPresent({ (_, vc) in
-                vc.enableDeselection = false
-                vc.dismissOnSelection = false
-            })/*.onChange({ row in
-                self.repeatInterval = row.value
-            })*/
-        
+//            <<< PushRow<RepeatInterval>("繰り返し")/*これがタグ*/ {
+//                $0.title = $0.tag
+//                $0.options = RepeatInterval.allCases
+//                $0.value = .Never//初期値
+//            }.onPresent({ (_, vc) in
+//                vc.enableDeselection = false
+//                vc.dismissOnSelection = false
+//            })/*.onChange({ row in
+//                self.repeatInterval = row.value
+//            })*/
+//
         
         
     }
@@ -183,29 +197,45 @@ class CreateNewBingoSheetViewController: FormViewController {
     
     @objc private func didTapSaveButton() {
         
-        registerBingoSheetToFirestore()
+        addBingoSheetToFirestore()
         navigationController?.popToRootViewController(animated: true)
     }
     
-    
-    private func registerBingoSheetToFirestore() {
-        //Firebaseへの保存処理を書く
-        guard let title = bingosheetTitle else { return }
+    //Firebaseへの保存処理
+    private func addBingoSheetToFirestore() {
+        //nilチェック
+        let title = bingosheets?.title ?? "No Title"
+        let tasks = bingosheets?.tasks ?? [String](repeating: "free", count: 9)
+        let deadLine = bingosheets?.deadline ?? Date()
+        let reward = bingosheets?.reward ?? "No Reward"
         
+//        guard let title = bingosheets?.title else { return }//bingosheetTitle else { return }
+//        guard let tasks = bingosheets?.tasks else { return }
+//        guard let deadLine = bingosheets?.deadline else { return }
+//        guard let reward = bingosheets?.reward else { return }
+        
+//        guard let documentId = bingosheets?.doumentId else { return }
+//        guard let createdAt = bingosheets?.createdAt else { return }
+
         var ref: DocumentReference? = nil
         
         let dogData = [
-            "bingoSheetTitle": title,
-//            "selectedSquare": selectedSquare,
-            "task": taskArray,
-            "deadLine": deadline,
+            "title": title,
+            "tasks": tasks,
+            "deadLine": deadLine,
             "reward": reward,
-            "creatdAt": Timestamp()
+            "createdAt": Timestamp()
+//            "selectedSquare": selectedSquare,
+//            "task": taskArray,
+//            "deadLine": deadline,
+//            "reward": reward,
+//            "creatdAt": Timestamp()
         ] as [String : Any]
-        
-        
 //        print(taskArray)
-        ref = db.collection("bingoSheets") .addDocument(data: dogData) { err in
+        
+        
+        //Firestoreにコレクションを作成
+        ref = db.collection("bingoSheets").addDocument(data: dogData) { err in
             if let err = err {
                 print("データベースへの保存に失敗しました: ", err)
             } else {
@@ -221,15 +251,15 @@ class CreateNewBingoSheetViewController: FormViewController {
     
     
     
-    enum RepeatInterval: String, CaseIterable, CustomStringConvertible {
-        case Never = "しない"
-        case EveryDay = "毎日"
-        case EveryWeek = "毎週"
-        case EveryMonth = "毎月"
-        case EveryYear = "毎年"
-        
-        var description: String { return rawValue }
-    }
+//    enum RepeatInterval: String, CaseIterable, CustomStringConvertible {
+//        case Never = "しない"
+//        case EveryDay = "毎日"
+//        case EveryWeek = "毎週"
+//        case EveryMonth = "毎月"
+//        case EveryYear = "毎年"
+//
+//        var description: String { return rawValue }
+//    }
     
     
     

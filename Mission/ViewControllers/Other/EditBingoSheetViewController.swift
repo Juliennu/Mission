@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 
 class EditBingoSheetViewController: UIViewController {
     
@@ -33,22 +34,23 @@ class EditBingoSheetViewController: UIViewController {
         
         setUpBingoCollectionView()
         addEventListner()
-
-     
+        fetchUserInfoFromFirestore()
+        
     }
     
     //ビンゴシート開始ボタン押下時の挙動
     @objc private func startButtonTapped() {
-        //ビンゴシートの並び順を固定
-        //MissionInprogressVCのビンゴシートを生成？（このタイミング？）
-        //MissionInprogressVCへ遷移
+        //ビンゴシートの内容、タスクの並び順を固定
         
+        //MissionInProgressVCのビンゴシートを生成？（このタイミング？）
+        
+        //MissionInprogressVCへ遷移 -> @クラッシュしてしまうので直す
         let storyboard = UIStoryboard.init(name: "MissionInProgress", bundle: nil)
         let missionInProgressVC = storyboard.instantiateViewController(identifier: "MissionInProgressViewController") as! MissionInProgressViewController
-
+        
         navigationController?.pushViewController(missionInProgressVC, animated: true)
     }
-
+    
     private func setUpBingoCollectionView() {
         bingoCollectionView.delegate = self
         bingoCollectionView.dataSource = self
@@ -67,33 +69,79 @@ class EditBingoSheetViewController: UIViewController {
         //viewにインスタンスを追加
         bingoCollectionView.addGestureRecognizer(longPressGesture)
     }
-
+    
     //collectionViewをドラッグ＆ドロップで並び替えるメソッド
     @objc func handleLongGesture(gesture: UILongPressGestureRecognizer) {
-
+        
         switch gesture.state {
-
+        
         case UIGestureRecognizer.State.began:
             guard let selectedIndexPath = bingoCollectionView.indexPathForItem(at: gesture.location(in: bingoCollectionView)) else {
                 break
             }
             //移動開始
             bingoCollectionView.beginInteractiveMovementForItem(at: selectedIndexPath)
-
+            
         case UIGestureRecognizer.State.changed:
             //移動中
             bingoCollectionView.updateInteractiveMovementTargetPosition(gesture.location(in: gesture.view!))
-
+            
         case UIGestureRecognizer.State.ended:
             //移動終了
             bingoCollectionView.endInteractiveMovement()
-
+            
         default:
             //移動の取消
             bingoCollectionView.cancelInteractiveMovement()
         }
     }
+    
+    
+    private func fetchUserInfoFromFirestore() {
+        //Firestoreからコレクションのすべてのドキュメントを取得する
+        db.collection("bingoSheets").getDocuments() { (snapshots, err) in
+            //非同期処理：記述された順番は関係なく、getDocumentsの処理が完了したらクロージャを実行する
+            if let err = err {
+                print("Firestoreから情報の取得に失敗しました。", err)
+                return
+            }
+            
+            snapshots?.documents.forEach({ (snapshot) in
+                let dic = snapshot.data()
+                let bingoSheet = BingoSheet(dic: dic)
+                bingoSheet.doumentId = snapshot.documentID
+                
+                print(dic)/*
+                 ["tasks": <__NSArrayM 0x168599180>(
+                 free,
+                 free,
+                 free,
+                 free,
+                 free,
+                 free,
+                 free,
+                 free,
+                 free
+                 )
+                 , "createdAt": <FIRTimestamp: seconds=1628154004 nanoseconds=186366000>, "deadLine": <FIRTimestamp: seconds=1628154004 nanoseconds=185819000>, "title": No Title, "reward": No Reward]*/
+                print(bingoSheet)//Mission.BingoSheet
+                print(bingoSheet.doumentId)//Optional("ysKOp9yiElpQjGsLP47B")
+            })
+            
+//            for document in snapshots!.documents {
+//                //                    print("Firestoreから情報を取得しました！", "\(document.documentID) => \(document.data())")
+//                //Firestoreから特定のフィールドのみを抜き出す。nilチェック
+//                guard let bingoSheetTitle = document.get("bingoSheetTitle") else { return }
+//                titleArray.append(bingoSheetTitle as! String)//Any型をString型に変換
+//            }
+            
+            self.bingoCollectionView.reloadData()
+        }
+    }
 }
+
+
+
 
 //MARK: - CollectionView Delegates
 extension EditBingoSheetViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -127,7 +175,7 @@ extension EditBingoSheetViewController: UICollectionViewDelegate, UICollectionVi
     //セルの中身
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = bingoCollectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! EditBingoCollectionViewCell
-//        cell.taskLabel.text = tasks[indexPath.section][indexPath.row]//@Firebaseからデータを持ってきたい
+        //        cell.taskLabel.text = tasks[indexPath.section][indexPath.row]//@Firebaseからデータを持ってきたい
         cell.taskLabel.text = tasks[indexPath.row]
         return cell
     }
@@ -139,11 +187,15 @@ extension EditBingoSheetViewController: UICollectionViewDelegate, UICollectionVi
         print(cell)//Optional(<Mission.EditBingoCollectionViewCell: 0x13d8dc830; baseClass = UICollectionViewCell; frame = (0 0; 116.667 116.667); layer = <CALayer: 0x6000025a7be0>>)
     }
     
-//    このメソッドを実装していなくても、collectionView(_:moveItemAt:to:)メソッドを実装していれば、コレクションビューはすべてのアイテムの並び替えを許可します。
-//    func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
-//        return true
-//    }
-
+    
+    
+    
+    
+    //    このメソッドを実装していなくても、collectionView(_:moveItemAt:to:)メソッドを実装していれば、コレクションビューはすべてのアイテムの並び替えを許可します。
+    //    func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
+    //        return true
+    //    }
+    
     //cellの移動
     func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         let tempTask = tasks.remove(at: sourceIndexPath.item)
@@ -157,7 +209,7 @@ extension EditBingoSheetViewController: UICollectionViewDelegate, UICollectionVi
 //MARK: - EditBingoCollectionViewCell
 
 class EditBingoCollectionViewCell: UICollectionViewCell {
-
+    
     
     let taskLabel: UILabel = {
         let label = UILabel()
@@ -168,7 +220,7 @@ class EditBingoCollectionViewCell: UICollectionViewCell {
         //lavelを折り返して全文表示
         label.lineBreakMode = .byWordWrapping//単語単位で区切って改行
         label.numberOfLines = 0//最大制限なし（必要なだけ行数を使用）
-//        label.backgroundColor = .yellow
+        //        label.backgroundColor = .yellow
         label.backgroundColor = .clear
         
         return label
@@ -183,7 +235,7 @@ class EditBingoCollectionViewCell: UICollectionViewCell {
         
         self.layer.borderWidth = 1.0
         self.layer.borderColor = UIColor.systemGray.cgColor
-    
+        
         self.layer.backgroundColor = UIColor.yellow.cgColor
         
         
