@@ -24,7 +24,7 @@ class EditBingoSheetViewController: UIViewController {
     ]
     
     let layout = UICollectionViewFlowLayout()
-    
+    let db = Firestore.firestore()
     
     
     override func viewDidLoad() {
@@ -34,7 +34,7 @@ class EditBingoSheetViewController: UIViewController {
         
         setUpBingoCollectionView()
         addEventListner()
-        fetchUserInfoFromFirestore()
+        fetchBingosheetInfoFromFirestore()
         
     }
     
@@ -57,8 +57,8 @@ class EditBingoSheetViewController: UIViewController {
         bingoCollectionView.register(EditBingoCollectionViewCell.self, forCellWithReuseIdentifier: "cellId")
         bingoCollectionView.backgroundColor = .clear
         
-        bingoCollectionView.layer.borderWidth = 1.0
-        bingoCollectionView.layer.borderColor = UIColor.systemGray2.cgColor
+        bingoCollectionView.layer.borderWidth = 0
+//        bingoCollectionView.layer.borderColor = UIColor.clear.cgColor//UIColor.systemGray2.cgColor
         
         bingoCollectionView.collectionViewLayout = layout
     }
@@ -97,46 +97,92 @@ class EditBingoSheetViewController: UIViewController {
     }
     
     
-    private func fetchUserInfoFromFirestore() {
+    private func fetchBingosheetInfoFromFirestore() {
+        
         //Firestoreからコレクションのすべてのドキュメントを取得する
-        db.collection("bingoSheets").getDocuments() { (snapshots, err) in
+        db.collection("bingoSheets").getDocuments() { (querySnapshot, err) in
             //非同期処理：記述された順番は関係なく、getDocumentsの処理が完了したらクロージャを実行する
             if let err = err {
                 print("Firestoreから情報の取得に失敗しました。", err)
-                return
+            } else {
+                for document in querySnapshot!.documents {
+//                    print("Firestoreから情報を取得しました！", "\(document.documentID) => \(document.data())")
+                    //Firestoreから特定のフィールドのみを抜き出す。nilチェック
+                    guard let title = document.get("title") else { return }
+                    guard let createdAt = document.get("createdAt") else { return }
+                    
+//                    titleArray.append(title as! String)//Any型をString型に変換->@arrayじゃなくてこのまま表示したい
+                    
+                    //ビンゴシートを作成日順に並び替え
+//                    guard let createdAt =  document.get("createdAt") else { return }
+//                    self.titleArray.sort.{ (b1, b2) -> Bool in
+//                        let b1Date = b1
+//                    }
+                }
+
+                self.bingoCollectionView.reloadData()
             }
-            
-            snapshots?.documents.forEach({ (snapshot) in
-                let dic = snapshot.data()
-                let bingoSheet = BingoSheet(dic: dic)
-                bingoSheet.doumentId = snapshot.documentID
-                
-                print(dic)/*
-                 ["tasks": <__NSArrayM 0x168599180>(
-                 free,
-                 free,
-                 free,
-                 free,
-                 free,
-                 free,
-                 free,
-                 free,
-                 free
-                 )
-                 , "createdAt": <FIRTimestamp: seconds=1628154004 nanoseconds=186366000>, "deadLine": <FIRTimestamp: seconds=1628154004 nanoseconds=185819000>, "title": No Title, "reward": No Reward]*/
-                print(bingoSheet)//Mission.BingoSheet
-                print(bingoSheet.doumentId)//Optional("ysKOp9yiElpQjGsLP47B")
-            })
-            
-//            for document in snapshots!.documents {
-//                //                    print("Firestoreから情報を取得しました！", "\(document.documentID) => \(document.data())")
-//                //Firestoreから特定のフィールドのみを抜き出す。nilチェック
-//                guard let bingoSheetTitle = document.get("bingoSheetTitle") else { return }
-//                titleArray.append(bingoSheetTitle as! String)//Any型をString型に変換
-//            }
-            
-            self.bingoCollectionView.reloadData()
         }
+        
+        
+        
+        
+//        db.collection("bingoSheets").addSnapshotListener{ (snapshots, err) in
+//            if let err = err {
+//                print("ビンゴシートの取得に失敗しました", err)
+//                return
+//            }
+//
+//            snapshots?.documentChanges.forEach({ (documentChange) in
+//                switch documentChange.type {
+//                case .added:
+//                    let dic = documentChange.document.data()
+//
+//
+//                case .modified:
+//                    print("Need to restore the data")
+//
+//                case .removed:
+//                    print("nothing to do now...")
+//                }
+//            })
+//        }
+        
+
+//        //Firestoreからコレクションのすべてのドキュメントを取得する
+//        db.collection("bingoSheets").getDocuments() { (snapshots, err) in
+//            //非同期処理：記述された順番は関係なく、getDocumentsの処理が完了したらクロージャを実行する
+//            if let err = err {
+//                print("Firestoreから情報の取得に失敗しました。", err)
+//                return
+//            }
+//
+//            snapshots?.documents.forEach({ (snapshot) in
+//                let dic = snapshot.data()
+//                let bingoSheet = BingoSheet(dic: dic)
+//                bingoSheet.doumentId = snapshot.documentID
+//
+//                print(dic)/*
+//                 ["tasks": <__NSArrayM 0x168599180>(
+//                 free,
+//                 free,
+//                 free,
+//                 free,
+//                 free,
+//                 free,
+//                 free,
+//                 free,
+//                 free
+//                 )
+//                 , "createdAt": <FIRTimestamp: seconds=1628154004 nanoseconds=186366000>, "deadLine": <FIRTimestamp: seconds=1628154004 nanoseconds=185819000>, "title": No Title, "reward": No Reward]*/
+//                print(bingoSheet)//Mission.BingoSheet
+//                print(bingoSheet.doumentId)//Optional("ysKOp9yiElpQjGsLP47B")
+//            })
+//
+//
+//
+//            self.bingoCollectionView.reloadData()
+//        }
     }
 }
 
@@ -236,7 +282,8 @@ class EditBingoCollectionViewCell: UICollectionViewCell {
         self.layer.borderWidth = 1.0
         self.layer.borderColor = UIColor.systemGray.cgColor
         
-        self.layer.backgroundColor = UIColor.yellow.cgColor
+        self.layer.backgroundColor = notDoneUIColor.cgColor//UIColor.yellow.cgColor
+        self.layer.cornerRadius = 8.0
         
         
         

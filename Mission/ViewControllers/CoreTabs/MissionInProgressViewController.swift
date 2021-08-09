@@ -248,8 +248,8 @@ class MissionInProgressViewController: UIViewController {
         bingoCollectionView.register(BingoCollectionViewCell.self, forCellWithReuseIdentifier: "cellId")
         bingoCollectionView.backgroundColor = .clear
         
-        bingoCollectionView.layer.borderWidth = 1.0
-        bingoCollectionView.layer.borderColor = UIColor.systemGray2.cgColor
+        bingoCollectionView.layer.borderWidth = 0.0
+//        bingoCollectionView.layer.borderColor = UIColor.systemGray2.cgColor
         
         bingoCollectionView.collectionViewLayout = layout
     }
@@ -333,6 +333,7 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
         bingoStatusLabel.isHidden = true
     
         //セルタップ時にtrue/falseを切り替え、trueの時backgroundColorを灰色にする
+        //未完了タスクセル
         if taskIsDone == false {
             tasksAreDone[indexPath.section][indexPath.row] = true
             cell?.backgroundColor = UIColor.black.withAlphaComponent(0.15)//薄い黒色
@@ -340,10 +341,10 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
             
             cell?.isHighlighted = true
             taskIsDoneSoundPlay()
-            
+        //完了タスクセル
         } else {
             tasksAreDone[indexPath.section][indexPath.row] = false
-            cell?.backgroundColor = .yellow
+            cell?.backgroundColor? = notDoneUIColor//.yellow
             cell?.isHighlighted = false
             taskIsUndoneSoundPlay()
         }
@@ -540,8 +541,8 @@ class BingoCollectionViewCell: UICollectionViewCell {
         self.layer.borderWidth = 1.0
         self.layer.borderColor = UIColor.systemGray.cgColor
     
-        self.layer.backgroundColor = UIColor.yellow.cgColor
-        
+        self.layer.backgroundColor = notDoneUIColor.cgColor//UIColor.yellow.cgColor
+        self.layer.cornerRadius = 8.0
         
         
     }

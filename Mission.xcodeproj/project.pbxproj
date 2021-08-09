@@ -25,6 +25,7 @@
 		1A8393BC269D85D900904EC4 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 1A8393BB269D85D900904EC4 /* FirebaseAuth */; };
 		1A8393BE269D85D900904EC4 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 1A8393BD269D85D900904EC4 /* FirebaseFirestore */; };
 		1A8393C0269D85D900904EC4 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 1A8393BF269D85D900904EC4 /* FirebaseDatabase */; };
+		1A984DBE26C0F37400DC5095 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A984DBD26C0F37400DC5095 /* UIColor.swift */; };
 		1AC54A6626B77F930016E08E /* Something.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC54A6526B77F930016E08E /* Something.swift */; };
 		1AC54A6826B90D190016E08E /* add-folder.png in Resources */ = {isa = PBXBuildFile; fileRef = 1AC54A6726B90D190016E08E /* add-folder.png */; };
 		1AD3275126BADD8B0025F630 /* BingoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD3275026BADD8B0025F630 /* BingoCollectionViewCell.swift */; };
@@ -61,6 +62,7 @@
 		1A487C9326B05DF2000CC727 /* huin.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = huin.mp3; sourceTree = "<group>"; };
 		1A487C9526B05F8C000CC727 /* piko.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = piko.mp3; sourceTree = "<group>"; };
 		1A487C9726B05FF0000CC727 /* pioooin.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = pioooin.mp3; sourceTree = "<group>"; };
+		1A984DBD26C0F37400DC5095 /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		1AC54A6526B77F930016E08E /* Something.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Something.swift; sourceTree = "<group>"; };
 		1AC54A6726B90D190016E08E /* add-folder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add-folder.png"; sourceTree = "<group>"; };
 		1AD3275026BADD8B0025F630 /* BingoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BingoCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -145,6 +147,14 @@
 			path = Sounds;
 			sourceTree = "<group>";
 		};
+		1A984DBC26C0F34500DC5095 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				1A984DBD26C0F37400DC5095 /* UIColor.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		1AD3274F26BADD1E0025F630 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -174,6 +184,7 @@
 		1AF53D7526981AB000124197 /* Mission */ = {
 			isa = PBXGroup;
 			children = (
+				1A984DBC26C0F34500DC5095 /* Extensions */,
 				1A487C8726B052F8000CC727 /* Resources */,
 				1AF53D9D269AB0E800124197 /* Models */,
 				1AD3274F26BADD1E0025F630 /* View */,
@@ -407,6 +418,7 @@
 				1AF53D98269AB04000124197 /* LoginViewController.swift in Sources */,
 				1AE1456F26A0630F000D3E7E /* BingoLogic.swift in Sources */,
 				1A487C8626B050A1000CC727 /* Sound.swift in Sources */,
+				1A984DBE26C0F37400DC5095 /* UIColor.swift in Sources */,
 				1AE1457126A123A7000D3E7E /* AppTrackingTransparency.swift in Sources */,
 				1AF53D7926981AB000124197 /* SceneDelegate.swift in Sources */,
 				1AF53D9226982DD400124197 /* SettingViewController.swift in Sources */,

@@ -25,7 +25,12 @@ class FolderViewController: UIViewController {
         createAnonymousUserToFirestore()
     }
     
-//    var bingosheet = [BingoSheet]()
+    var bingosheets = [BingoSheet]()
+    let bingosheet = BingoSheet(dic: ["createdAt": Timestamp()])
+    
+    var titleArray = [String]()//@配列なので順番がぐちゃぐちゃになってしまう。配列にしない or createdAtで作成日順に並び替えする
+    let db = Firestore.firestore()
+
 
     
     
@@ -49,8 +54,18 @@ class FolderViewController: UIViewController {
         readDataFromFirestore()
     }
     
-    //Firestore
+    //Firestoreからデータの読み込み
     public func readDataFromFirestore() {
+        
+//        guard let documentId = bingosheet.doumentId else { return }
+//        db.collection("bingoSheets").document(documentId).addSnapshotListener{ (snapshots, err) in
+//            if let err = err {
+//                print("ビンゴシートの取得に失敗しました", err)
+//                return
+//            }
+//            snapshots.documentChanges
+//        }
+        
 
         //Firestoreからコレクションのすべてのドキュメントを取得する
         db.collection("bingoSheets").getDocuments() { (querySnapshot, err) in
@@ -60,11 +75,22 @@ class FolderViewController: UIViewController {
             } else {
                 for document in querySnapshot!.documents {
 //                    print("Firestoreから情報を取得しました！", "\(document.documentID) => \(document.data())")
-                    //Firestoreから特定のフィールドのみを抜き出す。nilチェック
-                    guard let title = document.get("title") else { return }
-                    titleArray.append(title as! String)//Any型をString型に変換
-                    
-                    //ビンゴシートを作成日順に並び替え
+                    //Firestoreから特定のフィールドのみを抜き出す。
+                    let title = document.get("title") as! String//Any型をString型に変換
+                    let tasks = document.get("tasks") as! [String]
+                    let reward = document.get("reward") as! String
+                    let deadLine = document.get("deadLine")
+                    let createdAt = document.get("createdAt")
+                    let documentId = document.documentID
+
+
+//                    self.bingosheets.append()
+
+
+//                    self.bingosheet.append(title as! BingoSheet)
+                    self.titleArray.append(title)//@arrayじゃなくてこのまま表示したい
+
+                    //@ビンゴシートを作成日順に昇順で並べたい
 //                    guard let createdAt =  document.get("createdAt") else { return }
 //                    self.titleArray.sort.{ (b1, b2) -> Bool in
 //                        let b1Date = b1
@@ -129,6 +155,7 @@ extension FolderViewController: UITableViewDelegate, UITableViewDataSource {
     //cellの数
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return titleArray.count
+//        return bingosheet.count
         
     }
     
@@ -136,6 +163,7 @@ extension FolderViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath)
         cell.textLabel?.text = titleArray[indexPath.row]//bingosheet[indexPath.row].title
+//        cell.textLabel?.text = bingosheet[indexPath.row].title
         return cell
     }
     
@@ -151,11 +179,23 @@ extension FolderViewController: UITableViewDelegate, UITableViewDataSource {
     //cell編集
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
-        //＠Firestoreから削除
+//        guard let documentId = bingosheet.doumentId else { return }
         
-        //tableViewCellの削除
-        tableView.deleteRows(at: [indexPath], with: .automatic)
+        //Firestoreから削除
+        db.collection("bingoSheets").document(/*documentIdを指定*/).delete() { err in//＠タップしたセルのdocumentIdを取得して指定したい
+            if let err = err {
+                print("ビンゴシートの削除に失敗しました", err)
+            } else {
+                print("ビンゴシートを削除しました！")
+                self.titleArray.remove(at: indexPath.row)
+//                self.bingosheet.remove(at: indexPath.row)
+                //tableViewCellの削除
+                tableView.deleteRows(at: [indexPath], with: .automatic)
+            }
+            
+        }
     }
+    
     
     //cellの編集スタイル
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
@@ -166,8 +206,8 @@ extension FolderViewController: UITableViewDelegate, UITableViewDataSource {
             return .none
         }
     }
-    
 }
+
 
 extension FolderViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
@@ -180,5 +220,4 @@ extension FolderViewController: UISearchBarDelegate {
             return
         }
     }
-    
 }

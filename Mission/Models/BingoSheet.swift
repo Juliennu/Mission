@@ -12,15 +12,16 @@ import Firebase
 public class BingoSheet {
 
     let createdAt: Timestamp
+    var doumentId: String?//これもletな気がする
 
     var title: String?
     var deadline: Date?//ビンゴシートごとに期限を設定
     var reward: String?
     var tasks: [String]?
-    var doumentId: String?
+    
     var isDone: Bool?//ビンゴシート全体の達成状況(全て完了か否か)
 
-    //イニシャライザーは定数にのみ
+    //イニシャライザーは定数にのみ?
     init(dic: [String: Any]) {
         self.createdAt = dic["createdAt"] as? Timestamp ?? Timestamp()
 //        self.title = dic["title"] as? String ?? ""

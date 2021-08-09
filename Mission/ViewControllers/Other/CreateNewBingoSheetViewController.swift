@@ -12,17 +12,17 @@ import Firebase
 class CreateNewBingoSheetViewController: FormViewController {
     
     
-//    let db = Firestore.firestore()
-    
-    var bingosheets: BingoSheet?
+    let db = Firestore.firestore()
+    let bingosheet = BingoSheet(dic: ["createdAt" : Timestamp()])
+//    var bingosheets: BingoSheet?
     var taskString = "free"
 //    var repeatInterval = ""
 //    var selectedSquare = "3x3"
     
-    var bingosheetTitle: String?
-    var taskArray = [String]()
-    var deadline = Date()
-    var reward = ""
+//    var bingosheetTitle: String?
+//    var taskArray = [String]()
+//    var deadline = Date()
+//    var reward = ""
 
    
     
@@ -32,8 +32,8 @@ class CreateNewBingoSheetViewController: FormViewController {
         super.viewDidLoad()
         
         setUpRightBarButtonItem()
-        taskArray = [String](repeating: "Bonus", count: 9)
-        bingosheets?.tasks = [String](repeating: "free", count: 9)
+//        taskArray = [String](repeating: "free", count: 9)
+        bingosheet.tasks = [String](repeating: "free", count: 9)
 //        bingosheets?.title = "No Title"
 //        bingosheets?.reward = "No Reward"
         
@@ -45,14 +45,14 @@ class CreateNewBingoSheetViewController: FormViewController {
             row.title = "ビンゴ名"
             row.placeholder = "ビンゴシートの名前を入力"
         }.onChange({ row in
-            self.bingosheets?.title = row.value ?? "No Title"
-            self.bingosheetTitle = row.value ?? "No Title"
-            print(self.bingosheetTitle)
-            print(self.bingosheets?.title)
+            self.bingosheet.title = row.value ?? "No Title"
+//            self.bingosheetTitle = row.value ?? "No Title"
+//            print(self.bingosheetTitle)
+//            print(self.bingosheets.title)
         })
         
         
-        +++ Section(header: "", footer: "タスクを9つまで入力できます。\n未入力の欄はfreeマスになります。")/*"マスの数を選んでください""タスク設定"*/
+        +++ Section(header: "", footer: "タスクを9つまで入力できます。\n未入力の欄はfreeマスとなります。")/*"マスの数を選んでください""タスク設定"*/
 //        <<< SegmentedRow<String>() { row in
 //            row.options = ["3x3", "4x4"]
 //            row.value = "3x3"//初期値
@@ -73,10 +73,10 @@ class CreateNewBingoSheetViewController: FormViewController {
             row.placeholder = "タスクを入力"
         }.onChange({row in
             self.taskString = row.value ?? "free"
-            self.bingosheets?.tasks![0] = self.taskString
-            self.taskArray[0] = self.taskString
-            print(self.bingosheets?.tasks![0])
-            print(self.taskArray[0])
+            self.bingosheet.tasks![0] = self.taskString
+//            self.taskArray[0] = self.taskString
+//            print(self.bingosheets.tasks![0])
+//            print(self.taskArray[0])
         })
         
         <<< TextRow() { row in
@@ -84,7 +84,7 @@ class CreateNewBingoSheetViewController: FormViewController {
             row.placeholder = "タスクを入力"
         }.onChange({row in
             self.taskString = row.value ?? "free"
-            self.bingosheets?.tasks![1] = self.taskString
+            self.bingosheet.tasks![1] = self.taskString
         })
         
         <<< TextRow() { row in
@@ -92,7 +92,7 @@ class CreateNewBingoSheetViewController: FormViewController {
             row.placeholder = "タスクを入力"
         }.onChange({row in
             self.taskString = row.value ?? "free"
-            self.bingosheets?.tasks![2] = self.taskString
+            self.bingosheet.tasks![2] = self.taskString
         })
         
         <<< TextRow() { row in
@@ -100,7 +100,7 @@ class CreateNewBingoSheetViewController: FormViewController {
             row.placeholder = "タスクを入力"
         }.onChange({row in
             self.taskString = row.value ?? "free"
-            self.bingosheets?.tasks![3] = self.taskString
+            self.bingosheet.tasks![3] = self.taskString
         })
         
         <<< TextRow() { row in
@@ -108,7 +108,7 @@ class CreateNewBingoSheetViewController: FormViewController {
             row.placeholder = "タスクを入力"
         }.onChange({row in
             self.taskString = row.value ?? "free"
-            self.bingosheets?.tasks![4] = self.taskString
+            self.bingosheet.tasks![4] = self.taskString
         })
         
         <<< TextRow() { row in
@@ -116,7 +116,7 @@ class CreateNewBingoSheetViewController: FormViewController {
             row.placeholder = "タスクを入力"
         }.onChange({row in
             self.taskString = row.value ?? "free"
-            self.bingosheets?.tasks![5] = self.taskString
+            self.bingosheet.tasks![5] = self.taskString
         })
         
         <<< TextRow() { row in
@@ -124,7 +124,7 @@ class CreateNewBingoSheetViewController: FormViewController {
             row.placeholder = "タスクを入力"
         }.onChange({row in
             self.taskString = row.value ?? "free"
-            self.bingosheets?.tasks![6] = self.taskString
+            self.bingosheet.tasks![6] = self.taskString
         })
         
         <<< TextRow() { row in
@@ -132,7 +132,7 @@ class CreateNewBingoSheetViewController: FormViewController {
             row.placeholder = "タスクを入力"
         }.onChange({row in
             self.taskString = row.value ?? "free"
-            self.bingosheets?.tasks![7] = self.taskString
+            self.bingosheet.tasks![7] = self.taskString
         })
         
         <<< TextRow() { row in
@@ -140,7 +140,7 @@ class CreateNewBingoSheetViewController: FormViewController {
             row.placeholder = "タスクを入力"
         }.onChange({row in
             self.taskString = row.value ?? "free"
-            self.bingosheets?.tasks![8] = self.taskString
+            self.bingosheet.tasks![8] = self.taskString
         })
         
         +++ Section(header: "", footer: "未入力の場合は　No Reward となります。")//"タスク設定"
@@ -148,10 +148,10 @@ class CreateNewBingoSheetViewController: FormViewController {
             row.title = "クリアごほうび"
             row.placeholder = "全クリア時のごほうびを入力"
         }.onChange({ row in
-            self.bingosheets?.reward = row.value ?? "No Reward"
-            self.reward = row.value ?? "No Reward"
-            print(self.bingosheets?.reward)
-            print(self.reward)
+            self.bingosheet.reward = row.value ?? "No Reward"
+//            self.reward = row.value ?? "No Reward"
+//            print(self.bingosheets.reward)
+//            print(self.reward)
         })
         
         
@@ -163,10 +163,10 @@ class CreateNewBingoSheetViewController: FormViewController {
                 row.title = "期限"
                 row.value = Date()//＠日本語表示に直したい（2021/7/18）
             }.onChange({ row in
-                self.bingosheets?.deadline = row.value!
-                self.deadline = row.value!
-                print(self.bingosheets?.deadline)
-                print(self.deadline)
+                self.bingosheet.deadline = row.value!
+//                self.deadline = row.value!
+//                print(self.bingosheets.deadline)
+//                print(self.deadline)
             })
             
 //            <<< PushRow<RepeatInterval>("繰り返し")/*これがタグ*/ {
@@ -199,15 +199,16 @@ class CreateNewBingoSheetViewController: FormViewController {
         
         addBingoSheetToFirestore()
         navigationController?.popToRootViewController(animated: true)
+
     }
     
     //Firebaseへの保存処理
     private func addBingoSheetToFirestore() {
         //nilチェック
-        let title = bingosheets?.title ?? "No Title"
-        let tasks = bingosheets?.tasks ?? [String](repeating: "free", count: 9)
-        let deadLine = bingosheets?.deadline ?? Date()
-        let reward = bingosheets?.reward ?? "No Reward"
+        let title = bingosheet.title ?? "No Title"
+        let tasks = bingosheet.tasks ?? [String](repeating: "free", count: 9)
+        let deadLine = bingosheet.deadline ?? Date()
+        let reward = bingosheet.reward ?? "No Reward"
         
 //        guard let title = bingosheets?.title else { return }//bingosheetTitle else { return }
 //        guard let tasks = bingosheets?.tasks else { return }
@@ -243,7 +244,6 @@ class CreateNewBingoSheetViewController: FormViewController {
                 print("データベースへの保存に成功しました: ", ref!.documentID)
             }
         }
-        
     }
     
     
