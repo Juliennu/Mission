@@ -44,7 +44,7 @@ public class BingoSheet {
         self.createdAt = document.get("createdAt") as? Timestamp ?? Timestamp()
         self.documentId = document.documentID
         self.title = document.get("title") as? String ?? ""
-        self.deadline = document.get("deadLine") as? Date ?? Date()
+        self.deadline = document.get("deadLine") as? Date ?? Date()//Date型への変換にミスったら今日の日付になってしまう
         self.reward = document.get("reward") as? String ?? ""
         self.tasks = document.get("tasks") as? [String] ?? [String]()
     }

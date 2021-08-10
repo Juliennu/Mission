@@ -193,15 +193,12 @@ extension FolderViewController: UITableViewDelegate, UITableViewDataSource {
         
         //選択したセルのドキュメントIDを取得
         guard let documentId = bingosheets[indexPath.row].documentId else { return }
-//        guard let documentId = bingosheet.doumentId else { return }
-        
         //documentIdを指定してFirestoreから削除
         db.collection("bingoSheets").document(documentId).delete() { err in
             if let err = err {
                 print("ビンゴシートの削除に失敗しました", err)
             } else {
                 print("ビンゴシートを削除しました！")
-                
                 //bingosheet配列から削除
                 self.bingosheets.remove(at: indexPath.row)
 //                self.titleArray.remove(at: indexPath.row)

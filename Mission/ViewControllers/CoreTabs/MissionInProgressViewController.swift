@@ -34,6 +34,9 @@ class MissionInProgressViewController: UIViewController {
         ["ふるさと納税", "単語帳10,000ページ", "ドラッグストアでシャンプーを買った後にスーパーでパイナップルを買う"]
     ]
     
+    //実行中のビンゴを補完する配列
+    var bingoSheets = [BingoSheet]()
+    
     //タスクの完了状況を管理する二次元配列
     var tasksAreDone = [[Bool]]()
     
@@ -318,6 +321,10 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
     //セルの中身
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = bingoCollectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! BingoCollectionViewCell
+        //        //freeマスの時はイラストを表示
+        //        if bingosheet!.tasks![indexPath.row] == "free" {
+        //            cell.
+        //        } else {
         cell.taskLabel.text = tasks[indexPath.section][indexPath.row]//@Firebaseからデータを持ってきたい
         return cell
     }
