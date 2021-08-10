@@ -12,10 +12,10 @@ import Firebase
 public class BingoSheet {
 
     let createdAt: Timestamp
-    var doumentId: String?//これもletな気がする
+    let documentId: String?
 
     var title: String?
-    var deadline: Date?//ビンゴシートごとに期限を設定
+    var deadline: Date?//Timestamp?
     var reward: String?
     var tasks: [String]?
     
@@ -24,13 +24,38 @@ public class BingoSheet {
     //イニシャライザーは定数にのみ?
     init(dic: [String: Any]) {
         self.createdAt = dic["createdAt"] as? Timestamp ?? Timestamp()
+        self.documentId = dic["documentId"] as? String ?? ""
 //        self.title = dic["title"] as? String ?? ""
 //        self.deadline = dic["deadline"] as? Date ?? Date()
-        
 //        self.reward = dic["reward"] as? String ?? ""
 //        self.tasks = dic["tasks"] as? [String] ??  [String]()
     }
+    
+//    init(document: [String: Any]) {
+//        self.createdAt = document["createdAt"] as? Timestamp ?? Timestamp()
+//        self.documentId = document["documentId"] as? String ?? ""
+//        self.title = document["title"] as? String ?? ""
+//        self.deadline = document["deadline"] as? Date ?? Date()
+//        self.reward = document["reward"] as? String ?? ""
+//        self.tasks = document["tasks"] as? [String] ??  [String]()
+//    }
+    
+    init(document: QueryDocumentSnapshot) {
+        self.createdAt = document.get("createdAt") as? Timestamp ?? Timestamp()
+        self.documentId = document.documentID
+        self.title = document.get("title") as? String ?? ""
+        self.deadline = document.get("deadLine") as? Date ?? Date()
+        self.reward = document.get("reward") as? String ?? ""
+        self.tasks = document.get("tasks") as? [String] ?? [String]()
+    }
 }
+
+//let title = document.get("title") as! String//Any型をString型に変換
+//let tasks = document.get("tasks") as! [String]
+//let reward = document.get("reward") as! String
+//let deadLine = document.get("deadLine")
+//let createdAt = document.get("createdAt")
+//let documentId = document.documentID
 
 
 //    enum BingoSheetType {

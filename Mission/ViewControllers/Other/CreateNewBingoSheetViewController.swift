@@ -13,7 +13,7 @@ class CreateNewBingoSheetViewController: FormViewController {
     
     
     let db = Firestore.firestore()
-    let bingosheet = BingoSheet(dic: ["createdAt" : Timestamp()])
+    let bingosheet = BingoSheet(dic: ["createdAt": Timestamp(), "documentId": String.self])
 //    var bingosheets: BingoSheet?
     var taskString = "free"
 //    var repeatInterval = ""
@@ -204,10 +204,12 @@ class CreateNewBingoSheetViewController: FormViewController {
     
     //Firebaseへの保存処理
     private func addBingoSheetToFirestore() {
+        
+        
         //nilチェック
         let title = bingosheet.title ?? "No Title"
         let tasks = bingosheet.tasks ?? [String](repeating: "free", count: 9)
-        let deadLine = bingosheet.deadline ?? Date()
+        let deadline = bingosheet.deadline ?? Date()//Timestamp()
         let reward = bingosheet.reward ?? "No Reward"
         
 //        guard let title = bingosheets?.title else { return }//bingosheetTitle else { return }
@@ -223,7 +225,7 @@ class CreateNewBingoSheetViewController: FormViewController {
         let dogData = [
             "title": title,
             "tasks": tasks,
-            "deadLine": deadLine,
+            "deadline": deadline,
             "reward": reward,
             "createdAt": Timestamp()
 //            "selectedSquare": selectedSquare,

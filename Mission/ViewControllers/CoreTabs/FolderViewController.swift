@@ -26,9 +26,9 @@ class FolderViewController: UIViewController {
     }
     
     var bingosheets = [BingoSheet]()
-    let bingosheet = BingoSheet(dic: ["createdAt": Timestamp()])
+//    let bingosheet = BingoSheet(dic: ["createdAt": Timestamp()])
     
-    var titleArray = [String]()//@配列なので順番がぐちゃぐちゃになってしまう。配列にしない or createdAtで作成日順に並び替えする
+//    var titleArray = [String]()//@配列なので順番がぐちゃぐちゃになってしまう。配列にしない or createdAtで作成日順に並び替えする
     let db = Firestore.firestore()
 
 
@@ -50,7 +50,8 @@ class FolderViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        titleArray = []//@画面表示ごとに初期化、Firebaseと通信しているのであとでなんとかしたい
+        bingosheets = []//@画面表示ごとに初期化、Firebaseと通信しているので通信回数が多い。削除や追加時にのみFirestoreと通信するようにしたい
+//        titleArray = []
         readDataFromFirestore()
     }
     
@@ -75,26 +76,35 @@ class FolderViewController: UIViewController {
             } else {
                 for document in querySnapshot!.documents {
 //                    print("Firestoreから情報を取得しました！", "\(document.documentID) => \(document.data())")
+                    
+                    let bingosheet = BingoSheet(document: document)
+                    self.bingosheets.append(bingosheet)
                     //Firestoreから特定のフィールドのみを抜き出す。
-                    let title = document.get("title") as! String//Any型をString型に変換
-                    let tasks = document.get("tasks") as! [String]
-                    let reward = document.get("reward") as! String
-                    let deadLine = document.get("deadLine")
-                    let createdAt = document.get("createdAt")
-                    let documentId = document.documentID
+//                    let title = document.get("title") as! String//Any型をString型に変換
+//                    let tasks = document.get("tasks") as! [String]
+//                    let reward = document.get("reward") as! String
+//                    let deadLine = document.get("deadLine") as! Timestamp
+//                    let createdAt = document.get("createdAt") as! Timestamp
+//                    let documentId = document.documentID//String型
+//                    let deadLineDateValue = deadLine.dateValue()
+//                    print(deadLineDateValue)//deadLine2    Foundation.Date    2058-03-06 02:22:45 UTC
+
+
+                    
 
 
 //                    self.bingosheets.append()
 
 
 //                    self.bingosheet.append(title as! BingoSheet)
-                    self.titleArray.append(title)//@arrayじゃなくてこのまま表示したい
+//                    self.titleArray.append(title)//@arrayじゃなくてこのまま表示したい
 
-                    //@ビンゴシートを作成日順に昇順で並べたい
-//                    guard let createdAt =  document.get("createdAt") else { return }
-//                    self.titleArray.sort.{ (b1, b2) -> Bool in
-//                        let b1Date = b1
-//                    }
+                    //ビンゴシートを作成日順に並び替え(新規ビンゴシートを上に表示する)
+                    self.bingosheets.sort{ (b1, b2) -> Bool in
+                        let b1Date = b1.createdAt.dateValue()
+                        let b2Date = b2.createdAt.dateValue()
+                        return b1Date > b2Date
+                    }
                 }
 
                 self.tableView.reloadData()
@@ -154,16 +164,16 @@ extension FolderViewController: UITableViewDelegate, UITableViewDataSource {
     
     //cellの数
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return titleArray.count
-//        return bingosheet.count
+//        return titleArray.count
+        return bingosheets.count
         
     }
     
     //cellの中身
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath)
-        cell.textLabel?.text = titleArray[indexPath.row]//bingosheet[indexPath.row].title
-//        cell.textLabel?.text = bingosheet[indexPath.row].title
+//        cell.textLabel?.text = titleArray[indexPath.row]//bingosheet[indexPath.row].title
+        cell.textLabel?.text = bingosheets[indexPath.row].title
         return cell
     }
     
@@ -179,16 +189,20 @@ extension FolderViewController: UITableViewDelegate, UITableViewDataSource {
     //cell編集
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
+        //選択したセルのドキュメントIDを取得
+        guard let documentId = bingosheets[indexPath.row].documentId else { return }
 //        guard let documentId = bingosheet.doumentId else { return }
         
-        //Firestoreから削除
-        db.collection("bingoSheets").document(/*documentIdを指定*/).delete() { err in//＠タップしたセルのdocumentIdを取得して指定したい
+        //documentIdを指定してFirestoreから削除
+        db.collection("bingoSheets").document(documentId).delete() { err in
             if let err = err {
                 print("ビンゴシートの削除に失敗しました", err)
             } else {
                 print("ビンゴシートを削除しました！")
-                self.titleArray.remove(at: indexPath.row)
-//                self.bingosheet.remove(at: indexPath.row)
+                
+                //bingosheet配列から削除
+                self.bingosheets.remove(at: indexPath.row)
+//                self.titleArray.remove(at: indexPath.row)
                 //tableViewCellの削除
                 tableView.deleteRows(at: [indexPath], with: .automatic)
             }
@@ -198,14 +212,14 @@ extension FolderViewController: UITableViewDelegate, UITableViewDataSource {
     
     
     //cellの編集スタイル
-    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-        //横スワイプでdeleteをオフにする
-        if tableView.isEditing {
-            return .delete
-        } else {
-            return .none
-        }
-    }
+//    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+//        //横スワイプでdeleteをオフにする
+//        if tableView.isEditing {
+//            return .delete
+//        } else {
+//            return .none
+//        }
+//    }
 }
 
 

@@ -13,6 +13,7 @@ import UIKit
 //let db = Firestore.firestore()
 
 
-let notDoneUIColor = UIColor.rgb(red: 238, green: 179, blue: 66, alpha: 1.0)
+let notDoneUIColor = UIColor.rgb(red: 84, green: 184, blue: 163, alpha: 1.0)
 //UIColor.init(red: 254/255, green: 138/255, blue: 94/255, alpha: 1.0)
 //(red: 238, green: 179, blue: 66, alpha: 1.0)
+//rgb(84, 184, 163)
