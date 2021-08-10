@@ -15,27 +15,33 @@ class EditBingoSheetViewController: UIViewController {
     @IBOutlet weak var rewardLabel: UILabel!
     @IBOutlet weak var deadlineLabel: UILabel!
     
-    let titles = ["死ぬまでにやりたいこと", "デイリーミッション", "週末用"]
-    
-    var tasks = [//@Firebaseから取得したデータを一次元配列にする
-        "洗い物", "洗濯物", "掃除機かけ",
-        "ゴミ出し","手紙を出す", "鳥小屋の掃除",
-        "ふるさと納税", "単語帳10,000ページ", "ドラッグストアでシャンプーを買った後にスーパーでパイナップルを買う"
-    ]
+//    let titles = ["死ぬまでにやりたいこと", "デイリーミッション", "週末用"]
+//
+//    var tasks = [//@Firebaseから取得したデータを一次元配列にする
+//        "洗い物", "洗濯物", "掃除機かけ",
+//        "ゴミ出し","手紙を出す", "鳥小屋の掃除",
+//        "ふるさと納税", "単語帳10,000ページ", "ドラッグストアでシャンプーを買った後にスーパーでパイナップルを買う"
+//    ]
     
     let layout = UICollectionViewFlowLayout()
     let db = Firestore.firestore()
-    
+    var bingosheet: BingoSheet?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "開始", style: .plain, target: self, action: #selector(startButtonTapped))
-        
+
+        setUpView()
         setUpBingoCollectionView()
         addEventListner()
-        fetchBingosheetInfoFromFirestore()
+//        fetchBingosheetInfoFromFirestore()
         
+    }
+    
+    private func setUpView() {
+        titleLabel.text = bingosheet?.title
+        rewardLabel.text = bingosheet?.reward
+//        deadlineLabel.text = bingosheet?.deadline
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "開始", style: .plain, target: self, action: #selector(startButtonTapped))
     }
     
     //ビンゴシート開始ボタン押下時の挙動
@@ -97,93 +103,93 @@ class EditBingoSheetViewController: UIViewController {
     }
     
     
-    private func fetchBingosheetInfoFromFirestore() {
-        
-        //Firestoreからコレクションのすべてのドキュメントを取得する
-        db.collection("bingoSheets").getDocuments() { (querySnapshot, err) in
-            //非同期処理：記述された順番は関係なく、getDocumentsの処理が完了したらクロージャを実行する
-            if let err = err {
-                print("Firestoreから情報の取得に失敗しました。", err)
-            } else {
-                for document in querySnapshot!.documents {
-//                    print("Firestoreから情報を取得しました！", "\(document.documentID) => \(document.data())")
-                    //Firestoreから特定のフィールドのみを抜き出す。nilチェック
-                    guard let title = document.get("title") else { return }
-                    guard let createdAt = document.get("createdAt") else { return }
-                    
-//                    titleArray.append(title as! String)//Any型をString型に変換->@arrayじゃなくてこのまま表示したい
-                    
-                    //ビンゴシートを作成日順に並び替え
-//                    guard let createdAt =  document.get("createdAt") else { return }
-//                    self.titleArray.sort.{ (b1, b2) -> Bool in
-//                        let b1Date = b1
-//                    }
-                }
-
-                self.bingoCollectionView.reloadData()
-            }
-        }
-        
-        
-        
-        
-//        db.collection("bingoSheets").addSnapshotListener{ (snapshots, err) in
-//            if let err = err {
-//                print("ビンゴシートの取得に失敗しました", err)
-//                return
-//            }
+//    private func fetchBingosheetInfoFromFirestore() {
 //
-//            snapshots?.documentChanges.forEach({ (documentChange) in
-//                switch documentChange.type {
-//                case .added:
-//                    let dic = documentChange.document.data()
-//
-//
-//                case .modified:
-//                    print("Need to restore the data")
-//
-//                case .removed:
-//                    print("nothing to do now...")
-//                }
-//            })
-//        }
-        
-
 //        //Firestoreからコレクションのすべてのドキュメントを取得する
-//        db.collection("bingoSheets").getDocuments() { (snapshots, err) in
+//        db.collection("bingoSheets").getDocuments() { (querySnapshot, err) in
 //            //非同期処理：記述された順番は関係なく、getDocumentsの処理が完了したらクロージャを実行する
 //            if let err = err {
 //                print("Firestoreから情報の取得に失敗しました。", err)
-//                return
+//            } else {
+//                for document in querySnapshot!.documents {
+////                    print("Firestoreから情報を取得しました！", "\(document.documentID) => \(document.data())")
+//                    //Firestoreから特定のフィールドのみを抜き出す。nilチェック
+//                    guard let title = document.get("title") else { return }
+//                    guard let createdAt = document.get("createdAt") else { return }
+//
+////                    titleArray.append(title as! String)//Any型をString型に変換->@arrayじゃなくてこのまま表示したい
+//
+//                    //ビンゴシートを作成日順に並び替え
+////                    guard let createdAt =  document.get("createdAt") else { return }
+////                    self.titleArray.sort.{ (b1, b2) -> Bool in
+////                        let b1Date = b1
+////                    }
+//                }
+//
+//                self.bingoCollectionView.reloadData()
 //            }
-//
-//            snapshots?.documents.forEach({ (snapshot) in
-//                let dic = snapshot.data()
-//                let bingoSheet = BingoSheet(dic: dic)
-//                bingoSheet.doumentId = snapshot.documentID
-//
-//                print(dic)/*
-//                 ["tasks": <__NSArrayM 0x168599180>(
-//                 free,
-//                 free,
-//                 free,
-//                 free,
-//                 free,
-//                 free,
-//                 free,
-//                 free,
-//                 free
-//                 )
-//                 , "createdAt": <FIRTimestamp: seconds=1628154004 nanoseconds=186366000>, "deadLine": <FIRTimestamp: seconds=1628154004 nanoseconds=185819000>, "title": No Title, "reward": No Reward]*/
-//                print(bingoSheet)//Mission.BingoSheet
-//                print(bingoSheet.doumentId)//Optional("ysKOp9yiElpQjGsLP47B")
-//            })
-//
-//
-//
-//            self.bingoCollectionView.reloadData()
 //        }
-    }
+//
+//
+//
+//
+////        db.collection("bingoSheets").addSnapshotListener{ (snapshots, err) in
+////            if let err = err {
+////                print("ビンゴシートの取得に失敗しました", err)
+////                return
+////            }
+////
+////            snapshots?.documentChanges.forEach({ (documentChange) in
+////                switch documentChange.type {
+////                case .added:
+////                    let dic = documentChange.document.data()
+////
+////
+////                case .modified:
+////                    print("Need to restore the data")
+////
+////                case .removed:
+////                    print("nothing to do now...")
+////                }
+////            })
+////        }
+//
+//
+////        //Firestoreからコレクションのすべてのドキュメントを取得する
+////        db.collection("bingoSheets").getDocuments() { (snapshots, err) in
+////            //非同期処理：記述された順番は関係なく、getDocumentsの処理が完了したらクロージャを実行する
+////            if let err = err {
+////                print("Firestoreから情報の取得に失敗しました。", err)
+////                return
+////            }
+////
+////            snapshots?.documents.forEach({ (snapshot) in
+////                let dic = snapshot.data()
+////                let bingoSheet = BingoSheet(dic: dic)
+////                bingoSheet.doumentId = snapshot.documentID
+////
+////                print(dic)/*
+////                 ["tasks": <__NSArrayM 0x168599180>(
+////                 free,
+////                 free,
+////                 free,
+////                 free,
+////                 free,
+////                 free,
+////                 free,
+////                 free,
+////                 free
+////                 )
+////                 , "createdAt": <FIRTimestamp: seconds=1628154004 nanoseconds=186366000>, "deadLine": <FIRTimestamp: seconds=1628154004 nanoseconds=185819000>, "title": No Title, "reward": No Reward]*/
+////                print(bingoSheet)//Mission.BingoSheet
+////                print(bingoSheet.doumentId)//Optional("ysKOp9yiElpQjGsLP47B")
+////            })
+////
+////
+////
+////            self.bingoCollectionView.reloadData()
+////        }
+//    }
 }
 
 
@@ -199,7 +205,7 @@ extension EditBingoSheetViewController: UICollectionViewDelegate, UICollectionVi
     
     //セルの数
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 9//tasks[section].count//@Firebaseからデータを持ってきたい
+        return bingosheet!.tasks!.count///9//tasks[section].count//@Firebaseからデータを持ってきたい
     }
     
     //セルのサイズ
@@ -222,14 +228,14 @@ extension EditBingoSheetViewController: UICollectionViewDelegate, UICollectionVi
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = bingoCollectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! EditBingoCollectionViewCell
         //        cell.taskLabel.text = tasks[indexPath.section][indexPath.row]//@Firebaseからデータを持ってきたい
-        cell.taskLabel.text = tasks[indexPath.row]
+        cell.taskLabel.text = bingosheet!.tasks![indexPath.row]//tasks[indexPath.row]
         return cell
     }
     
     //セルタップ時の挙動
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         //＠cellのテキストラベルを編集できるようにしたい
-        let cell = bingoCollectionView.cellForItem(at: indexPath)
+        let cell = bingosheet!.tasks![indexPath.row]//bingoCollectionView.cellForItem(at: indexPath)
         print(cell)//Optional(<Mission.EditBingoCollectionViewCell: 0x13d8dc830; baseClass = UICollectionViewCell; frame = (0 0; 116.667 116.667); layer = <CALayer: 0x6000025a7be0>>)
     }
     
@@ -244,8 +250,9 @@ extension EditBingoSheetViewController: UICollectionViewDelegate, UICollectionVi
     
     //cellの移動
     func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        let tempTask = tasks.remove(at: sourceIndexPath.item)
-        tasks.insert(tempTask, at: destinationIndexPath.item)
+        let tempTask = bingosheet!.tasks!.remove(at: sourceIndexPath.item)//tasks.remove(at: sourceIndexPath.item)
+        bingosheet!.tasks!.insert(tempTask, at: destinationIndexPath.item)
+//        tasks.insert(tempTask, at: destinationIndexPath.item)
     }
     
     

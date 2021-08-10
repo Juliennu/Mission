@@ -182,6 +182,8 @@ extension FolderViewController: UITableViewDelegate, UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: true)
         let storyboard = UIStoryboard.init(name: "EditBingoSheet", bundle: nil)
         let editBingoSheetVC = storyboard.instantiateViewController(withIdentifier: "EditBingoSheetViewController") as! EditBingoSheetViewController
+        //タップされたセルのビンゴシート情報を遷移先の変数に渡す
+        editBingoSheetVC.bingosheet = bingosheets[indexPath.row]
         navigationController?.pushViewController(editBingoSheetVC, animated: true)
        
     }
