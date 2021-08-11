@@ -36,7 +36,10 @@ class EditBingoSheetViewController: UIViewController {
         rewardLabel.text = bingosheet?.reward
         let dateString = dateToString(date: bingosheet!.deadline!)
         deadlineLabel.text = dateString
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "開始", style: .plain, target: self, action: #selector(startButtonTapped))
+        
+        let startButton = UIBarButtonItem(title: "開始", style: .plain, target: self, action: #selector(startButtonTapped))
+        let saveButton = UIBarButtonItem(title: "保存", style: .plain, target: self, action: #selector(saveButtonTapped))
+        navigationItem.rightBarButtonItems = [startButton, saveButton]
     }
     
     //Date型からString型へ変換
@@ -80,6 +83,32 @@ class EditBingoSheetViewController: UIViewController {
             
         }
     }
+    
+    @objc private func saveButtonTapped() {
+        overwriteFirestore()
+    }
+    
+    private func overwriteFirestore() {
+        guard let documentId = bingosheet?.documentId else { return }
+        
+        let dogData = [
+            //ここに編集済みのデータを入れる。ビンゴシートの内容、タスクの並び順を固定。
+            "title": bingosheet!.title!,
+            "tasks": bingosheet!.tasks!,
+            "reward": bingosheet!.reward!,
+            "deadline": bingosheet!.deadline!
+        ] as [String: Any]
+
+        //Firestpreにデータを上書き保存
+        db.collection("bingoSheets").document(documentId).setData(dogData, merge: true) { err in
+            if let err = err {
+                print("Firestoreへの上書きに失敗しました", err)
+            } else {
+                print("Firestoreの情報を上書きしました！", documentId)
+            }
+        }
+    }
+    
     
     private func setUpBingoCollectionView() {
         bingoCollectionView.delegate = self
@@ -175,8 +204,45 @@ extension EditBingoSheetViewController: UICollectionViewDelegate, UICollectionVi
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         //＠cellのテキストラベルを編集できるようにしたい
         let cell = bingosheet!.tasks![indexPath.row]//bingoCollectionView.cellForItem(at: indexPath)
+
+        var alertTextField: UITextField?
         
-        print(cell)//Optional(<Mission.EditBingoCollectionViewCell: 0x13d8dc830; baseClass = UICollectionViewCell; frame = (0 0; 116.667 116.667); layer = <CALayer: 0x6000025a7be0>>)
+        let alert = UIAlertController(
+            title: "タスクを編集",
+            message: "",
+            preferredStyle: UIAlertController.Style.alert)
+        alert.addTextField(
+            configurationHandler: {(textField: UITextField!) in
+                alertTextField = textField
+                textField.text = self.bingosheet!.tasks![indexPath.row]
+                textField.placeholder = cell
+       
+            })
+        alert.addAction(
+            UIAlertAction(
+                title: "Cancel",
+                style: UIAlertAction.Style.cancel,
+                handler: nil))
+        alert.addAction(
+            UIAlertAction(
+                title: "OK",
+                style: UIAlertAction.Style.default) { _ in
+                if let text = alertTextField?.text {
+                    self.bingosheet!.tasks![indexPath.row] = text
+                    //collectionViewの更新
+                    collectionView.reloadData()
+                }
+            }
+        )
+        self.present(alert, animated: true, completion: nil)
+ 
+        
+
+        
+        
+        
+        
+//        print(cell)//Optional(<Mission.EditBingoCollectionViewCell: 0x13d8dc830; baseClass = UICollectionViewCell; frame = (0 0; 116.667 116.667); layer = <CALayer: 0x6000025a7be0>>)
     }
     
     
@@ -202,7 +268,7 @@ class EditBingoCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.textColor = .black
         label.textAlignment = .center
-        label.text = "タスク１"
+        label.text = "free"
         label.clipsToBounds = true
         //lavelを折り返して全文表示
         label.lineBreakMode = .byWordWrapping//単語単位で区切って改行

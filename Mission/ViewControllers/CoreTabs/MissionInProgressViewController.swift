@@ -22,20 +22,20 @@ class MissionInProgressViewController: UIViewController {
     @IBOutlet weak var bannerView: GADBannerView!//Admobを表示
     
     
-//    let viewWidth = UIScreen.main.bounds.size.width
+    //実行中のビンゴを補完する配列
+    var bingoSheets = [BingoSheet]()
     
     let imageNameArray: [String] = ["ashitaka","kaya", "nausicaa", "san", "yupa"]
     
-//    let titles = ["死ぬまでにやりたいこと", "デイリーミッション", "週末用"]
-//
-//    let tasks = [//task arrayは二次元配列にする
-//        ["洗い物", "洗濯物", "掃除機かけ"],
-//        ["ゴミ出し","手紙を出す", "鳥小屋の掃除"],
-//        ["ふるさと納税", "単語帳10,000ページ", "ドラッグストアでシャンプーを買った後にスーパーでパイナップルを買う"]
-//    ]
+    let titles = ["死ぬまでにやりたいこと", "デイリーミッション", "週末用"]
+
+    let tasks = [//task arrayは二次元配列にする
+        ["洗い物", "洗濯物", "掃除機かけ"],
+        ["ゴミ出し","手紙を出す", "鳥小屋の掃除"],
+        ["ふるさと納税", "単語帳10,000ページ", "ドラッグストアでシャンプーを買った後にスーパーでパイナップルを買う"]
+    ]
     
-    //実行中のビンゴを補完する配列
-    var bingoSheets = [BingoSheet]()
+
     
     //タスクの完了状況を管理する二次元配列
     var tasksAreDone = [[Bool]]()
@@ -44,7 +44,7 @@ class MissionInProgressViewController: UIViewController {
     var bingoSheetIsDone = false
     
     let layout = UICollectionViewFlowLayout()
-    //let bingoLogic = BingoLogic(isDone: true, bingoWidth: 3)
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -173,12 +173,22 @@ class MissionInProgressViewController: UIViewController {
     
     //シェア
     @objc func shared() {
-        UIGraphicsBeginImageContextWithOptions(view.frame.size, false, 0.0)//スクリーンショットを撮る座標と縦横幅を指定
+        let size = view.frame.size//スクリーンショットを撮る座標と縦横幅を指定->@AdMobの範囲は外す。
+        UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
         view.drawHierarchy(in: view.frame, afterScreenUpdates: true)
         let screenShotImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!  //スリーンショットがUIImage型で取得できる
         UIGraphicsEndImageContext()
         
-        let activityViewController = UIActivityViewController(activityItems: ["ビンゴミッションに挑戦中！", screenShotImage], applicationActivities: nil)
+        //＠ビンゴシートが完了か否かでメッセージを変える
+        var message = ""
+        if bingoSheetIsDone == false {
+            message = "ビンゴミッションに挑戦中！"
+        } else {
+          message = "ビンゴミッションをクリア☆"
+        }
+        
+        
+        let activityViewController = UIActivityViewController(activityItems: [message, screenShotImage], applicationActivities: nil)
         self.present(activityViewController, animated: true, completion: nil)
         
         //@シュミレーター上でimageとして保存しようとするとクラッシュするのを直す
