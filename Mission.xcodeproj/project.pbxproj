@@ -26,6 +26,9 @@
 		1A8393BE269D85D900904EC4 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 1A8393BD269D85D900904EC4 /* FirebaseFirestore */; };
 		1A8393C0269D85D900904EC4 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 1A8393BF269D85D900904EC4 /* FirebaseDatabase */; };
 		1A984DBE26C0F37400DC5095 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A984DBD26C0F37400DC5095 /* UIColor.swift */; };
+		1A984DE626C3D66E00DC5095 /* TenhamasenFont-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1A984DE526C3D66E00DC5095 /* TenhamasenFont-Regular.otf */; };
+		1A984DEA26C3D88E00DC5095 /* KosugiMaru-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1A984DE926C3D88E00DC5095 /* KosugiMaru-Regular.ttf */; };
+		1A984DEC26C3DA1E00DC5095 /* LightNovelPOP.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1A984DEB26C3DA1E00DC5095 /* LightNovelPOP.otf */; };
 		1AC54A6826B90D190016E08E /* add-folder.png in Resources */ = {isa = PBXBuildFile; fileRef = 1AC54A6726B90D190016E08E /* add-folder.png */; };
 		1AD3275126BADD8B0025F630 /* BingoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD3275026BADD8B0025F630 /* BingoCollectionViewCell.swift */; };
 		1AE1456F26A0630F000D3E7E /* BingoLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE1456E26A0630F000D3E7E /* BingoLogic.swift */; };
@@ -62,6 +65,9 @@
 		1A487C9526B05F8C000CC727 /* piko.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = piko.mp3; sourceTree = "<group>"; };
 		1A487C9726B05FF0000CC727 /* pioooin.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = pioooin.mp3; sourceTree = "<group>"; };
 		1A984DBD26C0F37400DC5095 /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
+		1A984DE526C3D66E00DC5095 /* TenhamasenFont-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TenhamasenFont-Regular.otf"; sourceTree = "<group>"; };
+		1A984DE926C3D88E00DC5095 /* KosugiMaru-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "KosugiMaru-Regular.ttf"; sourceTree = "<group>"; };
+		1A984DEB26C3DA1E00DC5095 /* LightNovelPOP.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = LightNovelPOP.otf; sourceTree = "<group>"; };
 		1AC54A6726B90D190016E08E /* add-folder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add-folder.png"; sourceTree = "<group>"; };
 		1AD3275026BADD8B0025F630 /* BingoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BingoCollectionViewCell.swift; sourceTree = "<group>"; };
 		1AE1456E26A0630F000D3E7E /* BingoLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BingoLogic.swift; sourceTree = "<group>"; };
@@ -123,6 +129,7 @@
 		1A487C8726B052F8000CC727 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				1A984DE226C3D61E00DC5095 /* CustomFont */,
 				1A487C8826B05311000CC727 /* Sounds */,
 				1AF53D7F26981AB200124197 /* Assets.xcassets */,
 			);
@@ -151,6 +158,16 @@
 				1A984DBD26C0F37400DC5095 /* UIColor.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		1A984DE226C3D61E00DC5095 /* CustomFont */ = {
+			isa = PBXGroup;
+			children = (
+				1A984DE526C3D66E00DC5095 /* TenhamasenFont-Regular.otf */,
+				1A984DEB26C3DA1E00DC5095 /* LightNovelPOP.otf */,
+				1A984DE926C3D88E00DC5095 /* KosugiMaru-Regular.ttf */,
+			);
+			path = CustomFont;
 			sourceTree = "<group>";
 		};
 		1AD3274F26BADD1E0025F630 /* View */ = {
@@ -337,6 +354,7 @@
 			files = (
 				1A487C8C26B053D5000CC727 /* ka.mp3 in Resources */,
 				1AF53DA1269AB48700124197 /* GoogleService-Info.plist in Resources */,
+				1A984DEA26C3D88E00DC5095 /* KosugiMaru-Regular.ttf in Resources */,
 				1A487C9426B05DF3000CC727 /* huin.mp3 in Resources */,
 				1AF53DA4269BD59400124197 /* CreateNewBingoSheet.storyboard in Resources */,
 				1AF53DA6269BD62300124197 /* EditBingoSheet.storyboard in Resources */,
@@ -346,8 +364,10 @@
 				1AF53D8026981AB200124197 /* Assets.xcassets in Resources */,
 				1AC54A6826B90D190016E08E /* add-folder.png in Resources */,
 				1A487C9626B05F8D000CC727 /* piko.mp3 in Resources */,
+				1A984DE626C3D66E00DC5095 /* TenhamasenFont-Regular.otf in Resources */,
 				1A487C8E26B053DB000CC727 /* pon.mp3 in Resources */,
 				1A487C8A26B053CE000CC727 /* po.mp3 in Resources */,
+				1A984DEC26C3DA1E00DC5095 /* LightNovelPOP.otf in Resources */,
 				1A487C9826B05FF0000CC727 /* pioooin.mp3 in Resources */,
 				1AF53D7E26981AB000124197 /* Main.storyboard in Resources */,
 			);

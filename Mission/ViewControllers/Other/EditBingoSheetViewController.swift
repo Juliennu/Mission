@@ -105,8 +105,18 @@ class EditBingoSheetViewController: UIViewController {
                 print("Firestoreへの上書きに失敗しました", err)
             } else {
                 print("Firestoreの情報を上書きしました！", documentId)
+                //保存完了アラート表示
+                self.showAlert()
             }
         }
+    }
+    
+    
+    private func showAlert() {
+        let alert = UIAlertController(title: "保存しました", message: "", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alert.addAction(okAction)
+        present(alert, animated: true, completion: nil)
     }
     
     
@@ -235,18 +245,7 @@ extension EditBingoSheetViewController: UICollectionViewDelegate, UICollectionVi
             }
         )
         self.present(alert, animated: true, completion: nil)
- 
-        
-
-        
-        
-        
-        
-//        print(cell)//Optional(<Mission.EditBingoCollectionViewCell: 0x13d8dc830; baseClass = UICollectionViewCell; frame = (0 0; 116.667 116.667); layer = <CALayer: 0x6000025a7be0>>)
     }
-    
-    
-
     
     //cellの移動
     func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
@@ -287,7 +286,7 @@ class EditBingoCollectionViewCell: UICollectionViewCell {
         taskLabel.frame.size = self.frame.size
         
         self.layer.borderWidth = 1.0
-        self.layer.borderColor = UIColor.systemGray.cgColor
+        self.layer.borderColor = bingoCellBorderColor.cgColor//UIColor.systemGray.cgColor
         
         self.layer.backgroundColor = notDoneUIColor.cgColor//UIColor.yellow.cgColor
         self.layer.cornerRadius = 8.0

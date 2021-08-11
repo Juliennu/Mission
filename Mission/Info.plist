@@ -2,6 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>LightNovelPOP.otf</string>
+		<string>TenhamasenFont-Regular.otf</string>
+		<string>KosugiMaru-Regular.ttf</string>
+	</array>
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-4434300298107671~1133508022</string>
 	<key>CFBundleDevelopmentRegion</key>

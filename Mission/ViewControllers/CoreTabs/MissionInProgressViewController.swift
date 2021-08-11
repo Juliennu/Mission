@@ -556,7 +556,7 @@ class BingoCollectionViewCell: UICollectionViewCell {
         imageView.isHidden = true//タスククリア前はイメージ表示しない
         
         self.layer.borderWidth = 1.0
-        self.layer.borderColor = UIColor.systemGray.cgColor
+        self.layer.borderColor = bingoCellBorderColor.cgColor//UIColor.systemGray.cgColor
     
         self.layer.backgroundColor = notDoneUIColor.cgColor//UIColor.yellow.cgColor
         self.layer.cornerRadius = 8.0
