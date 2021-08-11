@@ -162,7 +162,7 @@
         <!--Misson In Progress-->
         <scene sceneID="dbg-hk-gYD">
             <objects>
-                <viewController storyboardIdentifier="MissionInProgress" useStoryboardIdentifierAsRestorationIdentifier="YES" id="NFI-ze-xdO" customClass="MissionInProgressViewController" customModule="Mission" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MissionInProgressViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="NFI-ze-xdO" customClass="MissionInProgressViewController" customModule="Mission" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="H6O-QD-PoY">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -200,7 +200,7 @@
                                 <color key="backgroundColor" systemColor="systemTealColor"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="死ぬまでにやりたいこと" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SNj-tx-iuv">
-                                <rect key="frame" x="97" y="165" width="220" height="23.5"/>
+                                <rect key="frame" x="97" y="165" width="220" height="24"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
                                 <nil key="textColor"/>

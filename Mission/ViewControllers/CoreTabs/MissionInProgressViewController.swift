@@ -26,13 +26,13 @@ class MissionInProgressViewController: UIViewController {
     
     let imageNameArray: [String] = ["ashitaka","kaya", "nausicaa", "san", "yupa"]
     
-    let titles = ["死ぬまでにやりたいこと", "デイリーミッション", "週末用"]
-    
-    let tasks = [//task arrayは二次元配列にする
-        ["洗い物", "洗濯物", "掃除機かけ"],
-        ["ゴミ出し","手紙を出す", "鳥小屋の掃除"],
-        ["ふるさと納税", "単語帳10,000ページ", "ドラッグストアでシャンプーを買った後にスーパーでパイナップルを買う"]
-    ]
+//    let titles = ["死ぬまでにやりたいこと", "デイリーミッション", "週末用"]
+//
+//    let tasks = [//task arrayは二次元配列にする
+//        ["洗い物", "洗濯物", "掃除機かけ"],
+//        ["ゴミ出し","手紙を出す", "鳥小屋の掃除"],
+//        ["ふるさと納税", "単語帳10,000ページ", "ドラッグストアでシャンプーを買った後にスーパーでパイナップルを買う"]
+//    ]
     
     //実行中のビンゴを補完する配列
     var bingoSheets = [BingoSheet]()

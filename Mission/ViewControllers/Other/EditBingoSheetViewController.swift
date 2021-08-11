@@ -44,7 +44,7 @@ class EditBingoSheetViewController: UIViewController {
         let formatter = DateFormatter()
         formatter.calendar = Calendar(identifier: .gregorian)
         formatter.dateStyle = .medium//2017/08/13
-//        formatter.doesRelativeDateFormatting = true//当日を「今日」、前日を「昨日」などと表示する
+        formatter.doesRelativeDateFormatting = true//当日を「今日」、前日を「昨日」などと表示する
         formatter.locale = Locale(identifier: "ja_JP")
         return formatter.string(from: date)
     }
@@ -55,24 +55,27 @@ class EditBingoSheetViewController: UIViewController {
         guard let documentId = bingosheet?.documentId else { return }
         
         let dogData = [
-            //ここに編集済みのデータを入れる
-            "tasks": bingosheet!.tasks!
+            //ここに編集済みのデータを入れる。ビンゴシートの内容、タスクの並び順を固定。
+            "title": bingosheet!.title!,
+            "tasks": bingosheet!.tasks!,
+            "reward": bingosheet!.reward!,
+            "deadline": bingosheet!.deadline!
         ] as [String: Any]
 
-        //firestpreにデータを上書き保存
+        //Firestpreにデータを上書き保存
         db.collection("bingoSheets").document(documentId).setData(dogData, merge: true) { err in
             if let err = err {
                 print("Firestoreへの上書きに失敗しました", err)
             } else {
                 print("Firestoreの情報を上書きしました！", documentId)
-                //＠ビンゴシートの内容、タスクの並び順を固定。変更した場合はFirestoreに反映。
-                //＠MissionInProgressVCのビンゴシートへ値渡し
+
+                let storyboard = UIStoryboard.init(name: "Main", bundle: nil)//MissionInProgress
+                let missionInProgressVC = storyboard.instantiateViewController(identifier: "MissionInProgressViewController") as! MissionInProgressViewController
+                //タップされたセルのビンゴシート情報を遷移先の変数に渡す
+                missionInProgressVC.bingoSheets.append(self.bingosheet!)
                 
-                //MissionInprogressVCへ遷移 -> @クラッシュしてしまうので直す
-//                let storyboard = UIStoryboard.init(name: "MissionInProgress", bundle: nil)
-//                let missionInProgressVC = storyboard.instantiateViewController(identifier: "MissionInProgressViewController") as! MissionInProgressViewController
-//
-//                self.navigationController?.pushViewController(missionInProgressVC, animated: true)
+                //MissionInprogressVCへ遷移 
+                self.navigationController?.pushViewController(missionInProgressVC, animated: true)
             }
             
         }

@@ -44,7 +44,9 @@ public class BingoSheet {
         self.createdAt = document.get("createdAt") as? Timestamp ?? Timestamp()
         self.documentId = document.documentID
         self.title = document.get("title") as? String ?? ""
-        self.deadline = document.get("deadLine") as? Date ?? Date()//Date型への変換にミスったら今日の日付になってしまう
+//        self.deadline = document.get("deadline") as? Date ?? Date()//Date型への変換に失敗し今日の日付になってしまう
+        let deadlineTimestamp = document.get("deadline") as? Timestamp ?? Timestamp()//FirestoreからTimestamp型で取得
+        self.deadline = deadlineTimestamp.dateValue()//Date型に変換
         self.reward = document.get("reward") as? String ?? ""
         self.tasks = document.get("tasks") as? [String] ?? [String]()
     }
