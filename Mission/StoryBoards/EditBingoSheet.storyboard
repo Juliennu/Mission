@@ -58,7 +58,7 @@
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="期限" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ido-Q7-06J">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="期限" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ido-Q7-06J">
                                 <rect key="frame" x="20" y="618" width="350" height="18"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -72,16 +72,15 @@
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="19"/>
                                 <state key="normal" title="Button"/>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pfn-Y4-3XB">
-                                <rect key="frame" x="20" y="649" width="350" height="35"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
-                                <state key="normal" title="Button"/>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="26e-6B-f46">
                                 <rect key="frame" x="20" y="97" width="350" height="35"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
                                 <state key="normal" title="Button"/>
                             </button>
+                            <datePicker contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" style="compact" translatesAutoresizingMaskIntoConstraints="NO" id="MBT-Pq-KmY">
+                                <rect key="frame" x="20" y="638" width="350" height="78"/>
+                                <locale key="locale" localeIdentifier="ja"/>
+                            </datePicker>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -91,25 +90,22 @@
                             <constraint firstItem="0qv-2q-vcc" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="4lO-yL-Krq"/>
                             <constraint firstItem="QUg-vW-KaF" firstAttribute="leading" secondItem="0qv-2q-vcc" secondAttribute="leading" id="7oO-kn-zN5"/>
                             <constraint firstItem="QUg-vW-KaF" firstAttribute="leading" secondItem="cHy-X3-OFX" secondAttribute="leading" id="7qG-eZ-Bf3"/>
-                            <constraint firstItem="Pfn-Y4-3XB" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="9sq-nE-H53"/>
-                            <constraint firstItem="QUg-vW-KaF" firstAttribute="leading" secondItem="Pfn-Y4-3XB" secondAttribute="leading" id="CKI-9g-A04"/>
                             <constraint firstItem="QUg-vW-KaF" firstAttribute="top" secondItem="26e-6B-f46" secondAttribute="bottom" constant="13" id="GwR-3B-F4u"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="QUg-vW-KaF" secondAttribute="trailing" constant="20" id="HJN-he-eXJ"/>
                             <constraint firstItem="kQO-j2-PtS" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="Pzl-RO-6UE"/>
                             <constraint firstItem="kQO-j2-PtS" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="21" id="QA5-AU-i5B"/>
                             <constraint firstItem="0qv-2q-vcc" firstAttribute="top" secondItem="QUg-vW-KaF" secondAttribute="bottom" constant="23" id="Up2-F2-hCI"/>
-                            <constraint firstItem="Pfn-Y4-3XB" firstAttribute="top" secondItem="ido-Q7-06J" secondAttribute="bottom" constant="13" id="X1C-Rh-0PC"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="26e-6B-f46" secondAttribute="trailing" constant="20" id="XTl-Hz-SDc"/>
                             <constraint firstItem="26e-6B-f46" firstAttribute="top" secondItem="kQO-j2-PtS" secondAttribute="bottom" constant="8" symbolic="YES" id="Z9N-rU-7I7"/>
                             <constraint firstItem="QUg-vW-KaF" firstAttribute="leading" secondItem="ido-Q7-06J" secondAttribute="leading" id="Zqz-7N-kW6"/>
                             <constraint firstItem="cHy-X3-OFX" firstAttribute="top" secondItem="0qv-2q-vcc" secondAttribute="bottom" constant="13" id="aO8-lz-ZUt"/>
                             <constraint firstItem="QUg-vW-KaF" firstAttribute="trailing" secondItem="cHy-X3-OFX" secondAttribute="trailing" id="ayb-TV-XZQ"/>
                             <constraint firstItem="QUg-vW-KaF" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="b1d-ox-GZo"/>
+                            <constraint firstItem="MBT-Pq-KmY" firstAttribute="top" secondItem="ido-Q7-06J" secondAttribute="bottom" constant="8" symbolic="YES" id="ba0-2b-Wxy"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="cHy-X3-OFX" secondAttribute="trailing" constant="20" id="bhH-TD-y8o"/>
                             <constraint firstItem="ido-Q7-06J" firstAttribute="top" secondItem="cHy-X3-OFX" secondAttribute="bottom" constant="30" id="dlz-Ph-6P1"/>
                             <constraint firstItem="ido-Q7-06J" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="h9p-lm-BH8"/>
                             <constraint firstItem="26e-6B-f46" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="hOu-L2-dRV"/>
-                            <constraint firstItem="QUg-vW-KaF" firstAttribute="trailing" secondItem="Pfn-Y4-3XB" secondAttribute="trailing" id="qSh-nD-wTk"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="ido-Q7-06J" secondAttribute="trailing" constant="20" id="r97-OB-RUU"/>
                             <constraint firstItem="QUg-vW-KaF" firstAttribute="leading" secondItem="26e-6B-f46" secondAttribute="leading" id="sNY-Z1-ag9"/>
                             <constraint firstItem="cHy-X3-OFX" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="uLz-UW-oaM"/>
@@ -120,7 +116,7 @@
                     </view>
                     <connections>
                         <outlet property="bingoCollectionView" destination="QUg-vW-KaF" id="4mT-22-8QV"/>
-                        <outlet property="deadlineButton" destination="Pfn-Y4-3XB" id="sZy-Em-YDY"/>
+                        <outlet property="deadlineDatePicker" destination="MBT-Pq-KmY" id="8YW-HT-9Jx"/>
                         <outlet property="rewardButton" destination="cHy-X3-OFX" id="4qR-kq-Gtl"/>
                         <outlet property="titleButton" destination="26e-6B-f46" id="pF6-3H-Wa7"/>
                     </connections>

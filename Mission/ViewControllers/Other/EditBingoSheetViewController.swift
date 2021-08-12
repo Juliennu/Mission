@@ -18,7 +18,9 @@ class EditBingoSheetViewController: UIViewController {
     
     @IBOutlet weak var titleButton: UIButton!
     @IBOutlet weak var rewardButton: UIButton!
-    @IBOutlet weak var deadlineButton: UIButton!
+    @IBOutlet weak var deadlineDatePicker: UIDatePicker!
+    
+//    @IBOutlet weak var deadlineButton: UIButton!
     
     
     
@@ -41,18 +43,34 @@ class EditBingoSheetViewController: UIViewController {
     private func setUpView() {
 //        titleLabel.text = bingosheet?.title
 //        rewardLabel.text = bingosheet?.reward
-        let dateString = dateToString(date: bingosheet!.deadline!)
+//        let dateString = dateToString(date: bingosheet!.deadline!)
 //        deadlineLabel.text = dateString
         
         
         titleButton.setTitle(bingosheet?.title, for: .normal)
+        titleButton.backgroundColor = .systemGray5
+        titleButton.layer.cornerRadius = 8.0
         titleButton.addTarget(self, action: #selector(titleButtonTapped), for: .touchUpInside)
         
         rewardButton.setTitle(bingosheet?.reward, for: .normal)
+        rewardButton.backgroundColor = .systemGray5
+        rewardButton.layer.cornerRadius = 8.0
         rewardButton.addTarget(self, action: #selector(rewardButtonTapped), for: .touchUpInside)
         
-        deadlineButton.setTitle(dateString, for: .normal)
-        deadlineButton.addTarget(self, action: #selector(deadlineButtonTapped), for: .touchUpInside)
+        //初期値はデータベース上のdeadlineの日付
+        deadlineDatePicker.date = bingosheet!.deadline!
+        //西暦表示 -> ＠和暦表示になってしまうので直す
+        var calender = Calendar(identifier: .gregorian)
+        calender.locale = Locale.current
+        deadlineDatePicker.calendar = calender
+        //日付のみ変更できるように設定
+        deadlineDatePicker.datePickerMode = .date
+        // DatePickerを日本語化
+        deadlineDatePicker.locale = Locale(identifier: "ja_JP")
+        deadlineDatePicker.addTarget(self, action: #selector(deadlineDatePickerChanged), for: .allEvents)
+
+//        deadlineButton.setTitle(dateString, for: .normal)
+//        deadlineButton.addTarget(self, action: #selector(deadlineButtonTapped), for: .touchUpInside)
         
         let startButton = UIBarButtonItem(title: "開始", style: .plain, target: self, action: #selector(startButtonTapped))
         let saveButton = UIBarButtonItem(title: "保存", style: .plain, target: self, action: #selector(saveButtonTapped))
@@ -60,14 +78,15 @@ class EditBingoSheetViewController: UIViewController {
     }
     
     //Date型からString型へ変換
-    func dateToString(date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.calendar = Calendar(identifier: .gregorian)
-        formatter.dateStyle = .medium//2017/08/13
-        formatter.doesRelativeDateFormatting = true//当日を「今日」、前日を「昨日」などと表示する
-        formatter.locale = Locale(identifier: "ja_JP")
-        return formatter.string(from: date)
-    }
+//    func dateToString(date: Date) -> String {
+//        let formatter = DateFormatter()
+//        formatter.calendar = Calendar(identifier: .gregorian)
+//        formatter.dateStyle = .medium//2017/08/13
+//        formatter.doesRelativeDateFormatting = true//当日を「今日」、前日を「昨日」などと表示する
+//        formatter.locale = Locale(identifier: "ja_JP")
+//        return formatter.string(from: date)
+//    }
+    
     
     @objc private func titleButtonTapped() {
         //テキストラベルを編集
@@ -141,8 +160,44 @@ class EditBingoSheetViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-    @objc private func deadlineButtonTapped() {
+    //datePickerの値が変更されたら呼ばれる
+    @objc private func deadlineDatePickerChanged() {
+        //datePickerの変更値をビンゴシートに代入
+        self.bingosheet?.deadline = deadlineDatePicker.date
 
+    }
+    
+    
+    //ビンゴシート開始ボタン押下時の挙動
+    @objc private func startButtonTapped() {
+        
+        guard let documentId = bingosheet?.documentId else { return }
+        
+        let dogData = [
+            //ここに編集済みのデータを入れる。ビンゴシートの内容、タスクの並び順を固定。
+            "title": bingosheet!.title!,
+            "tasks": bingosheet!.tasks!,
+            "reward": bingosheet!.reward!,
+            "deadline": bingosheet!.deadline!
+        ] as [String: Any]
+
+        //Firestpreにデータを上書き保存
+        db.collection("bingoSheets").document(documentId).setData(dogData, merge: true) { err in
+            if let err = err {
+                print("Firestoreへの上書きに失敗しました", err)
+            } else {
+                print("Firestoreの情報を上書きしました！", documentId)
+
+                let storyboard = UIStoryboard.init(name: "Main", bundle: nil)//MissionInProgress
+                let missionInProgressVC = storyboard.instantiateViewController(identifier: "MissionInProgressViewController") as! MissionInProgressViewController
+                //タップされたセルのビンゴシート情報を遷移先の変数に渡す
+                missionInProgressVC.bingoSheets.append(self.bingosheet!)
+                
+                //MissionInprogressVCへ遷移 
+                self.navigationController?.pushViewController(missionInProgressVC, animated: true)
+            }
+            
+        }
     }
     
     @objc private func saveButtonTapped() {
@@ -327,7 +382,7 @@ class EditBingoCollectionViewCell: UICollectionViewCell {
     
     let taskLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .black
+        label.textColor = .systemBlue
         label.textAlignment = .center
         label.text = "free"
         label.clipsToBounds = true
