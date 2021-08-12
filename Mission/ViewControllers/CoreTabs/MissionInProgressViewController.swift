@@ -28,7 +28,7 @@ class MissionInProgressViewController: UIViewController {
     
     
     
-    let imageNameArray: [String] = ["ashitaka","kaya", "nausicaa", "san", "yupa"]
+//    let bingoSheets: [String] = ["ashitaka","kaya", "nausicaa", "san", "yupa"]
     
     let titles = ["死ぬまでにやりたいこと", "デイリーミッション", "週末用"]
 
@@ -52,12 +52,11 @@ class MissionInProgressViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpScrollView()
-        setUpImageView()
+//        setUpImageView()
         setUpPageControl()
         
         setUpBarButtonItem()
         setUpBingoCollectionView()
-//        setUpScrollView()
         setUpVannerView()
         setUpBingoStatusLabel()
         setUpSoundPrepare()
@@ -67,7 +66,7 @@ class MissionInProgressViewController: UIViewController {
 //        tasksAreDone[0] = true//クリック時にtrueに置き換えたい
 //        print(tasksAreDone[0, 0])//二次元配列の座標の示し方がわからない
 //        print("タスク配列の要素数の合計: ", tasks.capacity)//要素の合計数を取得できる
-        
+        print("ビンゴシート数: ", bingoSheets.count)
     }
     
 //MARK: - AdMob バナー広告の設定
@@ -110,7 +109,11 @@ class MissionInProgressViewController: UIViewController {
             bannerView.load(GADRequest())
           }
     
-    
+    private func setUpVannerView() {
+        bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"//!!!!!!!!!!!Apple申請前に本番用IDに変更する!!!!!!!!!!!
+        bannerView.rootViewController = self
+        bannerView.delegate = self
+    }
     
 //MARK: - functions
     
@@ -118,7 +121,7 @@ class MissionInProgressViewController: UIViewController {
         // scrollViewの画面表示サイズを指定
         scrollView = UIScrollView(frame: CGRect(x: 0, y: 150, width: self.view.frame.size.width, height: 470))
         // scrollViewのサイズを指定（幅は1ページに表示するViewの幅×ページ数）
-        scrollView.contentSize = CGSize(width: Int(self.view.frame.size.width) * imageNameArray.count, height: 200)
+        scrollView.contentSize = CGSize(width: Int(self.view.frame.size.width) * bingoSheets.count, height: 200)
         // scrollViewのデリゲートになる
         scrollView.delegate = self
         scrollView.backgroundColor = .systemPink
@@ -128,34 +131,34 @@ class MissionInProgressViewController: UIViewController {
         // 水平方向のスクロールインジケータを非表示にする
         scrollView.showsHorizontalScrollIndicator = false
         self.view.addSubview(scrollView)
-        //viewを最背面に移動
+        // scrollviewを最背面に移動
         self.view.sendSubviewToBack(scrollView)
     }
     
-    func setUpImageView() {
-        //配列の個数分UIImageViewを生成
-        for i in 0..<imageNameArray.count {
-            //x座標をviewの幅 * i ずらしていく
-            let positionX = CGFloat(Int(self.view.frame.size.width) * i)
-            //imageViewの表示位置とサイズ、画像の設定
-            let imageView = createImageView(x: positionX, y: 0, width: self.view.frame.size.width, height: 470, image: imageNameArray[i])
-            scrollView.addSubview(imageView)
-        }
-    }
-
-    // UIImageViewを生成するメソッド
-    func createImageView(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat, image: String) -> UIImageView {
-        let imageView = UIImageView(frame: CGRect(x: x, y: y, width: width, height: height))
-        let image = UIImage(named:  image)
-        imageView.image = image
-        return imageView
-    }
+//    func setUpImageView() {
+//        //配列の個数分UIImageViewを生成
+//        for i in 0..<bingoSheets.count {
+//            //x座標をviewの幅 * i ずらしていく
+//            let positionX = CGFloat(Int(self.view.frame.size.width) * i)
+//            //imageViewの表示位置とサイズ、画像の設定
+//            let imageView = createImageView(x: positionX, y: 0, width: self.view.frame.size.width, height: 470, image: bingoSheets[i])
+//            scrollView.addSubview(imageView)
+//        }
+//    }
+//
+//    // UIImageViewを生成するメソッド
+//    func createImageView(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat, image: String) -> UIImageView {
+//        let imageView = UIImageView(frame: CGRect(x: x, y: y, width: width, height: height))
+//        let image = UIImage(named:  image)
+//        imageView.image = image
+//        return imageView
+//    }
     
     func setUpPageControl() {
         // pageControlの表示位置とサイズの設定
         pageControl = UIPageControl(frame: CGRect(x: 0, y: 630, width: self.view.frame.size.width, height: 30))//y: 370
         // pageControlのページ数を設定
-        pageControl.numberOfPages = imageNameArray.count
+        pageControl.numberOfPages = bingoSheets.count
         //ページ数が1の時ドットが表示されなくなる
         pageControl.hidesForSinglePage = true
         //pageControl上をスクロールすることでページを切り替えられる->＠ページ切り替えできない
@@ -249,11 +252,7 @@ class MissionInProgressViewController: UIViewController {
     }
     
     
-    private func setUpVannerView() {
-        bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"//※Apple申請前に本番用IDに変更する
-        bannerView.rootViewController = self
-        bannerView.delegate = self
-    }
+
     
     
     
@@ -268,7 +267,28 @@ class MissionInProgressViewController: UIViewController {
 //        bingoCollectionView.layer.borderColor = UIColor.systemGray2.cgColor
         
         bingoCollectionView.collectionViewLayout = layout
+        
+        //配列の個数分collectionViewを生成
+        for i in 0..<bingoSheets.count {
+            let width = self.view.frame.size.width
+            //x座標をviewの幅 * i ずらしていく
+            let positionX = CGFloat(Int(width) * i)
+            //collectionViewの表示位置とサイズ、画像の設定
+            let collectionView = createCollectionView(x: positionX, y: 0, width: width - 40, height: width - 40, collectionView: bingoCollectionView)
+            scrollView.addSubview(collectionView)
+//            let imageView = createImageView(x: positionX, y: 0, width: self.view.frame.size.width, height: 470, image: bingoSheets[i])
+//            scrollView.addSubview(imageView)
+        }
     }
+    
+    
+    // UICollectionViewを生成するメソッド
+    func createCollectionView(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat, collectionView: UICollectionView) -> UICollectionView {
+        let collectionView = UICollectionView(frame: CGRect(x: x, y: y, width: width, height: height))
+        return collectionView
+    }
+    
+    
     
 //    private func setUpScrollView() {
 //
