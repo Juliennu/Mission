@@ -13,7 +13,6 @@ class FolderViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
     
-//    @IBOutlet weak var editButton: UIBarButtonItem!
     @IBOutlet weak var addNewBingoSheetButton: UIButton!
     
     //ビンゴシート新規作成ボタン押下時の処理
@@ -26,9 +25,7 @@ class FolderViewController: UIViewController {
     }
     
     var bingosheets = [BingoSheet]()
-//    let bingosheet = BingoSheet(dic: ["createdAt": Timestamp()])
-    
-//    var titleArray = [String]()//@配列なので順番がぐちゃぐちゃになってしまう。配列にしない or createdAtで作成日順に並び替えする
+
     let db = Firestore.firestore()
 
 
@@ -37,7 +34,6 @@ class FolderViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        readDataFromFirestore()
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellId")
 
         tableView.delegate = self
@@ -51,23 +47,11 @@ class FolderViewController: UIViewController {
         super.viewWillAppear(animated)
         
         bingosheets = []//@画面表示ごとに初期化、Firebaseと通信しているので通信回数が多い。削除や追加時にのみFirestoreと通信するようにしたい
-//        titleArray = []
         readDataFromFirestore()
     }
     
     //Firestoreからデータの読み込み
     public func readDataFromFirestore() {
-        
-//        guard let documentId = bingosheet.doumentId else { return }
-//        db.collection("bingoSheets").document(documentId).addSnapshotListener{ (snapshots, err) in
-//            if let err = err {
-//                print("ビンゴシートの取得に失敗しました", err)
-//                return
-//            }
-//            snapshots.documentChanges
-//        }
-        
-
         //Firestoreからコレクションのすべてのドキュメントを取得する
         db.collection("bingoSheets").getDocuments() { (querySnapshot, err) in
             //非同期処理：記述された順番は関係なく、getDocumentsの処理が完了したらクロージャを実行する
@@ -75,29 +59,11 @@ class FolderViewController: UIViewController {
                 print("Firestoreから情報の取得に失敗しました。", err)
             } else {
                 for document in querySnapshot!.documents {
-//                    print("Firestoreから情報を取得しました！", "\(document.documentID) => \(document.data())")
-                    
+//
+                    //Firestoreから取得した情報をBingoSheet型のモデルに変換
                     let bingosheet = BingoSheet(document: document)
+                    //モデルをbingosheets配列に追加する
                     self.bingosheets.append(bingosheet)
-                    //Firestoreから特定のフィールドのみを抜き出す。
-//                    let title = document.get("title") as! String//Any型をString型に変換
-//                    let tasks = document.get("tasks") as! [String]
-//                    let reward = document.get("reward") as! String
-//                    let deadLine = document.get("deadLine") as! Timestamp
-//                    let createdAt = document.get("createdAt") as! Timestamp
-//                    let documentId = document.documentID//String型
-//                    let deadLineDateValue = deadLine.dateValue()
-//                    print(deadLineDateValue)//deadLine2    Foundation.Date    2058-03-06 02:22:45 UTC
-
-
-                    
-
-
-//                    self.bingosheets.append()
-
-
-//                    self.bingosheet.append(title as! BingoSheet)
-//                    self.titleArray.append(title)//@arrayじゃなくてこのまま表示したい
 
                     //ビンゴシートを作成日順に並び替え(新規ビンゴシートを上に表示する)
                     self.bingosheets.sort{ (b1, b2) -> Bool in
@@ -106,7 +72,6 @@ class FolderViewController: UIViewController {
                         return b1Date > b2Date
                     }
                 }
-
                 self.tableView.reloadData()
             }
         }
@@ -114,7 +79,7 @@ class FolderViewController: UIViewController {
     
     
     
-    //FireAuth：匿名認証
+    //FireAuth：匿名認証 -> @初回ログインの場合のみにする
     public func createAnonymousUserToFirestore() {
         Auth.auth().signInAnonymously() {( authResult, error) in
             if let error = error {
@@ -148,7 +113,6 @@ class FolderViewController: UIViewController {
             navigationItem.rightBarButtonItem?.title = "編集"
         }
     }
-
 }
 
 
@@ -174,6 +138,19 @@ extension FolderViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath)
 //        cell.textLabel?.text = titleArray[indexPath.row]//bingosheet[indexPath.row].title
         cell.textLabel?.text = bingosheets[indexPath.row].title
+        
+//        //cellの色を交互に変える
+//        if (indexPath.row == 0 || indexPath.row % 2 == 0) {
+//            cell.backgroundColor = UIColor.rgb(red: 254, green: 138, blue: 94, alpha: 1.0)//ピンク
+//        } else {
+//            cell.backgroundColor = UIColor.rgb(red: 255, green: 224, blue: 106, alpha: 1.0)//黄色
+//        }
+        
+        //セパレーターの色
+        tableView.separatorColor = .systemGreen
+//        //セパレータの削除
+//        tableView.separatorStyle = .none
+        
         return cell
     }
     
@@ -201,9 +178,9 @@ extension FolderViewController: UITableViewDelegate, UITableViewDataSource {
                 print("ビンゴシートを削除しました！")
                 //bingosheet配列から削除
                 self.bingosheets.remove(at: indexPath.row)
-//                self.titleArray.remove(at: indexPath.row)
                 //tableViewCellの削除
                 tableView.deleteRows(at: [indexPath], with: .automatic)
+//                tableView.reloadData()
             }
             
         }

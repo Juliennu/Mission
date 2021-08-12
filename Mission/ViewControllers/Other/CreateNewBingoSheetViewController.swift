@@ -160,6 +160,13 @@ class CreateNewBingoSheetViewController: FormViewController {
             +++
             
             DateRow() { row in
+                let formatter = DateFormatter()
+                formatter.dateStyle = .medium
+                formatter.timeStyle = .none
+                formatter.locale = Locale(identifier: "ja_JP")
+                formatter.string(from: Date())
+                
+                
                 row.title = "期限"
                 row.value = Date()//＠日本語表示に直したい（2021/7/18）
             }.onChange({ row in
@@ -263,24 +270,15 @@ class CreateNewBingoSheetViewController: FormViewController {
 //        var description: String { return rawValue }
 //    }
     
+  
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    private func dateFormatter(date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .short
-        formatter.timeStyle = .none
-        formatter.locale = Locale(identifier: "ja_JP")
-        return formatter.string(from: date)
-        
-    }
+//    private func dateFormatter(date: Date) -> String {
+//        let formatter = DateFormatter()
+//        formatter.dateStyle = .short
+//        formatter.timeStyle = .none
+//        formatter.locale = Locale(identifier: "ja_JP")
+//        return formatter.string(from: date)
+//    }
     
     
     

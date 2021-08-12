@@ -10,10 +10,17 @@ import Firebase
 
 class EditBingoSheetViewController: UIViewController {
     
-    @IBOutlet weak var titleLabel: UILabel!
+//    @IBOutlet weak var titleLabel: UILabel!
+//    @IBOutlet weak var rewardLabel: UILabel!
+//    @IBOutlet weak var deadlineLabel: UILabel!
     @IBOutlet weak var bingoCollectionView: UICollectionView!
-    @IBOutlet weak var rewardLabel: UILabel!
-    @IBOutlet weak var deadlineLabel: UILabel!
+
+    
+    @IBOutlet weak var titleButton: UIButton!
+    @IBOutlet weak var rewardButton: UIButton!
+    @IBOutlet weak var deadlineButton: UIButton!
+    
+    
     
     
     let layout = UICollectionViewFlowLayout()
@@ -32,10 +39,20 @@ class EditBingoSheetViewController: UIViewController {
     }
     
     private func setUpView() {
-        titleLabel.text = bingosheet?.title
-        rewardLabel.text = bingosheet?.reward
+//        titleLabel.text = bingosheet?.title
+//        rewardLabel.text = bingosheet?.reward
         let dateString = dateToString(date: bingosheet!.deadline!)
-        deadlineLabel.text = dateString
+//        deadlineLabel.text = dateString
+        
+        
+        titleButton.setTitle(bingosheet?.title, for: .normal)
+        titleButton.addTarget(self, action: #selector(titleButtonTapped), for: .touchUpInside)
+        
+        rewardButton.setTitle(bingosheet?.reward, for: .normal)
+        rewardButton.addTarget(self, action: #selector(rewardButtonTapped), for: .touchUpInside)
+        
+        deadlineButton.setTitle(dateString, for: .normal)
+        deadlineButton.addTarget(self, action: #selector(deadlineButtonTapped), for: .touchUpInside)
         
         let startButton = UIBarButtonItem(title: "開始", style: .plain, target: self, action: #selector(startButtonTapped))
         let saveButton = UIBarButtonItem(title: "保存", style: .plain, target: self, action: #selector(saveButtonTapped))
@@ -52,36 +69,80 @@ class EditBingoSheetViewController: UIViewController {
         return formatter.string(from: date)
     }
     
-    //ビンゴシート開始ボタン押下時の挙動
-    @objc private func startButtonTapped() {
+    @objc private func titleButtonTapped() {
+        //テキストラベルを編集
+        var alertTextField: UITextField?
+        let title = self.bingosheet!.title
         
-        guard let documentId = bingosheet?.documentId else { return }
-        
-        let dogData = [
-            //ここに編集済みのデータを入れる。ビンゴシートの内容、タスクの並び順を固定。
-            "title": bingosheet!.title!,
-            "tasks": bingosheet!.tasks!,
-            "reward": bingosheet!.reward!,
-            "deadline": bingosheet!.deadline!
-        ] as [String: Any]
+        let alert = UIAlertController(
+            title: "タイトルを編集",
+            message: "",
+            preferredStyle: UIAlertController.Style.alert)
+        alert.addTextField(
+            configurationHandler: {(textField: UITextField!) in
+                alertTextField = textField
+                textField.text = title
+                textField.placeholder = title
 
-        //Firestpreにデータを上書き保存
-        db.collection("bingoSheets").document(documentId).setData(dogData, merge: true) { err in
-            if let err = err {
-                print("Firestoreへの上書きに失敗しました", err)
-            } else {
-                print("Firestoreの情報を上書きしました！", documentId)
-
-                let storyboard = UIStoryboard.init(name: "Main", bundle: nil)//MissionInProgress
-                let missionInProgressVC = storyboard.instantiateViewController(identifier: "MissionInProgressViewController") as! MissionInProgressViewController
-                //タップされたセルのビンゴシート情報を遷移先の変数に渡す
-                missionInProgressVC.bingoSheets.append(self.bingosheet!)
-                
-                //MissionInprogressVCへ遷移 
-                self.navigationController?.pushViewController(missionInProgressVC, animated: true)
+       
+            })
+        alert.addAction(
+            UIAlertAction(
+                title: "Cancel",
+                style: UIAlertAction.Style.cancel,
+                handler: nil))
+        alert.addAction(
+            UIAlertAction(
+                title: "OK",
+                style: UIAlertAction.Style.default) { _ in
+                if let text = alertTextField?.text {
+                    self.bingosheet!.title = text
+                    //ボタンタイトルの更新
+                    self.titleButton.setTitle(self.bingosheet!.title, for: .normal)
+                }
             }
-            
-        }
+        )
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    @objc private func rewardButtonTapped() {
+        //テキストラベルを編集
+        var alertTextField: UITextField?
+        let title = self.bingosheet!.reward
+        
+        let alert = UIAlertController(
+            title: "クリアごほうびを編集",
+            message: "",
+            preferredStyle: UIAlertController.Style.alert)
+        alert.addTextField(
+            configurationHandler: {(textField: UITextField!) in
+                alertTextField = textField
+                textField.text = title
+                textField.placeholder = title
+
+       
+            })
+        alert.addAction(
+            UIAlertAction(
+                title: "Cancel",
+                style: UIAlertAction.Style.cancel,
+                handler: nil))
+        alert.addAction(
+            UIAlertAction(
+                title: "OK",
+                style: UIAlertAction.Style.default) { _ in
+                if let text = alertTextField?.text {
+                    self.bingosheet!.reward = text
+                    //ボタンタイトルの更新
+                    self.rewardButton.setTitle(self.bingosheet!.reward, for: .normal)
+                }
+            }
+        )
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    @objc private func deadlineButtonTapped() {
+
     }
     
     @objc private func saveButtonTapped() {
@@ -212,9 +273,10 @@ extension EditBingoSheetViewController: UICollectionViewDelegate, UICollectionVi
     
     //セルタップ時の挙動
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        //＠cellのテキストラベルを編集できるようにしたい
+        
         let cell = bingosheet!.tasks![indexPath.row]//bingoCollectionView.cellForItem(at: indexPath)
-
+        
+        //cellのテキストラベルを編集
         var alertTextField: UITextField?
         
         let alert = UIAlertController(
@@ -288,7 +350,7 @@ class EditBingoCollectionViewCell: UICollectionViewCell {
         self.layer.borderWidth = 1.0
         self.layer.borderColor = bingoCellBorderColor.cgColor//UIColor.systemGray.cgColor
         
-        self.layer.backgroundColor = notDoneUIColor.cgColor//UIColor.yellow.cgColor
+        self.layer.backgroundColor = undoneUIColor.cgColor//UIColor.yellow.cgColor
         self.layer.cornerRadius = 8.0
         
         

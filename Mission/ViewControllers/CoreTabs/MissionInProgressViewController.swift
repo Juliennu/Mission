@@ -22,8 +22,11 @@ class MissionInProgressViewController: UIViewController {
     @IBOutlet weak var bannerView: GADBannerView!//Admobを表示
     
     
-    //実行中のビンゴを補完する配列
+    //実行中のビンゴを格納する配列
     var bingoSheets = [BingoSheet]()
+    //現在表示中のビンゴシート
+    
+    
     
     let imageNameArray: [String] = ["ashitaka","kaya", "nausicaa", "san", "yupa"]
     
@@ -361,7 +364,7 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
         //完了タスクセル
         } else {
             tasksAreDone[indexPath.section][indexPath.row] = false
-            cell?.backgroundColor? = notDoneUIColor//.yellow
+            cell?.backgroundColor? = undoneUIColor//.yellow
             cell?.isHighlighted = false
             taskIsUndoneSoundPlay()
         }
@@ -426,22 +429,6 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
            
             
         }
-        
-       
-        
-        
-//        print(task)
-//        print("よこ", tasksAreDone[indexPath.section])//横一列
-//        print(indexPath)//[2, 1]
-//        print(indexPath.section)//2
-//        print(indexPath.row)//1
-//        print("たて", tasksAreDoneColumn)//[false, false, true]
-//        print(tasksAreDone)//[[false, false, false], [false, false, false], [false, true, false]]
-//        print(tasksAreDone[2][1])//true
-//        print("ななめ１", tasksAreDoneDiagonalArray1)
-//        print("ななめ２",tasksAreDoneDiagonalArray2)
-//        print(type(of: indexPath))//IndexPath
-
     }
 }
 
@@ -558,7 +545,7 @@ class BingoCollectionViewCell: UICollectionViewCell {
         self.layer.borderWidth = 1.0
         self.layer.borderColor = bingoCellBorderColor.cgColor//UIColor.systemGray.cgColor
     
-        self.layer.backgroundColor = notDoneUIColor.cgColor//UIColor.yellow.cgColor
+        self.layer.backgroundColor = undoneUIColor.cgColor//UIColor.yellow.cgColor
         self.layer.cornerRadius = 8.0
         
         
