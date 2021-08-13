@@ -29,6 +29,7 @@
 		1A984DE626C3D66E00DC5095 /* TenhamasenFont-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1A984DE526C3D66E00DC5095 /* TenhamasenFont-Regular.otf */; };
 		1A984DEA26C3D88E00DC5095 /* KosugiMaru-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1A984DE926C3D88E00DC5095 /* KosugiMaru-Regular.ttf */; };
 		1A984DEC26C3DA1E00DC5095 /* LightNovelPOP.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1A984DEB26C3DA1E00DC5095 /* LightNovelPOP.otf */; };
+		1A984DEE26C6460A00DC5095 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A984DED26C6460A00DC5095 /* Array.swift */; };
 		1AC54A6826B90D190016E08E /* add-folder.png in Resources */ = {isa = PBXBuildFile; fileRef = 1AC54A6726B90D190016E08E /* add-folder.png */; };
 		1AD3275126BADD8B0025F630 /* BingoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD3275026BADD8B0025F630 /* BingoCollectionViewCell.swift */; };
 		1AE1456F26A0630F000D3E7E /* BingoLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE1456E26A0630F000D3E7E /* BingoLogic.swift */; };
@@ -68,6 +69,7 @@
 		1A984DE526C3D66E00DC5095 /* TenhamasenFont-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TenhamasenFont-Regular.otf"; sourceTree = "<group>"; };
 		1A984DE926C3D88E00DC5095 /* KosugiMaru-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "KosugiMaru-Regular.ttf"; sourceTree = "<group>"; };
 		1A984DEB26C3DA1E00DC5095 /* LightNovelPOP.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = LightNovelPOP.otf; sourceTree = "<group>"; };
+		1A984DED26C6460A00DC5095 /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 		1AC54A6726B90D190016E08E /* add-folder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add-folder.png"; sourceTree = "<group>"; };
 		1AD3275026BADD8B0025F630 /* BingoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BingoCollectionViewCell.swift; sourceTree = "<group>"; };
 		1AE1456E26A0630F000D3E7E /* BingoLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BingoLogic.swift; sourceTree = "<group>"; };
@@ -156,6 +158,7 @@
 			isa = PBXGroup;
 			children = (
 				1A984DBD26C0F37400DC5095 /* UIColor.swift */,
+				1A984DED26C6460A00DC5095 /* Array.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -431,6 +434,7 @@
 				1AF53D8C26982BA000124197 /* FolderViewController.swift in Sources */,
 				1AF53D7726981AB000124197 /* AppDelegate.swift in Sources */,
 				1AF53D9A269AB07F00124197 /* CreateNewBingoSheetViewController.swift in Sources */,
+				1A984DEE26C6460A00DC5095 /* Array.swift in Sources */,
 				1AF53D98269AB04000124197 /* LoginViewController.swift in Sources */,
 				1AE1456F26A0630F000D3E7E /* BingoLogic.swift in Sources */,
 				1A487C8626B050A1000CC727 /* Sound.swift in Sources */,

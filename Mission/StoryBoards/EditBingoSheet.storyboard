@@ -81,6 +81,11 @@
                                 <rect key="frame" x="20" y="638" width="350" height="78"/>
                                 <locale key="locale" localeIdentifier="ja"/>
                             </datePicker>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w4M-ys-tx1">
+                                <rect key="frame" x="209" y="662" width="77" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="シャッフル"/>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -118,6 +123,7 @@
                         <outlet property="bingoCollectionView" destination="QUg-vW-KaF" id="4mT-22-8QV"/>
                         <outlet property="deadlineDatePicker" destination="MBT-Pq-KmY" id="8YW-HT-9Jx"/>
                         <outlet property="rewardButton" destination="cHy-X3-OFX" id="4qR-kq-Gtl"/>
+                        <outlet property="shuffleButton" destination="w4M-ys-tx1" id="Fhv-wF-dZm"/>
                         <outlet property="titleButton" destination="26e-6B-f46" id="pF6-3H-Wa7"/>
                     </connections>
                 </viewController>

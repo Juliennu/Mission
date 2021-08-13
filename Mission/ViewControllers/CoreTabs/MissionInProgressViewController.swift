@@ -18,6 +18,7 @@ class MissionInProgressViewController: UIViewController {
 //    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var bingoCollectionView: UICollectionView!
+//    private var bingoCollectionView: UICollectionView!
     @IBOutlet weak var bingoStatusLabel: UILabel!
     @IBOutlet weak var bannerView: GADBannerView!//Admobを表示
     
@@ -26,18 +27,23 @@ class MissionInProgressViewController: UIViewController {
     var bingoSheets = [BingoSheet]()
     //現在表示中のビンゴシート
     
+
+    
+    
     
     
 //    let bingoSheets: [String] = ["ashitaka","kaya", "nausicaa", "san", "yupa"]
     
     let titles = ["死ぬまでにやりたいこと", "デイリーミッション", "週末用"]
 
-    let tasks = [//task arrayは二次元配列にする
-        ["洗い物", "洗濯物", "掃除機かけ"],
-        ["ゴミ出し","手紙を出す", "鳥小屋の掃除"],
-        ["ふるさと納税", "単語帳10,000ページ", "ドラッグストアでシャンプーを買った後にスーパーでパイナップルを買う"]
-    ]
+//    let tasks = [//task arrayは二次元配列にする
+//        ["洗い物", "洗濯物", "掃除機かけ"],
+//        ["ゴミ出し","手紙を出す", "鳥小屋の掃除"],
+//        ["ふるさと納税", "単語帳10,000ページ", "ドラッグストアでシャンプーを買った後にスーパーでパイナップルを買う"]
+//    ]
     
+    //タスクを格納する二次元配列
+    var tasks = [[String]]()
 
     
     //タスクの完了状況を管理する二次元配列
@@ -46,11 +52,22 @@ class MissionInProgressViewController: UIViewController {
     //ビンゴシートの完了状況を管理するBool型
     var bingoSheetIsDone = false
     
-    let layout = UICollectionViewFlowLayout()
+    
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //タスクを二次元配列に変換 ->@bingoSheets[0]じゃなくて、新規に追加したシート（配列の一番最後）の番号にする
+        tasks = bingoSheets[0].tasks?.chunked(by: 3) ??  [
+            ["洗い物", "洗濯物", "掃除機かけ"],
+            ["ゴミ出し","手紙を出す", "鳥小屋の掃除"],
+            ["ふるさと納税", "単語帳10,000ページ", "ドラッグストアでシャンプーを買った後にスーパーでパイナップルを買う"]
+        ]
+
+
+//        print("tasks", tasks)
+        
         setUpScrollView()
 //        setUpImageView()
         setUpPageControl()
@@ -63,10 +80,7 @@ class MissionInProgressViewController: UIViewController {
 //        addEventListner()
         //初期値は全てfalseにする
         tasksAreDone = [[Bool]](repeating: [Bool](repeating: false, count: tasks.count), count: tasks.count)
-//        tasksAreDone[0] = true//クリック時にtrueに置き換えたい
-//        print(tasksAreDone[0, 0])//二次元配列の座標の示し方がわからない
-//        print("タスク配列の要素数の合計: ", tasks.capacity)//要素の合計数を取得できる
-        print("ビンゴシート数: ", bingoSheets.count)
+        
     }
     
 //MARK: - AdMob バナー広告の設定
@@ -215,6 +229,72 @@ class MissionInProgressViewController: UIViewController {
         
     }
     
+
+    
+    
+    private func setUpBingoStatusLabel() {
+        bingoStatusLabel.isHidden = true
+        bingoStatusLabel.backgroundColor = .clear
+        //viewを最前面に持ってくる->@最前面に来ない
+        self.view.bringSubviewToFront(bingoStatusLabel)
+//        bingoStatusLabel.layer.cornerRadius = 20
+//        bingoStatusLabel.clipsToBounds = true//この設定を入れないと角丸にならない
+    }
+    
+    
+
+    private func setUpBingoCollectionView() {
+        
+        bingoCollectionView.delegate = self
+        bingoCollectionView.dataSource = self
+        bingoCollectionView.register(BingoCollectionViewCell.self, forCellWithReuseIdentifier: "cellId")
+        let layout = UICollectionViewFlowLayout()
+//        bingoCollectionView = UICollectionView(frame: view.frame, collectionViewLayout: layout)
+        bingoCollectionView.backgroundColor = .clear
+        
+        bingoCollectionView.layer.borderWidth = 0.0
+//        bingoCollectionView.layer.borderColor = UIColor.systemGray2.cgColor
+        
+        bingoCollectionView.collectionViewLayout = layout
+        
+        print("ビンゴシート数: ", bingoSheets.count)
+        //配列の個数分collectionViewを生成
+        for i in 0..<bingoSheets.count {
+            let width = self.view.frame.size.width
+            //x座標をviewの幅 * i ずらしていく
+            let positionX = CGFloat(Int(width) * i)
+            
+            var collectionView = UICollectionView(frame: view.frame, collectionViewLayout: layout)
+            //collectionViewの表示位置とサイズの設定
+//            collectionView = createCollectionView(x: positionX, y: 0, width: width - 40, height: width - 40, collectionView: bingoCollectionView)
+            scrollView.addSubview(collectionView)//ここで落ちる "UICollectionView must be initialized with a non-nil layout parameter"
+            
+//            let imageView = createImageView(x: positionX, y: 0, width: self.view.frame.size.width, height: 470, image: bingoSheets[i])
+//            scrollView.addSubview(imageView)
+        }
+    }
+    
+    
+    // UICollectionViewを生成するメソッド
+    func createCollectionView(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat, collectionView: UICollectionView) -> UICollectionView {
+        let collectionView = UICollectionView(frame: CGRect(x: x, y: y, width: width, height: height))
+        return collectionView
+    }
+    
+    
+    
+
+    //ビンゴになった時の挙動
+    func bingoAction() {
+//        sleep(1)//1秒止める
+        bingoStatusLabel.isHidden = false
+        bingoSoundPlay()
+//        sleep(2)//2秒止める
+//        bingoStatusLabel.isHidden = true
+    }
+    
+}
+
 //    //左右スワイプでビンゴシートの切り替え
 //    private func addEventListner() {
 //        //右スワイプ
@@ -240,56 +320,7 @@ class MissionInProgressViewController: UIViewController {
 //            break
 //        }
 //    }
-    
-    
-    private func setUpBingoStatusLabel() {
-        bingoStatusLabel.isHidden = true
-        bingoStatusLabel.backgroundColor = .clear
-        //viewを最前面に持ってくる->@最前面に来ない
-        self.view.bringSubviewToFront(bingoStatusLabel)
-//        bingoStatusLabel.layer.cornerRadius = 20
-//        bingoStatusLabel.clipsToBounds = true//この設定を入れないと角丸にならない
-    }
-    
-    
 
-    
-    
-    
-
-    private func setUpBingoCollectionView() {
-        bingoCollectionView.delegate = self
-        bingoCollectionView.dataSource = self
-        bingoCollectionView.register(BingoCollectionViewCell.self, forCellWithReuseIdentifier: "cellId")
-        bingoCollectionView.backgroundColor = .clear
-        
-        bingoCollectionView.layer.borderWidth = 0.0
-//        bingoCollectionView.layer.borderColor = UIColor.systemGray2.cgColor
-        
-        bingoCollectionView.collectionViewLayout = layout
-        
-        //配列の個数分collectionViewを生成
-        for i in 0..<bingoSheets.count {
-            let width = self.view.frame.size.width
-            //x座標をviewの幅 * i ずらしていく
-            let positionX = CGFloat(Int(width) * i)
-            //collectionViewの表示位置とサイズ、画像の設定
-            let collectionView = createCollectionView(x: positionX, y: 0, width: width - 40, height: width - 40, collectionView: bingoCollectionView)
-            scrollView.addSubview(collectionView)
-//            let imageView = createImageView(x: positionX, y: 0, width: self.view.frame.size.width, height: 470, image: bingoSheets[i])
-//            scrollView.addSubview(imageView)
-        }
-    }
-    
-    
-    // UICollectionViewを生成するメソッド
-    func createCollectionView(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat, collectionView: UICollectionView) -> UICollectionView {
-        let collectionView = UICollectionView(frame: CGRect(x: x, y: y, width: width, height: height))
-        return collectionView
-    }
-    
-    
-    
 //    private func setUpScrollView() {
 //
 //        scrollView.delegate = self
@@ -309,17 +340,6 @@ class MissionInProgressViewController: UIViewController {
 //        scrollView.contentSize = CGSize(width: width, height: 505)
 //    }
     
-    //ビンゴになった時の挙動
-    func bingoAction() {
-//        sleep(1)//1秒止める
-        bingoStatusLabel.isHidden = false
-        bingoSoundPlay()
-//        sleep(2)//2秒止める
-//        bingoStatusLabel.isHidden = true
-    }
-    
-}
-
 
 // MARK: - CollectionView Delegates
 

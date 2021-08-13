@@ -21,7 +21,7 @@ class EditBingoSheetViewController: UIViewController {
     @IBOutlet weak var deadlineDatePicker: UIDatePicker!
     
 //    @IBOutlet weak var deadlineButton: UIButton!
-    
+    @IBOutlet weak var shuffleButton: UIButton!
     
     
     
@@ -72,6 +72,10 @@ class EditBingoSheetViewController: UIViewController {
 //        deadlineButton.setTitle(dateString, for: .normal)
 //        deadlineButton.addTarget(self, action: #selector(deadlineButtonTapped), for: .touchUpInside)
         
+        shuffleButton.addTarget(self, action: #selector(shuffleButtonTapped), for: .touchUpInside)
+        shuffleButton.backgroundColor = .systemGray5
+        shuffleButton.layer.cornerRadius = 8.0
+        
         let startButton = UIBarButtonItem(title: "開始", style: .plain, target: self, action: #selector(startButtonTapped))
         let saveButton = UIBarButtonItem(title: "保存", style: .plain, target: self, action: #selector(saveButtonTapped))
         navigationItem.rightBarButtonItems = [startButton, saveButton]
@@ -86,6 +90,13 @@ class EditBingoSheetViewController: UIViewController {
 //        formatter.locale = Locale(identifier: "ja_JP")
 //        return formatter.string(from: date)
 //    }
+    
+    //タスクをランダムに並び替え
+    @objc private func shuffleButtonTapped() {
+        let shuffledTasks = bingosheet?.tasks?.shuffled()
+        bingosheet?.tasks = shuffledTasks
+        bingoCollectionView.reloadData()
+    }
     
     
     @objc private func titleButtonTapped() {
@@ -171,34 +182,59 @@ class EditBingoSheetViewController: UIViewController {
     //ビンゴシート開始ボタン押下時の挙動
     @objc private func startButtonTapped() {
         
-        guard let documentId = bingosheet?.documentId else { return }
+        //アラート表示
+//        let alert = UIAlertController(title: "ビンゴミッションを開始しますか", message: "", preferredStyle: .alert)
         
-        let dogData = [
-            //ここに編集済みのデータを入れる。ビンゴシートの内容、タスクの並び順を固定。
-            "title": bingosheet!.title!,
-            "tasks": bingosheet!.tasks!,
-            "reward": bingosheet!.reward!,
-            "deadline": bingosheet!.deadline!
-        ] as [String: Any]
-
-        //Firestpreにデータを上書き保存
-        db.collection("bingoSheets").document(documentId).setData(dogData, merge: true) { err in
-            if let err = err {
-                print("Firestoreへの上書きに失敗しました", err)
-            } else {
-                print("Firestoreの情報を上書きしました！", documentId)
-
-                let storyboard = UIStoryboard.init(name: "Main", bundle: nil)//MissionInProgress
-                let missionInProgressVC = storyboard.instantiateViewController(identifier: "MissionInProgressViewController") as! MissionInProgressViewController
-                //タップされたセルのビンゴシート情報を遷移先の変数に渡す
-                missionInProgressVC.bingoSheets.append(self.bingosheet!)
-                
-                //MissionInprogressVCへ遷移 
-                self.navigationController?.pushViewController(missionInProgressVC, animated: true)
-            }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let okAction = UIAlertAction(title: "OK", style: .default) { _ in
             
+            //Firestoreへ現時点の情報を保存
+            guard let documentId = self.bingosheet?.documentId else { return }
+            
+            let dogData = [
+                //ここに編集済みのデータを入れる。ビンゴシートの内容、タスクの並び順を固定。
+                "title": self.bingosheet!.title!,
+                "tasks": self.bingosheet!.tasks!,
+                "reward": self.bingosheet!.reward!,
+                "deadline": self.bingosheet!.deadline!
+            ] as [String: Any]
+
+            //Firestpreにデータを上書き保存
+            self.db.collection("bingoSheets").document(documentId).setData(dogData, merge: true) { err in
+                if let err = err {
+                    print("Firestoreへの上書きに失敗しました", err)
+                } else {
+                    print("Firestoreの情報を上書きしました！", documentId)
+
+                    let storyboard = UIStoryboard.init(name: "Main", bundle: nil)//MissionInProgress
+                    let missionInProgressVC = storyboard.instantiateViewController(identifier: "MissionInProgressViewController") as! MissionInProgressViewController
+                    //タップされたセルのビンゴシート情報を遷移先の変数に渡す
+                    missionInProgressVC.bingoSheets.append(self.bingosheet!)
+                    
+                    //MissionInprogressVCへ遷移
+                    self.navigationController?.pushViewController(missionInProgressVC, animated: true)
+                }
+                
+            }
         }
+//        alert.addAction(cancelAction)
+//        alert.addAction(okAction)
+       showAlert(title: "ビンゴミッションを\n開始しますか?", message: "", actions: [cancelAction,okAction])
+//        present(alert, animated: true)
     }
+    
+    private func showAlert(title: String, message: String, actions: [UIAlertAction]) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        actions.forEach { alert.addAction($0)}
+        present(alert, animated: true)
+    }
+    
+    
+    
+    
+    
+    
+    
     
     @objc private func saveButtonTapped() {
         overwriteFirestore()
@@ -222,13 +258,13 @@ class EditBingoSheetViewController: UIViewController {
             } else {
                 print("Firestoreの情報を上書きしました！", documentId)
                 //保存完了アラート表示
-                self.showAlert()
+                self.showSaveAlert()
             }
         }
     }
     
     
-    private func showAlert() {
+    private func showSaveAlert() {
         let alert = UIAlertController(title: "保存しました", message: "", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
         alert.addAction(okAction)
@@ -281,6 +317,8 @@ class EditBingoSheetViewController: UIViewController {
             bingoCollectionView.cancelInteractiveMovement()
         }
     }
+    
+    
     
     
 }
@@ -408,7 +446,13 @@ class EditBingoCollectionViewCell: UICollectionViewCell {
         self.layer.backgroundColor = undoneUIColor.cgColor//UIColor.yellow.cgColor
         self.layer.cornerRadius = 8.0
         
-        
+        //セルの境界からはみ出ているものを見えるようにする
+        self.layer.masksToBounds = false
+        //影をつける
+        self.layer.shadowOffset = CGSize(width: 0.0, height: 1.0)
+        self.layer.shadowOpacity = 1.0
+        self.layer.shadowRadius = 1.0
+//        self.layer.shadowColor = UIColor.black.cgColor
         
     }
     required init?(coder: NSCoder) {//＠これは何？→よくわからない。swiftの場合、override init(frame: CGRect)とセットで必要になる模様。
