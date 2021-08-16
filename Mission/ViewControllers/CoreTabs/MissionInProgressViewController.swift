@@ -25,16 +25,10 @@ class MissionInProgressViewController: UIViewController {
     
     //実行中のビンゴを格納する配列
     var bingoSheets = [BingoSheet]()
-    //現在表示中のビンゴシート
-    
-
-    
-    
-    
     
 //    let bingoSheets: [String] = ["ashitaka","kaya", "nausicaa", "san", "yupa"]
     
-    let titles = ["死ぬまでにやりたいこと", "デイリーミッション", "週末用"]
+//    let titles = ["死ぬまでにやりたいこと", "デイリーミッション", "週末用"]
 
 //    let tasks = [//task arrayは二次元配列にする
 //        ["洗い物", "洗濯物", "掃除機かけ"],
@@ -44,6 +38,8 @@ class MissionInProgressViewController: UIViewController {
     
     //タスクを格納する二次元配列
     var tasks = [[String]]()
+    //
+//    var bingoSheetTitle: String?
 
     
     //タスクの完了状況を管理する二次元配列
@@ -58,16 +54,12 @@ class MissionInProgressViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //タスクを二次元配列に変換 ->@bingoSheets[0]じゃなくて、新規に追加したシート（配列の一番最後）の番号にする
-        tasks = bingoSheets[0].tasks?.chunked(by: 3) ??  [
-            ["洗い物", "洗濯物", "掃除機かけ"],
-            ["ゴミ出し","手紙を出す", "鳥小屋の掃除"],
-            ["ふるさと納税", "単語帳10,000ページ", "ドラッグストアでシャンプーを買った後にスーパーでパイナップルを買う"]
-        ]
+
+        
 
 
 //        print("tasks", tasks)
-        
+        setUpView()
         setUpScrollView()
 //        setUpImageView()
         setUpPageControl()
@@ -78,8 +70,7 @@ class MissionInProgressViewController: UIViewController {
         setUpBingoStatusLabel()
         setUpSoundPrepare()
 //        addEventListner()
-        //初期値は全てfalseにする
-        tasksAreDone = [[Bool]](repeating: [Bool](repeating: false, count: tasks.count), count: tasks.count)
+
         
     }
     
@@ -130,6 +121,21 @@ class MissionInProgressViewController: UIViewController {
     }
     
 //MARK: - functions
+    
+    func setUpView() {
+        
+        titleLabel.text = bingoSheets.last?.title ?? "デイリーミッション"
+        //タスクを二次元配列に変換 ->@bingoSheets[0]じゃなくて、新規に追加したシート（配列の一番最後）の番号にする
+        tasks = bingoSheets.last?.tasks?.chunked(by: 3) ??  [
+            ["洗い物", "洗濯物", "掃除機かけ"],
+            ["ゴミ出し","手紙を出す", "鳥小屋の掃除"],
+            ["ふるさと納税", "単語帳10,000ページ", "ドラッグストアでシャンプーを買った後にスーパーでパイナップルを買う"]
+        ]
+        
+        //初期値は全てfalseにする
+        tasksAreDone = [[Bool]](repeating: [Bool](repeating: false, count: tasks.count), count: tasks.count)
+    }
+    
     
     func setUpScrollView() {
         // scrollViewの画面表示サイズを指定
@@ -249,7 +255,6 @@ class MissionInProgressViewController: UIViewController {
         bingoCollectionView.dataSource = self
         bingoCollectionView.register(BingoCollectionViewCell.self, forCellWithReuseIdentifier: "cellId")
         let layout = UICollectionViewFlowLayout()
-//        bingoCollectionView = UICollectionView(frame: view.frame, collectionViewLayout: layout)
         bingoCollectionView.backgroundColor = .clear
         
         bingoCollectionView.layer.borderWidth = 0.0
@@ -263,11 +268,16 @@ class MissionInProgressViewController: UIViewController {
             let width = self.view.frame.size.width
             //x座標をviewの幅 * i ずらしていく
             let positionX = CGFloat(Int(width) * i)
-            
-            var collectionView = UICollectionView(frame: view.frame, collectionViewLayout: layout)
+            bingoCollectionView.frame = CGRect(x: positionX, y: 0, width: width, height: width)
+            scrollView.addSubview(bingoCollectionView)
+
+//            var collectionView = UICollectionView(frame: CGRect(x: positionX, y: 0, width: width, height: width), collectionViewLayout: layout)
+//            collectionView = bingoCollectionView
+//            collectionView.register(BingoCollectionViewCell.self, forCellWithReuseIdentifier: "cellId")
             //collectionViewの表示位置とサイズの設定
 //            collectionView = createCollectionView(x: positionX, y: 0, width: width - 40, height: width - 40, collectionView: bingoCollectionView)
-            scrollView.addSubview(collectionView)//ここで落ちる "UICollectionView must be initialized with a non-nil layout parameter"
+            
+//            scrollView.addSubview(collectionView)//ここで落ちる "UICollectionView must be initialized with a non-nil layout parameter"
             
 //            let imageView = createImageView(x: positionX, y: 0, width: self.view.frame.size.width, height: 470, image: bingoSheets[i])
 //            scrollView.addSubview(imageView)
@@ -276,10 +286,10 @@ class MissionInProgressViewController: UIViewController {
     
     
     // UICollectionViewを生成するメソッド
-    func createCollectionView(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat, collectionView: UICollectionView) -> UICollectionView {
-        let collectionView = UICollectionView(frame: CGRect(x: x, y: y, width: width, height: height))
-        return collectionView
-    }
+//    func createCollectionView(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat, collectionView: UICollectionView) -> UICollectionView {
+//        let collectionView = UICollectionView(frame: CGRect(x: x, y: y, width: width, height: height))
+//        return collectionView
+//    }
     
     
     
@@ -460,10 +470,11 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
             clearSoundPlay()
             
             //ごほうびをアラート表示
+            let message = bingoSheets.last?.reward ?? "ポッキー1袋"
             //UIAlertControllerクラスのインスタンスを生成
-            let actionSheet = UIAlertController(title: "ビンゴシートクリア", message: "おやつタイム", preferredStyle: .alert)//.actionSheet:画面下部から出てくるアラート//.alert:画面中央に表示されるアラート
+            let actionSheet = UIAlertController(title: "ビンゴミッション\nコンプリート！", message: message, preferredStyle: .alert)//.actionSheet:画面下部から出てくるアラート//.alert:画面中央に表示されるアラート
             //UIAlertControllerにActionを追加
-            actionSheet.addAction(UIAlertAction(title: "Get", style: .default, handler: nil))
+            actionSheet.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             //Alertを表示
             present(actionSheet, animated: true, completion: nil)
            
