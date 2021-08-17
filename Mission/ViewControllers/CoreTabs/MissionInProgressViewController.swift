@@ -472,9 +472,9 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
             //ごほうびをアラート表示
             let message = bingoSheets.last?.reward ?? "ポッキー1袋"
             //UIAlertControllerクラスのインスタンスを生成
-            let actionSheet = UIAlertController(title: "ビンゴミッション\nコンプリート！", message: message, preferredStyle: .alert)//.actionSheet:画面下部から出てくるアラート//.alert:画面中央に表示されるアラート
+            let actionSheet = UIAlertController(title: "ビンゴミッション\nコンプリート!", message: message, preferredStyle: .alert)//.actionSheet:画面下部から出てくるアラート//.alert:画面中央に表示されるアラート
             //UIAlertControllerにActionを追加
-            actionSheet.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            actionSheet.addAction(UIAlertAction(title: "おつかれさまでした", style: .default, handler: nil))
             //Alertを表示
             present(actionSheet, animated: true, completion: nil)
            

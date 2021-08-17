@@ -18,6 +18,16 @@ public class SignUpViewController: UIViewController {
 
         
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 //
 //    public func createAnonymousUserToFirestore() {
 //        Auth.auth().signInAnonymously() {( authResult, error) in

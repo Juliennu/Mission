@@ -82,9 +82,9 @@
                                 <locale key="locale" localeIdentifier="ja"/>
                             </datePicker>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w4M-ys-tx1">
-                                <rect key="frame" x="209" y="662" width="77" height="30"/>
+                                <rect key="frame" x="203" y="662" width="138" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="シャッフル"/>
+                                <state key="normal" title="タスクをシャッフル"/>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
