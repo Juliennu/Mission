@@ -41,16 +41,24 @@ final class SettingViewController: UIViewController {
     
     private func configureModels() {
         let section = [
-            SettingCellModel(title: "メールアドレス登録") { [ weak self] in
+            SettingCellModel(title: "ユーザーID : ") { [ weak self] in
+                return
+            },
+            SettingCellModel(title: "データ引き継ぎ") { [ weak self] in
                 self?.didTapResister()
             },
-            SettingCellModel(title: "ログアウト") {[ weak self] in
+            SettingCellModel(title: "ログアウト") { [ weak self] in
                 self?.didTapLogOut()
+            },
+            SettingCellModel(title: "お問い合わせ") { [ weak self] in
+                return
             }
+
         ]
         data.append(section)
     }
     
+    //@匿名から永久アカウントへの昇格。既に永久アカウントの場合は無効にする。
     private func didTapResister() {
         print("登録希望！")
     }

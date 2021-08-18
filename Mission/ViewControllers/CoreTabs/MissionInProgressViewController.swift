@@ -15,7 +15,6 @@ class MissionInProgressViewController: UIViewController {
     
     private var scrollView: UIScrollView!
     private var pageControl: UIPageControl!
-//    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var bingoCollectionView: UICollectionView!
 //    private var bingoCollectionView: UICollectionView!
@@ -25,28 +24,14 @@ class MissionInProgressViewController: UIViewController {
     
     //実行中のビンゴを格納する配列
     var bingoSheets = [BingoSheet]()
-    
-//    let bingoSheets: [String] = ["ashitaka","kaya", "nausicaa", "san", "yupa"]
-    
-//    let titles = ["死ぬまでにやりたいこと", "デイリーミッション", "週末用"]
-
-//    let tasks = [//task arrayは二次元配列にする
-//        ["洗い物", "洗濯物", "掃除機かけ"],
-//        ["ゴミ出し","手紙を出す", "鳥小屋の掃除"],
-//        ["ふるさと納税", "単語帳10,000ページ", "ドラッグストアでシャンプーを買った後にスーパーでパイナップルを買う"]
-//    ]
-    
     //タスクを格納する二次元配列
     var tasks = [[String]]()
-    //
-//    var bingoSheetTitle: String?
-
-    
     //タスクの完了状況を管理する二次元配列
     var tasksAreDone = [[Bool]]()
     
+    
     //ビンゴシートの完了状況を管理するBool型
-    var bingoSheetIsDone = false
+    var bingoSheetIsDone = false//@bingoSheets.last?.isDoneみたいな感じで対応するのでこれは消す予定
     
     
 
@@ -55,7 +40,7 @@ class MissionInProgressViewController: UIViewController {
         super.viewDidLoad()
 
 //        print("tasks", tasks)
-        
+        setUpBingoCollectionView()
         setUpScrollView()
 //        setUpImageView()
         setUpPageControl()
@@ -73,8 +58,8 @@ class MissionInProgressViewController: UIViewController {
         super.viewWillAppear(animated)
         
         setUpView()
-        setUpBingoCollectionView()
-        
+        createNewBingoSheet()
+                
     }
     
 //MARK: - AdMob バナー広告の設定
@@ -152,26 +137,18 @@ class MissionInProgressViewController: UIViewController {
         
         bingoCollectionView.collectionViewLayout = layout
         
-        print("ビンゴシート数: ", bingoSheets.count)
-        //配列の個数分collectionViewを生成
-        for i in 0..<bingoSheets.count {
-            let width = self.view.frame.size.width
-            //x座標をviewの幅 * i ずらしていく
-            let positionX = CGFloat(Int(width) * i)
-            bingoCollectionView.frame = CGRect(x: positionX, y: 0, width: width, height: width)
-            scrollView.addSubview(bingoCollectionView)
 
-//            var collectionView = UICollectionView(frame: CGRect(x: positionX, y: 0, width: width, height: width), collectionViewLayout: layout)
-//            collectionView = bingoCollectionView
-//            collectionView.register(BingoCollectionViewCell.self, forCellWithReuseIdentifier: "cellId")
-            //collectionViewの表示位置とサイズの設定
-//            collectionView = createCollectionView(x: positionX, y: 0, width: width - 40, height: width - 40, collectionView: bingoCollectionView)
-            
-//            scrollView.addSubview(collectionView)//ここで落ちる "UICollectionView must be initialized with a non-nil layout parameter"
-            
-//            let imageView = createImageView(x: positionX, y: 0, width: self.view.frame.size.width, height: 470, image: bingoSheets[i])
-//            scrollView.addSubview(imageView)
-        }
+        
+        //            var collectionView = UICollectionView(frame: CGRect(x: positionX, y: 0, width: width, height: width), collectionViewLayout: layout)
+        //            collectionView = bingoCollectionView
+        //            collectionView.register(BingoCollectionViewCell.self, forCellWithReuseIdentifier: "cellId")
+                    //collectionViewの表示位置とサイズの設定
+        //            collectionView = createCollectionView(x: positionX, y: 0, width: width - 40, height: width - 40, collectionView: bingoCollectionView)
+                    
+        //            scrollView.addSubview(collectionView)//ここで落ちる "UICollectionView must be initialized with a non-nil layout parameter"
+                    
+        //            let imageView = createImageView(x: positionX, y: 0, width: self.view.frame.size.width, height: 470, image: bingoSheets[i])
+        //            scrollView.addSubview(imageView)
     }
     
     
@@ -181,16 +158,32 @@ class MissionInProgressViewController: UIViewController {
 //        return collectionView
 //    }
     
+    func createNewBingoSheet() {
+        print("ビンゴシート数: ", bingoSheets.count)
+        
+        //配列の個数分collectionViewを生成
+        for i in 0..<bingoSheets.count {
+            let width = self.view.frame.size.width
+            //x座標をviewの幅 * i ずらしていく
+            let positionX = CGFloat(Int(width) * i)
+            bingoCollectionView.frame = CGRect(x: positionX, y: 0, width: width, height: width)
+    
+            // scrollViewのサイズを指定（幅は1ページに表示するViewの幅×ページ数）
+            scrollView.contentSize = CGSize(width: Int(width) * bingoSheets.count, height: 200)
+            // pageControlのページ数を設定
+            pageControl.numberOfPages = bingoSheets.count
+            
+            scrollView.addSubview(bingoCollectionView)
+        }
+    }
+    
     
     func setUpScrollView() {
         // scrollViewの画面表示サイズを指定
         scrollView = UIScrollView(frame: CGRect(x: 0, y: 150, width: self.view.frame.size.width, height: 470))
-        // scrollViewのサイズを指定（幅は1ページに表示するViewの幅×ページ数）
-        scrollView.contentSize = CGSize(width: Int(self.view.frame.size.width) * bingoSheets.count, height: 200)
         // scrollViewのデリゲートになる
         scrollView.delegate = self
         scrollView.backgroundColor = .systemPink
-        
         // ページ単位のスクロールを可能にする
         scrollView.isPagingEnabled = true
         // 水平方向のスクロールインジケータを非表示にする
@@ -222,8 +215,6 @@ class MissionInProgressViewController: UIViewController {
     func setUpPageControl() {
         // pageControlの表示位置とサイズの設定
         pageControl = UIPageControl(frame: CGRect(x: 0, y: 630, width: self.view.frame.size.width, height: 30))//y: 370
-        // pageControlのページ数を設定
-        pageControl.numberOfPages = bingoSheets.count
         //ページ数が1の時ドットが表示されなくなる
         pageControl.hidesForSinglePage = true
         //pageControl上をスクロールすることでページを切り替えられる->＠ページ切り替えできない
@@ -271,12 +262,23 @@ class MissionInProgressViewController: UIViewController {
         //UIAlertControllerクラスのインスタンスを生成
         let actionSheet = UIAlertController(title: "挑戦中のビンゴシートを中断しますか", message: "この画面からビンゴシートが削除されます", preferredStyle: .actionSheet)//.actionSheet:画面下部から出てくるアラート//.alert:画面中央に表示されるアラート
         //UIAlertControllerにActionを追加
-        actionSheet.addAction(UIAlertAction(title: "OK", style: .destructive, handler: nil))
         actionSheet.addAction(UIAlertAction(title: "キャンセル", style: .cancel, handler: nil))
+        actionSheet.addAction(UIAlertAction(title: "OK", style: .destructive) { _ in
+            //@OKだった時のビンゴシート中断処理を実装
+//            guard let documentId = self.bingoSheets.first?.documentId else { return }//＠現在表示中のビンゴシートを指定したい
+            //bingoSheetsから削除
+            self.bingoSheets.removeFirst()
+            // scrollViewのサイズを指定（幅は1ページに表示するViewの幅×ページ数）
+            self.scrollView.contentSize = CGSize(width: Int(self.view.frame.size.width) * self.bingoSheets.count, height: 200)
+            // pageControlのページ数を設定
+            self.pageControl.numberOfPages = self.bingoSheets.count
+            
+        })
+        
         //Alertを表示
         present(actionSheet, animated: true, completion: nil)
         
-        //@OKだった時のビンゴシート中断処理を実装
+        
         
     }
     
@@ -486,7 +488,8 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
             //UIAlertControllerクラスのインスタンスを生成
             let actionSheet = UIAlertController(title: "ビンゴミッション\nコンプリート!", message: message, preferredStyle: .alert)//.actionSheet:画面下部から出てくるアラート//.alert:画面中央に表示されるアラート
             //UIAlertControllerにActionを追加
-            actionSheet.addAction(UIAlertAction(title: "おつかれさまでした", style: .default, handler: nil))
+            let title = ["お疲れ様でした☕️", "いい感じです🍀", "さすが！", "バッチリです✨", "すごい!👏", "がんばってますね😌", "エライ！", "その調子！"]
+            actionSheet.addAction(UIAlertAction(title: title.randomElement(), style: .default, handler: nil))
             //Alertを表示
             present(actionSheet, animated: true, completion: nil)
            
