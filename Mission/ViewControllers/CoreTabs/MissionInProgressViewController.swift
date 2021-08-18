@@ -53,24 +53,27 @@ class MissionInProgressViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-
-        
-
 
 //        print("tasks", tasks)
-        setUpView()
+        
         setUpScrollView()
 //        setUpImageView()
         setUpPageControl()
         
         setUpBarButtonItem()
-        setUpBingoCollectionView()
+        
         setUpVannerView()
         setUpBingoStatusLabel()
         setUpSoundPrepare()
 //        addEventListner()
-
+    }
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        setUpView()
+        setUpBingoCollectionView()
         
     }
     
@@ -124,17 +127,59 @@ class MissionInProgressViewController: UIViewController {
     
     func setUpView() {
         
-        titleLabel.text = bingoSheets.last?.title ?? "デイリーミッション"
+        titleLabel.text = bingoSheets.last?.title ?? "イントロダクション"
         //タスクを二次元配列に変換 ->@bingoSheets[0]じゃなくて、新規に追加したシート（配列の一番最後）の番号にする
         tasks = bingoSheets.last?.tasks?.chunked(by: 3) ??  [
-            ["洗い物", "洗濯物", "掃除機かけ"],
-            ["ゴミ出し","手紙を出す", "鳥小屋の掃除"],
-            ["ふるさと納税", "単語帳10,000ページ", "ドラッグストアでシャンプーを買った後にスーパーでパイナップルを買う"]
+            ["フォルダータブを選択", "＋ボタンを押下", "新規ビンゴシートを作成"],
+            ["ビンゴシート詳細を編集","ドラッグ&ドロップでタスクを並び替え", "タスクをシャッフルボタンでランダム並び替え"],
+            ["開始ボタンを押下", "ビンゴミッションスタート", "完了したタスクをクリックしてスタンプを押そう！"]
         ]
         
         //初期値は全てfalseにする
         tasksAreDone = [[Bool]](repeating: [Bool](repeating: false, count: tasks.count), count: tasks.count)
     }
+    
+    private func setUpBingoCollectionView() {
+        
+        bingoCollectionView.delegate = self
+        bingoCollectionView.dataSource = self
+        bingoCollectionView.register(BingoCollectionViewCell.self, forCellWithReuseIdentifier: "cellId")
+        let layout = UICollectionViewFlowLayout()
+        bingoCollectionView.backgroundColor = .clear
+        
+        bingoCollectionView.layer.borderWidth = 0.0
+//        bingoCollectionView.layer.borderColor = UIColor.systemGray2.cgColor
+        
+        bingoCollectionView.collectionViewLayout = layout
+        
+        print("ビンゴシート数: ", bingoSheets.count)
+        //配列の個数分collectionViewを生成
+        for i in 0..<bingoSheets.count {
+            let width = self.view.frame.size.width
+            //x座標をviewの幅 * i ずらしていく
+            let positionX = CGFloat(Int(width) * i)
+            bingoCollectionView.frame = CGRect(x: positionX, y: 0, width: width, height: width)
+            scrollView.addSubview(bingoCollectionView)
+
+//            var collectionView = UICollectionView(frame: CGRect(x: positionX, y: 0, width: width, height: width), collectionViewLayout: layout)
+//            collectionView = bingoCollectionView
+//            collectionView.register(BingoCollectionViewCell.self, forCellWithReuseIdentifier: "cellId")
+            //collectionViewの表示位置とサイズの設定
+//            collectionView = createCollectionView(x: positionX, y: 0, width: width - 40, height: width - 40, collectionView: bingoCollectionView)
+            
+//            scrollView.addSubview(collectionView)//ここで落ちる "UICollectionView must be initialized with a non-nil layout parameter"
+            
+//            let imageView = createImageView(x: positionX, y: 0, width: self.view.frame.size.width, height: 470, image: bingoSheets[i])
+//            scrollView.addSubview(imageView)
+        }
+    }
+    
+    
+    // UICollectionViewを生成するメソッド
+//    func createCollectionView(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat, collectionView: UICollectionView) -> UICollectionView {
+//        let collectionView = UICollectionView(frame: CGRect(x: x, y: y, width: width, height: height))
+//        return collectionView
+//    }
     
     
     func setUpScrollView() {
@@ -249,47 +294,7 @@ class MissionInProgressViewController: UIViewController {
     
     
 
-    private func setUpBingoCollectionView() {
-        
-        bingoCollectionView.delegate = self
-        bingoCollectionView.dataSource = self
-        bingoCollectionView.register(BingoCollectionViewCell.self, forCellWithReuseIdentifier: "cellId")
-        let layout = UICollectionViewFlowLayout()
-        bingoCollectionView.backgroundColor = .clear
-        
-        bingoCollectionView.layer.borderWidth = 0.0
-//        bingoCollectionView.layer.borderColor = UIColor.systemGray2.cgColor
-        
-        bingoCollectionView.collectionViewLayout = layout
-        
-        print("ビンゴシート数: ", bingoSheets.count)
-        //配列の個数分collectionViewを生成
-        for i in 0..<bingoSheets.count {
-            let width = self.view.frame.size.width
-            //x座標をviewの幅 * i ずらしていく
-            let positionX = CGFloat(Int(width) * i)
-            bingoCollectionView.frame = CGRect(x: positionX, y: 0, width: width, height: width)
-            scrollView.addSubview(bingoCollectionView)
 
-//            var collectionView = UICollectionView(frame: CGRect(x: positionX, y: 0, width: width, height: width), collectionViewLayout: layout)
-//            collectionView = bingoCollectionView
-//            collectionView.register(BingoCollectionViewCell.self, forCellWithReuseIdentifier: "cellId")
-            //collectionViewの表示位置とサイズの設定
-//            collectionView = createCollectionView(x: positionX, y: 0, width: width - 40, height: width - 40, collectionView: bingoCollectionView)
-            
-//            scrollView.addSubview(collectionView)//ここで落ちる "UICollectionView must be initialized with a non-nil layout parameter"
-            
-//            let imageView = createImageView(x: positionX, y: 0, width: self.view.frame.size.width, height: 470, image: bingoSheets[i])
-//            scrollView.addSubview(imageView)
-        }
-    }
-    
-    
-    // UICollectionViewを生成するメソッド
-//    func createCollectionView(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat, collectionView: UICollectionView) -> UICollectionView {
-//        let collectionView = UICollectionView(frame: CGRect(x: x, y: y, width: width, height: height))
-//        return collectionView
-//    }
     
     
     
@@ -384,11 +389,18 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
     //セルの中身
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = bingoCollectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! BingoCollectionViewCell
-        //        //freeマスの時はイラストを表示
-        //        if bingosheet!.tasks![indexPath.row] == "free" {
-        //            cell.
-        //        } else {
-        cell.taskLabel.text = tasks[indexPath.section][indexPath.row]//@Firebaseからデータを持ってきたい
+
+        cell.taskLabel.text = tasks[indexPath.section][indexPath.row]
+        
+        //freeマスの時はイラストを表示
+        if tasks[indexPath.section][indexPath.row] == "free" {
+//            cell.taskLabel.text = ""
+            cell.imageView.image = UIImage(named: "freeImage1")//@目立つのでサイズを小さくして色も薄くしたい
+            cell.imageView.isHidden = false
+            tasksAreDone[indexPath.section][indexPath.row] = true
+            cell.backgroundColor? = doneCellUIColor
+        }
+        
         return cell
     }
     
@@ -406,7 +418,7 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
         //未完了タスクセル
         if taskIsDone == false {
             tasksAreDone[indexPath.section][indexPath.row] = true
-            cell?.backgroundColor = UIColor.black.withAlphaComponent(0.15)//薄い黒色
+            cell?.backgroundColor = doneCellUIColor
             cell?.isOpaque = false//透過にする
             
             cell?.isHighlighted = true
@@ -414,7 +426,7 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
         //完了タスクセル
         } else {
             tasksAreDone[indexPath.section][indexPath.row] = false
-            cell?.backgroundColor? = undoneUIColor//.yellow
+            cell?.backgroundColor? = undoneCellUIColor//.yellow
             cell?.isHighlighted = false
             taskIsUndoneSoundPlay()
         }
@@ -558,7 +570,7 @@ class BingoCollectionViewCell: UICollectionViewCell {
     
     
     
-    let imageView: UIImageView = {
+    var imageView: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "bingoImage2")//thumbsUpImage, checkMarkImage, medalImage
         //＠設定画面でスタンプのデザインを選べるようにしたい
@@ -596,7 +608,7 @@ class BingoCollectionViewCell: UICollectionViewCell {
         self.layer.borderWidth = 1.0
         self.layer.borderColor = bingoCellBorderColor.cgColor//UIColor.systemGray.cgColor
     
-        self.layer.backgroundColor = undoneUIColor.cgColor//UIColor.yellow.cgColor
+        self.layer.backgroundColor = undoneCellUIColor.cgColor//UIColor.yellow.cgColor
         self.layer.cornerRadius = 8.0
         
         

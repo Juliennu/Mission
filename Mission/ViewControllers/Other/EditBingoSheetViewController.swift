@@ -179,70 +179,6 @@ class EditBingoSheetViewController: UIViewController {
     }
     
     
-//    //ビンゴシート開始ボタン押下時の挙動
-//    @objc private func startButtonTapped() {
-//
-//        //アラート表示
-//        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-//        let okAction = UIAlertAction(title: "OK", style: .default) { _ in
-//
-//            //Firestoreへ現時点の情報を保存
-//            guard let documentId = self.bingosheet?.documentId else { return }
-//
-//            let dogData = [
-//                //ここに編集済みのデータを入れる。ビンゴシートの内容、タスクの並び順を固定。
-//                "title": self.bingosheet!.title!,
-//                "tasks": self.bingosheet!.tasks!,
-//                "reward": self.bingosheet!.reward!,
-//                "deadline": self.bingosheet!.deadline!
-//            ] as [String: Any]
-//
-//            //Firestoreにデータを上書き保存
-//            self.db.collection("bingoSheets").document(documentId).setData(dogData, merge: true) { err in
-//                if let err = err {
-//                    print("Firestoreへの上書きに失敗しました", err)
-//
-//                } else {
-//                    print("Firestoreの情報を上書きしました！", documentId)
-//
-////                    let storyboard = UIStoryboard.init(name: "Main", bundle: nil)//MissionInProgress
-////                    let nc = self.tabBarController?.viewControllers![1] as! UINavigationController
-//
-//                    //①タブバーのインスタンスを取得
-//                    guard let tabBarController = UIApplication.shared.windows.first?.rootViewController as? UITabBarController else { return }
-//                    guard let nc = tabBarController.viewControllers?[1] as? UINavigationController else { return }
-//                    guard let missionInProgressVC = nc.viewControllers[0] as? MissionInProgressViewController else { return }
-////                    let missionInProgressVC = nc.topViewController as! MissionInProgressViewController
-////                    let missionInProgressVC = storyboard.instantiateViewController(identifier: "MissionInProgressViewController") as! MissionInProgressViewController
-//                    //instantiate: インスタンスを生成する-> これだとTabBarControllerで管理されているViewControllerとは別のものになってしまう
-//
-//
-//                    //ビンゴシート情報を遷移先の変数に渡す
-//                    missionInProgressVC.bingoSheets.append(self.bingosheet!)
-//                    //②MissionInprogressタブを選択状態にする（0が一番左）
-//                    DispatchQueue.main.async {
-//                        tabBarController.selectedIndex = 1
-//
-//                    }
-//
-//                    //MissionInprogressタブへ遷移
-//                    //①タブバーのインスタンスを取得
-////                    if let tabBarController = UIApplication.shared.windows.first?.rootViewController as? UITabBarController {
-////
-////
-////                    }
-//
-////                    self.navigationController?.popToRootViewController(animated: true)
-//
-//                    //MissionInprogressVCへ遷移
-////                    self.navigationController?.pushViewController(missionInProgressVC, animated: true)
-//                }
-//            }
-//        }
-//       showAlert(title: "ビンゴミッションを\n開始しますか?", message: "", actions: [cancelAction,okAction])
-//    }
-
-    
     //ビンゴシート開始ボタン押下時の挙動
     @objc private func startButtonTapped() {
 
@@ -508,7 +444,7 @@ class EditBingoCollectionViewCell: UICollectionViewCell {
         self.layer.borderWidth = 1.0
         self.layer.borderColor = bingoCellBorderColor.cgColor//UIColor.systemGray.cgColor
         
-        self.layer.backgroundColor = undoneUIColor.cgColor//UIColor.yellow.cgColor
+        self.layer.backgroundColor = undoneCellUIColor.cgColor//UIColor.yellow.cgColor
         self.layer.cornerRadius = 8.0
         
         //セルの境界からはみ出ているものを見えるようにする
