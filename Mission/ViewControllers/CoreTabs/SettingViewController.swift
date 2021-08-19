@@ -76,7 +76,7 @@ final class SettingViewController: UIViewController {
                         let loginVC = LoginViewController()
                         loginVC.modalPresentationStyle = .fullScreen
                         self.present(loginVC, animated: true) {
-                            //ログイン後のルートビューコントローラーをHomeViewControllerにする？
+                            //ログイン後のルートビューコントローラーをFolderViewControllerにする
                             self.navigationController?.popViewController(animated: true)
                             self.tabBarController?.selectedIndex = 0
                         }

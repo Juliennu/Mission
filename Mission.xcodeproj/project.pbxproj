@@ -31,6 +31,7 @@
 		1A984DEC26C3DA1E00DC5095 /* LightNovelPOP.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1A984DEB26C3DA1E00DC5095 /* LightNovelPOP.otf */; };
 		1A984DEE26C6460A00DC5095 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A984DED26C6460A00DC5095 /* Array.swift */; };
 		1AC54A6826B90D190016E08E /* add-folder.png in Resources */ = {isa = PBXBuildFile; fileRef = 1AC54A6726B90D190016E08E /* add-folder.png */; };
+		1ACBC7C026CD12150047BC69 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACBC7BF26CD12150047BC69 /* User.swift */; };
 		1AD3275126BADD8B0025F630 /* BingoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD3275026BADD8B0025F630 /* BingoCollectionViewCell.swift */; };
 		1AE1456F26A0630F000D3E7E /* BingoLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE1456E26A0630F000D3E7E /* BingoLogic.swift */; };
 		1AE1457126A123A7000D3E7E /* AppTrackingTransparency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE1457026A123A7000D3E7E /* AppTrackingTransparency.swift */; };
@@ -71,6 +72,7 @@
 		1A984DEB26C3DA1E00DC5095 /* LightNovelPOP.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = LightNovelPOP.otf; sourceTree = "<group>"; };
 		1A984DED26C6460A00DC5095 /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 		1AC54A6726B90D190016E08E /* add-folder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add-folder.png"; sourceTree = "<group>"; };
+		1ACBC7BF26CD12150047BC69 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		1AD3275026BADD8B0025F630 /* BingoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BingoCollectionViewCell.swift; sourceTree = "<group>"; };
 		1AE1456E26A0630F000D3E7E /* BingoLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BingoLogic.swift; sourceTree = "<group>"; };
 		1AE1457026A123A7000D3E7E /* AppTrackingTransparency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTrackingTransparency.swift; sourceTree = "<group>"; };
@@ -251,10 +253,11 @@
 			isa = PBXGroup;
 			children = (
 				1AF53D9E269AB35B00124197 /* BingoSheet.swift */,
-				1AE1456E26A0630F000D3E7E /* BingoLogic.swift */,
+				1ACBC7BF26CD12150047BC69 /* User.swift */,
 				1AF53DA7269D33C400124197 /* AuthManager.swift */,
 				1AE1457026A123A7000D3E7E /* AppTrackingTransparency.swift */,
 				1A487C8526B050A1000CC727 /* Sound.swift */,
+				1AE1456E26A0630F000D3E7E /* BingoLogic.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -443,6 +446,7 @@
 				1AF53D7926981AB000124197 /* SceneDelegate.swift in Sources */,
 				1AF53D9226982DD400124197 /* SettingViewController.swift in Sources */,
 				1AF53D8E26982D5200124197 /* MissionInProgressViewController.swift in Sources */,
+				1ACBC7C026CD12150047BC69 /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

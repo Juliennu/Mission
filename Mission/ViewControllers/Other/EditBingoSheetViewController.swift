@@ -76,7 +76,9 @@ class EditBingoSheetViewController: UIViewController {
         shuffleButton.backgroundColor = .systemGray5
         shuffleButton.layer.cornerRadius = 8.0
         
-        let startButton = UIBarButtonItem(title: "開始", style: .plain, target: self, action: #selector(startButtonTapped))
+        let startButton = UIBarButtonItem(image: UIImage(systemName: "arrowtriangle.forward.square"), style: .plain, target: self, action: #selector(startButtonTapped))
+        startButton.tintColor = .systemPink
+//        startButton.title = "START"
         let saveButton = UIBarButtonItem(title: "保存", style: .plain, target: self, action: #selector(saveButtonTapped))
         navigationItem.rightBarButtonItems = [startButton, saveButton]
     }
@@ -211,7 +213,8 @@ class EditBingoSheetViewController: UIViewController {
                     guard let missionInProgressVC = nc.viewControllers[0] as? MissionInProgressViewController else { return }
 
                     //ビンゴシート情報を遷移先の変数に渡す
-                    missionInProgressVC.bingoSheets.append(self.bingosheet!)
+                    missionInProgressVC.createNewBingoSheet(bingosheet: self.bingosheet!)
+//                    missionInProgressVC.bingoSheets.append(self.bingosheet!)
                     
                     //MissionInprogressタブを選択状態にする（0が一番左）
                     DispatchQueue.main.async {
@@ -220,7 +223,7 @@ class EditBingoSheetViewController: UIViewController {
                 }
             }
         }
-       showAlert(title: "ビンゴミッションを\n開始しますか?", message: "", actions: [cancelAction,okAction])
+       showAlert(title: "ビンゴミッションを\n開始しますか？", message: "", actions: [cancelAction,okAction])
     }
     
     
@@ -238,7 +241,13 @@ class EditBingoSheetViewController: UIViewController {
     
     
     @objc private func saveButtonTapped() {
-        overwriteFirestore()
+        
+        //アラート表示
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+            self.overwriteFirestore()
+        }
+        showAlert(title: "変更を保存しますか？", message: "", actions: [cancelAction,okAction])
     }
     
     private func overwriteFirestore() {
@@ -256,21 +265,25 @@ class EditBingoSheetViewController: UIViewController {
         db.collection("bingoSheets").document(documentId).setData(dogData, merge: true) { err in
             if let err = err {
                 print("Firestoreへの上書きに失敗しました", err)
+                
             } else {
                 print("Firestoreの情報を上書きしました！", documentId)
+                
                 //保存完了アラート表示
-                self.showSaveAlert()
+                let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                self.showAlert(title: "保存しました", message: "", actions: [okAction])
+//                self.showSaveAlert()
             }
         }
     }
     
     
-    private func showSaveAlert() {
-        let alert = UIAlertController(title: "保存しました", message: "", preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-        alert.addAction(okAction)
-        present(alert, animated: true, completion: nil)
-    }
+//    private func showSaveAlert() {
+//        let alert = UIAlertController(title: "保存しました", message: "", preferredStyle: .alert)
+//        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+//        alert.addAction(okAction)
+//        present(alert, animated: true, completion: nil)
+//    }
     
     
     private func setUpBingoCollectionView() {

@@ -15,10 +15,14 @@ class MissionInProgressViewController: UIViewController {
     
     private var scrollView: UIScrollView!
     private var pageControl: UIPageControl!
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var bingoCollectionView: UICollectionView!
-//    private var bingoCollectionView: UICollectionView!
-    @IBOutlet weak var bingoStatusLabel: UILabel!
+    private var bingoCollectionView: UICollectionView!
+    private var titleLabel: UILabel!
+    private var bingoStatusLabel: UILabel!
+    
+//    @IBOutlet weak var titleLabel: UILabel!
+//    @IBOutlet weak var bingoCollectionView: UICollectionView!
+    
+//    @IBOutlet weak var bingoStatusLabel: UILabel!//Font: Party LET Plain 61.0
     @IBOutlet weak var bannerView: GADBannerView!//Admobを表示
     
     
@@ -28,6 +32,9 @@ class MissionInProgressViewController: UIViewController {
     var tasks = [[String]]()
     //タスクの完了状況を管理する二次元配列
     var tasksAreDone = [[Bool]]()
+    //表示中のビンゴを識別する変数
+    
+    
     
     
     //ビンゴシートの完了状況を管理するBool型
@@ -40,16 +47,17 @@ class MissionInProgressViewController: UIViewController {
         super.viewDidLoad()
 
 //        print("tasks", tasks)
-        setUpBingoCollectionView()
+        setUpVannerView()
+        setUpSoundPrepare()
+        setUpBarButtonItem()
+
         setUpScrollView()
 //        setUpImageView()
         setUpPageControl()
-        
-        setUpBarButtonItem()
-        
-        setUpVannerView()
         setUpBingoStatusLabel()
-        setUpSoundPrepare()
+        setUpView()
+        setUpBingoCollectionView()
+        
 //        addEventListner()
     }
     
@@ -57,8 +65,8 @@ class MissionInProgressViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        setUpView()
-        createNewBingoSheet()
+        
+//        createNewBingoSheet()
                 
     }
     
@@ -111,76 +119,103 @@ class MissionInProgressViewController: UIViewController {
 //MARK: - functions
     
     func setUpView() {
+        titleLabel = UILabel(frame: CGRect(x: 20, y: 20, width: self.view.frame.size.width - 40, height: 30))
+        titleLabel.text = "イントロダクション"
+        titleLabel.textAlignment = .center
+        titleLabel.font = UIFont(name: "System Bold", size: 19.0)//System Bold 19.0
+        titleLabel.backgroundColor = .systemGray5
+        scrollView.addSubview(titleLabel)
         
-        titleLabel.text = bingoSheets.last?.title ?? "イントロダクション"
-        //タスクを二次元配列に変換 ->@bingoSheets[0]じゃなくて、新規に追加したシート（配列の一番最後）の番号にする
-        tasks = bingoSheets.last?.tasks?.chunked(by: 3) ??  [
+        tasks = [
             ["フォルダータブを選択", "＋ボタンを押下", "新規ビンゴシートを作成"],
             ["ビンゴシート詳細を編集","ドラッグ&ドロップでタスクを並び替え", "タスクをシャッフルボタンでランダム並び替え"],
             ["開始ボタンを押下", "ビンゴミッションスタート", "完了したタスクをクリックしてスタンプを押そう！"]
         ]
         
-        //初期値は全てfalseにする
         tasksAreDone = [[Bool]](repeating: [Bool](repeating: false, count: tasks.count), count: tasks.count)
+
     }
     
+    
+    
     private func setUpBingoCollectionView() {
-        
+
+        // bingoCollectionViewの画面表示サイズ・レイアウトを指定
+        bingoCollectionView = UICollectionView(frame: CGRect(x: 20, y: 100, width: 350, height: 350), collectionViewLayout: UICollectionViewFlowLayout())
+//        let layout = UICollectionViewFlowLayout()
+//        bingoCollectionView.collectionViewLayout = layout
+
         bingoCollectionView.delegate = self
         bingoCollectionView.dataSource = self
         bingoCollectionView.register(BingoCollectionViewCell.self, forCellWithReuseIdentifier: "cellId")
-        let layout = UICollectionViewFlowLayout()
+
         bingoCollectionView.backgroundColor = .clear
-        
         bingoCollectionView.layer.borderWidth = 0.0
 //        bingoCollectionView.layer.borderColor = UIColor.systemGray2.cgColor
-        
-        bingoCollectionView.collectionViewLayout = layout
-        
 
-        
-        //            var collectionView = UICollectionView(frame: CGRect(x: positionX, y: 0, width: width, height: width), collectionViewLayout: layout)
-        //            collectionView = bingoCollectionView
-        //            collectionView.register(BingoCollectionViewCell.self, forCellWithReuseIdentifier: "cellId")
-                    //collectionViewの表示位置とサイズの設定
-        //            collectionView = createCollectionView(x: positionX, y: 0, width: width - 40, height: width - 40, collectionView: bingoCollectionView)
-                    
-        //            scrollView.addSubview(collectionView)//ここで落ちる "UICollectionView must be initialized with a non-nil layout parameter"
-                    
-        //            let imageView = createImageView(x: positionX, y: 0, width: self.view.frame.size.width, height: 470, image: bingoSheets[i])
-        //            scrollView.addSubview(imageView)
     }
     
     
-    // UICollectionViewを生成するメソッド
-//    func createCollectionView(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat, collectionView: UICollectionView) -> UICollectionView {
-//        let collectionView = UICollectionView(frame: CGRect(x: x, y: y, width: width, height: height))
-//        return collectionView
-//    }
+
     
-    func createNewBingoSheet() {
-        print("ビンゴシート数: ", bingoSheets.count)
+    //＠どのタイミングでオブジェクトを設定しておけば良いのかわからなくなった。
+    func createNewBingoSheet(bingosheet: BingoSheet) {
+        
+        bingoSheets.append(bingosheet)
+//        bingoSheets.insert(bingosheet, at: 0)
+        //＠配列の最初に新要素を追加したい。bingosheetもscrollViewの左側に追加されるようにしたい（ゆくゆくでOK）
+  
+        print("ビンゴ数", bingoSheets.count)
+        
+        //bingoCollectionViewの新しいインスタンスを生成
+        setUpBingoCollectionView()
+        setUpView()
+        
+        //タスクを二次元配列に変換
+        tasks = bingosheet.tasks?.chunked(by: 3) ?? [[String]]()
+        
+        //初期値は全てfalseにする
+        tasksAreDone = [[Bool]](repeating: [Bool](repeating: false, count: tasks.count), count: tasks.count)
+        
+        
+        let width = self.view.frame.size.width
+        let positionX = CGFloat(Int(width) * (bingoSheets.count - 1))//＠座標の指定をどこにすればいいかわからない
+        bingoCollectionView.frame = CGRect(x: positionX + 20, y: 100, width: 350, height: 350)
+        
+        titleLabel.frame = CGRect(x: positionX + 20, y: 20, width: width - 40, height: 30)
+        titleLabel.text = bingosheet.title ?? ""
+
+        
+        // scrollViewのサイズを指定（幅は1ページに表示するViewの幅×ページ数）
+        scrollView.contentSize = CGSize(width: Int(width) * bingoSheets.count, height: 200)
+        // pageControlのページ数を設定
+        pageControl.numberOfPages = bingoSheets.count
+        
+        self.scrollView.addSubview(bingoCollectionView)
+        self.scrollView.addSubview(titleLabel)
+        
+        
+        
+        
+//        print("ビンゴシート数: ", bingoSheets.count)
         
         //配列の個数分collectionViewを生成
-        for i in 0..<bingoSheets.count {
-            let width = self.view.frame.size.width
-            //x座標をviewの幅 * i ずらしていく
-            let positionX = CGFloat(Int(width) * i)
-            bingoCollectionView.frame = CGRect(x: positionX, y: 0, width: width, height: width)
-    
-            // scrollViewのサイズを指定（幅は1ページに表示するViewの幅×ページ数）
-            scrollView.contentSize = CGSize(width: Int(width) * bingoSheets.count, height: 200)
-            // pageControlのページ数を設定
-            pageControl.numberOfPages = bingoSheets.count
-            
-            scrollView.addSubview(bingoCollectionView)
-        }
+//        for i in 0...bingoSheets.count {
+//            let width = self.view.frame.size.width
+//            //x座標をviewの幅 * i ずらしていく
+//            let positionX = CGFloat(Int(width) * i)
+//            bingoCollectionView.frame = CGRect(x: positionX, y: 0, width: width, height: width)
+//
+//
+////            scrollView.addSubview(bingoCollectionView)
+//        }
     }
     
     
     func setUpScrollView() {
         // scrollViewの画面表示サイズを指定
-        scrollView = UIScrollView(frame: CGRect(x: 0, y: 150, width: self.view.frame.size.width, height: 470))
+//        scrollView.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 470)
+        scrollView = UIScrollView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 630))
         // scrollViewのデリゲートになる
         scrollView.delegate = self
         scrollView.backgroundColor = .systemPink
@@ -223,13 +258,21 @@ class MissionInProgressViewController: UIViewController {
         pageControl.pageIndicatorTintColor = UIColor.gray
         // pageControlの現在のページのドットの色
         pageControl.currentPageIndicatorTintColor = UIColor.systemPink
+
+        
         self.view.addSubview(pageControl)
     }
     
+//    @objc func pageControlValueChanged() {
+//        let currentPageIndex = pageControl.currentPage
+//
+//
+//    }
+    
     
     private func setUpBarButtonItem() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "シェア", style: .plain, target: self, action: #selector(shared))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "中断", style: .plain, target: self, action: #selector(canceled))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: self, action: #selector(shared))//(title: "シェア", style: .plain, target: self, action: #selector(shared))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "nosign"), style: .plain, target: self, action: #selector(canceled))//(title: "中断", style: .plain, target: self, action: #selector(canceled))
         navigationItem.leftBarButtonItem?.tintColor = .red
     }
     
@@ -286,8 +329,13 @@ class MissionInProgressViewController: UIViewController {
     
     
     private func setUpBingoStatusLabel() {
+        bingoStatusLabel = UILabel(frame: CGRect(x: 20, y: 320, width: self.view.frame.size.width - 40, height: 80))
+//        bingoStatusLabel.frame = CGRect(x: 20, y: 320, width: self.view.frame.size.width - 20, height: 90)
         bingoStatusLabel.isHidden = true
-        bingoStatusLabel.backgroundColor = .clear
+        bingoStatusLabel.font = UIFont(name: "Party LET Plain", size: 61.0)
+        bingoStatusLabel.backgroundColor = .yellow
+        bingoStatusLabel.textAlignment = .center
+        self.view.addSubview(bingoStatusLabel)
         //viewを最前面に持ってくる->@最前面に来ない
         self.view.bringSubviewToFront(bingoStatusLabel)
 //        bingoStatusLabel.layer.cornerRadius = 20
@@ -479,7 +527,7 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
             print("ビンゴシートクリア！")
             bingoSheetIsDone = true
 //            sleep(1)
-            bingoStatusLabel.text = "Complete!"
+            bingoStatusLabel.text = "COMPLETE!"
             bingoStatusLabel.isHidden = false
             clearSoundPlay()
             
@@ -488,7 +536,7 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
             //UIAlertControllerクラスのインスタンスを生成
             let actionSheet = UIAlertController(title: "ビンゴミッション\nコンプリート!", message: message, preferredStyle: .alert)//.actionSheet:画面下部から出てくるアラート//.alert:画面中央に表示されるアラート
             //UIAlertControllerにActionを追加
-            let title = ["お疲れ様でした☕️", "いい感じです🍀", "さすが！", "バッチリです✨", "すごい!👏", "がんばってますね😌", "エライ！", "その調子！"]
+            let title = ["お疲れ様でした☕️", "いい感じです🍀", "さすが！", "バッチリです✨", "すごい!👏", "がんばってますね😌", "エライ！", "その調子！", "素晴らしい🌟", "やりました🎉", "その調子！"]
             actionSheet.addAction(UIAlertAction(title: title.randomElement(), style: .default, handler: nil))
             //Alertを表示
             present(actionSheet, animated: true, completion: nil)
@@ -505,7 +553,9 @@ extension MissionInProgressViewController: UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         pageControl.currentPage = Int(scrollView.contentOffset.x / scrollView.frame.size.width)
+//        print("現在のページ: ", pageControl.currentPage)//動いた瞬間に検知される。0ページからスタート
         //@pageControlのcurrentPageの移動に合わせてscrollViewのページも移動させたい
+        
     }
     
     //    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
@@ -517,6 +567,13 @@ extension MissionInProgressViewController: UIScrollViewDelegate {
     //    }
     
 }
+
+
+
+
+
+
+
 
 
 
