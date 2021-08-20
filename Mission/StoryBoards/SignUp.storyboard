@@ -72,9 +72,9 @@
                                 </state>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jJn-ha-6yH">
-                                <rect key="frame" x="120.5" y="644" width="173" height="28"/>
+                                <rect key="frame" x="94" y="644" width="226" height="28"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <state key="normal" title="既にアカウントをお持ちの方"/>
+                                <state key="normal" title="既にアカウントをお持ちの方はこちら"/>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="PMB-L0-dCq"/>
@@ -88,10 +88,10 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="alreadyHaveAccountButton" destination="jJn-ha-6yH" id="h3A-72-KQX"/>
-                        <outlet property="emailTextField" destination="jLP-Di-SOj" id="p0I-cY-tQA"/>
-                        <outlet property="passwordTextField" destination="nna-d4-DPi" id="ktD-d5-NfE"/>
-                        <outlet property="registerButton" destination="STH-ZX-bZ0" id="lg4-Xi-R1G"/>
+                        <outlet property="alreadyHaveAccountButton" destination="jJn-ha-6yH" id="rli-nV-1kJ"/>
+                        <outlet property="emailTextField" destination="jLP-Di-SOj" id="2X1-qK-5lv"/>
+                        <outlet property="passwordTextField" destination="nna-d4-DPi" id="6Kd-QG-TWB"/>
+                        <outlet property="registerButton" destination="STH-ZX-bZ0" id="94A-wP-FIA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vsJ-2G-hGb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

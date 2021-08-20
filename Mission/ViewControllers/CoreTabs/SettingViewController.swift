@@ -60,7 +60,10 @@ final class SettingViewController: UIViewController {
     
     //@匿名から永久アカウントへの昇格。既に永久アカウントの場合は無効にする。
     private func didTapResister() {
-        print("登録希望！")
+        //SignUpVCへ遷移
+        let storyboard = UIStoryboard.init(name: "SignUp", bundle: nil)
+        let signUpVC = storyboard.instantiateViewController(withIdentifier: "SignUpViewController") as! SignUpViewController
+        navigationController?.pushViewController(signUpVC, animated: true)
     }
     
     private func didTapLogOut() {
@@ -73,15 +76,27 @@ final class SettingViewController: UIViewController {
                 DispatchQueue.main.async {
                     if success {
                         //ログイン画面へ遷移
-                        let loginVC = LoginViewController()
+                        
+                        let storyboard = UIStoryboard.init(name: "Login", bundle: nil)
+                        let loginVC = storyboard.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
                         loginVC.modalPresentationStyle = .fullScreen
                         self.present(loginVC, animated: true) {
                             //ログイン後のルートビューコントローラーをFolderViewControllerにする
                             self.navigationController?.popViewController(animated: true)
                             self.tabBarController?.selectedIndex = 0
                         }
-                    }
-                    else {
+//                        self.navigationController?.pushViewController(loginVC, animated: true)
+                        
+                        
+//                        let loginVC = LoginViewController()
+//                        //こうすると、ただInstanceを作成しているだけなので、Storyboardの情報は入っていきません。なので、IBOutletしても、nil、つまりそんなのないよってなるわけです。
+//                        loginVC.modalPresentationStyle = .fullScreen
+//                        self.present(loginVC, animated: true) {
+//                            //ログイン後のルートビューコントローラーをFolderViewControllerにする
+//                            self.navigationController?.popViewController(animated: true)
+//                            self.tabBarController?.selectedIndex = 0
+//                        }
+                    } else {
                         //エラー発生時(iPadにて操作時)
                         fatalError("ログアウトに失敗しました")
                     }
