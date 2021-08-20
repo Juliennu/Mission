@@ -189,13 +189,14 @@ class EditBingoSheetViewController: UIViewController {
         let okAction = UIAlertAction(title: "OK", style: .default) { _ in
 
             //Firestoreへ現時点の情報を保存
-            guard let documentId = self.bingosheet?.documentId else { return }
+            guard let bingosheet = self.bingosheet else { return }
+            guard let documentId = bingosheet.documentId else { return }
 
             let dogData = [
                 //ここに編集済みのデータを入れる。ビンゴシートの内容、タスクの並び順を固定。
-                "title": self.bingosheet!.title!,
-                "tasks": self.bingosheet!.tasks!,
-                "reward": self.bingosheet!.reward!,
+                "title": self.bingosheet!.title ?? "",
+                "tasks": self.bingosheet!.tasks ?? [],
+                "reward": self.bingosheet!.reward ?? "",
                 "deadline": self.bingosheet!.deadline!
             ] as [String: Any]
 
@@ -206,6 +207,18 @@ class EditBingoSheetViewController: UIViewController {
 
                 } else {
                     print("Firestoreの情報を上書きしました！", documentId)
+                    
+                    //@実行中のビンゴ情報をFirebaseに保存したい（BingoSheetInProgressクラス）
+                    let bingoSheetInProgress = BingoSheetInProgress(bingoSheet: bingosheet)
+//                    let dogData = [
+//
+//                        ""
+//
+//
+//
+//                    ] as [String: Any]
+                    
+                    
 
                     //Tab Bar Controller -> Navigation Controller -> MissionInProgressViewControllerの順にインスタンスを取得
                     guard let tabBarController = UIApplication.shared.windows.first?.rootViewController as? UITabBarController else { return }
@@ -213,7 +226,9 @@ class EditBingoSheetViewController: UIViewController {
                     guard let missionInProgressVC = nc.viewControllers[0] as? MissionInProgressViewController else { return }
 
                     //ビンゴシート情報を遷移先の変数に渡す
-                    missionInProgressVC.createNewBingoSheet(bingosheet: self.bingosheet!)
+                    missionInProgressVC.createNewBingoSheet(bingoSheetInProgress: bingoSheetInProgress)
+                    
+//                    missionInProgressVC.createNewBingoSheet(bingosheet: self.bingosheet!)
 //                    missionInProgressVC.bingoSheets.append(self.bingosheet!)
                     
                     //MissionInprogressタブを選択状態にする（0が一番左）
@@ -255,9 +270,9 @@ class EditBingoSheetViewController: UIViewController {
         
         let dogData = [
             //ここに編集済みのデータを入れる。ビンゴシートの内容、タスクの並び順を固定。
-            "title": bingosheet!.title!,
-            "tasks": bingosheet!.tasks!,
-            "reward": bingosheet!.reward!,
+            "title": bingosheet!.title ?? "",
+            "tasks": bingosheet!.tasks ?? [],
+            "reward": bingosheet!.reward ?? "",
             "deadline": bingosheet!.deadline!
         ] as [String: Any]
 

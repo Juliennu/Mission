@@ -19,7 +19,7 @@ public class BingoSheet {
     var reward: String?
     var tasks: [String]?
     
-    var isDone: Bool?//ビンゴシート全体の達成状況(全て完了か否か)
+    
 
     //イニシャライザーは定数にのみ?
     init(dic: [String: Any]) {
@@ -39,6 +39,33 @@ public class BingoSheet {
         self.tasks = document.get("tasks") as? [String] ?? [String]()
     }
 }
+
+
+
+
+public class BingoSheetInProgress {
+    
+    let startedAt: Timestamp
+    let bingoSheet: BingoSheet
+    let tasks: [[String]]
+    
+    var tasksAreDone: [[Bool]]
+    var isDone: Bool?//ビンゴシート全体の達成状況(全て完了か否か)
+    
+    init(bingoSheet: BingoSheet) {
+        self.startedAt = Timestamp()
+        self.bingoSheet = bingoSheet
+        self.tasks = bingoSheet.tasks?.chunked(by: 3) ?? [[String]]()
+        self.tasksAreDone = [[Bool]](repeating: [Bool](repeating: false, count: tasks.count), count: tasks.count)
+        self.isDone = false
+    }
+}
+//        self.bingoSheet = dic["bingoSheet"] as? BingoSheet ?? BingoSheet(dic: ["createdAt": Timestamp(), "documentId": String.self])
+
+
+
+
+
 
 //        self.title = dic["title"] as? String ?? ""
 //        self.deadline = dic["deadline"] as? Date ?? Date()

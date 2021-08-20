@@ -32,6 +32,7 @@
 		1A984DEE26C6460A00DC5095 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A984DED26C6460A00DC5095 /* Array.swift */; };
 		1AC54A6826B90D190016E08E /* add-folder.png in Resources */ = {isa = PBXBuildFile; fileRef = 1AC54A6726B90D190016E08E /* add-folder.png */; };
 		1ACBC7C026CD12150047BC69 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACBC7BF26CD12150047BC69 /* User.swift */; };
+		1ACBC7C226CF8E670047BC69 /* SignUp.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1ACBC7C126CF8E670047BC69 /* SignUp.storyboard */; };
 		1AD3275126BADD8B0025F630 /* BingoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD3275026BADD8B0025F630 /* BingoCollectionViewCell.swift */; };
 		1AE1456F26A0630F000D3E7E /* BingoLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE1456E26A0630F000D3E7E /* BingoLogic.swift */; };
 		1AE1457126A123A7000D3E7E /* AppTrackingTransparency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE1457026A123A7000D3E7E /* AppTrackingTransparency.swift */; };
@@ -73,6 +74,7 @@
 		1A984DED26C6460A00DC5095 /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 		1AC54A6726B90D190016E08E /* add-folder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add-folder.png"; sourceTree = "<group>"; };
 		1ACBC7BF26CD12150047BC69 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		1ACBC7C126CF8E670047BC69 /* SignUp.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SignUp.storyboard; sourceTree = "<group>"; };
 		1AD3275026BADD8B0025F630 /* BingoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BingoCollectionViewCell.swift; sourceTree = "<group>"; };
 		1AE1456E26A0630F000D3E7E /* BingoLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BingoLogic.swift; sourceTree = "<group>"; };
 		1AE1457026A123A7000D3E7E /* AppTrackingTransparency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTrackingTransparency.swift; sourceTree = "<group>"; };
@@ -269,6 +271,7 @@
 				1AF53DA3269BD59400124197 /* CreateNewBingoSheet.storyboard */,
 				1AF53DA5269BD62300124197 /* EditBingoSheet.storyboard */,
 				1AF53D8126981AB200124197 /* LaunchScreen.storyboard */,
+				1ACBC7C126CF8E670047BC69 /* SignUp.storyboard */,
 			);
 			path = StoryBoards;
 			sourceTree = "<group>";
@@ -360,6 +363,7 @@
 			files = (
 				1A487C8C26B053D5000CC727 /* ka.mp3 in Resources */,
 				1AF53DA1269AB48700124197 /* GoogleService-Info.plist in Resources */,
+				1ACBC7C226CF8E670047BC69 /* SignUp.storyboard in Resources */,
 				1A984DEA26C3D88E00DC5095 /* KosugiMaru-Regular.ttf in Resources */,
 				1A487C9426B05DF3000CC727 /* huin.mp3 in Resources */,
 				1AF53DA4269BD59400124197 /* CreateNewBingoSheet.storyboard in Resources */,

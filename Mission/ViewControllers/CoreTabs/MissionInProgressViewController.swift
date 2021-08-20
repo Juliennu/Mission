@@ -25,26 +25,30 @@ class MissionInProgressViewController: UIViewController {
 //    @IBOutlet weak var bingoStatusLabel: UILabel!//Font: Party LET Plain 61.0
     @IBOutlet weak var bannerView: GADBannerView!//Admobを表示
     
-    
-    //実行中のビンゴを格納する配列
-    var bingoSheets = [BingoSheet]()
-    //タスクを格納する二次元配列
-    var tasks = [[String]]()
-    //タスクの完了状況を管理する二次元配列
-    var tasksAreDone = [[Bool]]()
-    //表示中のビンゴを識別する変数
-    
+    //実行中のビンゴ情報を格納する配列
+    var bingoSheetsInProgress = [BingoSheetInProgress]()
+    //pageControlのcurrentPage番号
+    var x: Int = 0
+//    //実行中のビンゴ情報を格納する配列
+//    var bingoSheets = [BingoSheet]()
+//    //タスクを格納する二次元配列
+//    var tasks = [[String]]()
+//    //タスクの完了状況を管理する二次元配列
+//    var tasksAreDone = [[Bool]]()
+
     
     
     
     //ビンゴシートの完了状況を管理するBool型
-    var bingoSheetIsDone = false//@bingoSheets.last?.isDoneみたいな感じで対応するのでこれは消す予定
+//    var bingoSheetIsDone = false//@bingoSheets.last?.isDoneみたいな感じで対応するのでこれは消す予定
     
     
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+
 
 //        print("tasks", tasks)
         setUpVannerView()
@@ -119,20 +123,24 @@ class MissionInProgressViewController: UIViewController {
 //MARK: - functions
     
     func setUpView() {
+        
+
+        
+        
         titleLabel = UILabel(frame: CGRect(x: 20, y: 20, width: self.view.frame.size.width - 40, height: 30))
         titleLabel.text = "イントロダクション"
         titleLabel.textAlignment = .center
         titleLabel.font = UIFont(name: "System Bold", size: 19.0)//System Bold 19.0
         titleLabel.backgroundColor = .systemGray5
-        scrollView.addSubview(titleLabel)
+//        scrollView.addSubview(titleLabel)
         
-        tasks = [
-            ["フォルダータブを選択", "＋ボタンを押下", "新規ビンゴシートを作成"],
-            ["ビンゴシート詳細を編集","ドラッグ&ドロップでタスクを並び替え", "タスクをシャッフルボタンでランダム並び替え"],
-            ["開始ボタンを押下", "ビンゴミッションスタート", "完了したタスクをクリックしてスタンプを押そう！"]
-        ]
-        
-        tasksAreDone = [[Bool]](repeating: [Bool](repeating: false, count: tasks.count), count: tasks.count)
+//        tasks = [
+//            ["フォルダータブを選択", "＋ボタンを押下", "新規ビンゴシートを作成"],
+//            ["ビンゴシート詳細を編集","ドラッグ&ドロップでタスクを並び替え", "タスクをシャッフルボタンでランダム並び替え"],
+//            ["開始ボタンを押下", "ビンゴミッションスタート", "完了したタスクをクリックしてスタンプを押そう！"]
+//        ]
+//
+//        tasksAreDone = [[Bool]](repeating: [Bool](repeating: false, count: tasks.count), count: tasks.count)
 
     }
     
@@ -156,60 +164,88 @@ class MissionInProgressViewController: UIViewController {
     }
     
     
-
     
-    //＠どのタイミングでオブジェクトを設定しておけば良いのかわからなくなった。
-    func createNewBingoSheet(bingosheet: BingoSheet) {
-        
-        bingoSheets.append(bingosheet)
-//        bingoSheets.insert(bingosheet, at: 0)
-        //＠配列の最初に新要素を追加したい。bingosheetもscrollViewの左側に追加されるようにしたい（ゆくゆくでOK）
-  
-        print("ビンゴ数", bingoSheets.count)
+    
+    func createNewBingoSheet(bingoSheetInProgress: BingoSheetInProgress) {
+        bingoSheetsInProgress.append(bingoSheetInProgress)
         
         //bingoCollectionViewの新しいインスタンスを生成
         setUpBingoCollectionView()
         setUpView()
         
-        //タスクを二次元配列に変換
-        tasks = bingosheet.tasks?.chunked(by: 3) ?? [[String]]()
-        
-        //初期値は全てfalseにする
-        tasksAreDone = [[Bool]](repeating: [Bool](repeating: false, count: tasks.count), count: tasks.count)
-        
-        
         let width = self.view.frame.size.width
-        let positionX = CGFloat(Int(width) * (bingoSheets.count - 1))//＠座標の指定をどこにすればいいかわからない
+        let positionX = CGFloat(Int(width) * (bingoSheetsInProgress.count - 1))//＠座標の指定をどこにすればいいかわからない
         bingoCollectionView.frame = CGRect(x: positionX + 20, y: 100, width: 350, height: 350)
         
         titleLabel.frame = CGRect(x: positionX + 20, y: 20, width: width - 40, height: 30)
-        titleLabel.text = bingosheet.title ?? ""
-
+        titleLabel.text = bingoSheetInProgress.bingoSheet.title
         
         // scrollViewのサイズを指定（幅は1ページに表示するViewの幅×ページ数）
-        scrollView.contentSize = CGSize(width: Int(width) * bingoSheets.count, height: 200)
+        scrollView.contentSize = CGSize(width: Int(width) * bingoSheetsInProgress.count, height: 200)
         // pageControlのページ数を設定
-        pageControl.numberOfPages = bingoSheets.count
+        pageControl.numberOfPages = bingoSheetsInProgress.count
+        
+        // pageControlの現在ページを配列の最後のインデックスと同じにする
+        pageControl.currentPage = bingoSheetsInProgress.count
+        x = pageControl.currentPage
         
         self.scrollView.addSubview(bingoCollectionView)
         self.scrollView.addSubview(titleLabel)
-        
-        
-        
-        
-//        print("ビンゴシート数: ", bingoSheets.count)
-        
-        //配列の個数分collectionViewを生成
-//        for i in 0...bingoSheets.count {
-//            let width = self.view.frame.size.width
-//            //x座標をviewの幅 * i ずらしていく
-//            let positionX = CGFloat(Int(width) * i)
-//            bingoCollectionView.frame = CGRect(x: positionX, y: 0, width: width, height: width)
-//
-//
-////            scrollView.addSubview(bingoCollectionView)
-//        }
     }
+
+    
+    //＠どのタイミングでオブジェクトを設定しておけば良いのかわからなくなった。
+//    func createNewBingoSheet(bingosheet: BingoSheet) {
+//        
+//        bingoSheets.append(bingosheet)
+////        bingoSheets.insert(bingosheet, at: 0)
+//        //＠配列の最初に新要素を追加したい。bingosheetもscrollViewの左側に追加されるようにしたい（ゆくゆくでOK）
+//  
+////        print("ビンゴ数", bingoSheets.count)
+//        
+//        //bingoCollectionViewの新しいインスタンスを生成
+//        setUpBingoCollectionView()
+//        setUpView()
+//        
+//        //タスクを二次元配列に変換
+//        tasks = bingosheet.tasks?.chunked(by: 3) ?? [[String]]()
+//        
+//        //初期値は全てfalseにする
+//        tasksAreDone = [[Bool]](repeating: [Bool](repeating: false, count: tasks.count), count: tasks.count)
+//        
+//        
+//        let width = self.view.frame.size.width
+//        let positionX = CGFloat(Int(width) * (bingoSheets.count - 1))//＠座標の指定をどこにすればいいかわからない
+//        bingoCollectionView.frame = CGRect(x: positionX + 20, y: 100, width: 350, height: 350)
+//        
+//        titleLabel.frame = CGRect(x: positionX + 20, y: 20, width: width - 40, height: 30)
+//        titleLabel.text = bingosheet.title ?? ""
+//
+//        
+//        // scrollViewのサイズを指定（幅は1ページに表示するViewの幅×ページ数）
+//        scrollView.contentSize = CGSize(width: Int(width) * bingoSheets.count, height: 200)
+//        // pageControlのページ数を設定
+//        pageControl.numberOfPages = bingoSheets.count
+//        
+//        self.scrollView.addSubview(bingoCollectionView)
+//        self.scrollView.addSubview(titleLabel)
+//        
+//        
+//        
+//        
+////        print("ビンゴシート数: ", bingoSheets.count)
+//        
+//        //配列の個数分collectionViewを生成
+////        for i in 0...bingoSheets.count {
+////            let width = self.view.frame.size.width
+////            //x座標をviewの幅 * i ずらしていく
+////            let positionX = CGFloat(Int(width) * i)
+////            bingoCollectionView.frame = CGRect(x: positionX, y: 0, width: width, height: width)
+////
+////
+//////            scrollView.addSubview(bingoCollectionView)
+////        }
+//    }
     
     
     func setUpScrollView() {
@@ -286,7 +322,8 @@ class MissionInProgressViewController: UIViewController {
         
         //＠ビンゴシートが完了か否かでメッセージを変える
         var message = ""
-        if bingoSheetIsDone == false {
+        if bingoSheetsInProgress[x].isDone == false {//@現在表示中のビンゴシートの配列番号を取得したい！！！
+//        if bingoSheetIsDone == false {
             message = "ビンゴミッションに挑戦中！"
         } else {
           message = "ビンゴミッションをクリア☆"
@@ -310,11 +347,14 @@ class MissionInProgressViewController: UIViewController {
             //@OKだった時のビンゴシート中断処理を実装
 //            guard let documentId = self.bingoSheets.first?.documentId else { return }//＠現在表示中のビンゴシートを指定したい
             //bingoSheetsから削除
-            self.bingoSheets.removeFirst()
+            self.bingoSheetsInProgress.remove(at: self.x)//＠現在表示中のビンゴシートの順番を取得したい！！！！！
+//            self.bingoSheets.removeFirst()
             // scrollViewのサイズを指定（幅は1ページに表示するViewの幅×ページ数）
-            self.scrollView.contentSize = CGSize(width: Int(self.view.frame.size.width) * self.bingoSheets.count, height: 200)
+            self.scrollView.contentSize = CGSize(width: Int(self.view.frame.size.width) * self.bingoSheetsInProgress.count, height: 200)
+//            self.scrollView.contentSize = CGSize(width: Int(self.view.frame.size.width) * self.bingoSheets.count, height: 200)
             // pageControlのページ数を設定
-            self.pageControl.numberOfPages = self.bingoSheets.count
+            self.pageControl.numberOfPages = self.bingoSheetsInProgress.count
+//            self.pageControl.numberOfPages = self.bingoSheets.count
             
         })
         
@@ -336,6 +376,7 @@ class MissionInProgressViewController: UIViewController {
         bingoStatusLabel.backgroundColor = .yellow
         bingoStatusLabel.textAlignment = .center
         self.view.addSubview(bingoStatusLabel)
+//        self.bingoCollectionView.addSubview(bingoStatusLabel)
         //viewを最前面に持ってくる->@最前面に来ない
         self.view.bringSubviewToFront(bingoStatusLabel)
 //        bingoStatusLabel.layer.cornerRadius = 20
@@ -410,14 +451,17 @@ class MissionInProgressViewController: UIViewController {
 
 extension MissionInProgressViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
+    //セクション数
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return tasks.count
+        return 3
+//        return tasks.count
     }
     
     
-    //セルの数
+    //セクションごとのアイテム数
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return tasks[section].count//@Firebaseからデータを持ってきたい
+        return 3
+//        return tasks[section].count//@Firebaseからデータを持ってきたい
     }
     
     //セルのサイズ
@@ -439,15 +483,19 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
     //セルの中身
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = bingoCollectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! BingoCollectionViewCell
+        
+        let currentBingo = bingoSheetsInProgress[x]
 
-        cell.taskLabel.text = tasks[indexPath.section][indexPath.row]
+//        cell.taskLabel.text = tasks[indexPath.section][indexPath.row]
+        cell.taskLabel.text = currentBingo.tasks[indexPath.section][indexPath.row]
         
         //freeマスの時はイラストを表示
-        if tasks[indexPath.section][indexPath.row] == "free" {
+        if currentBingo.tasks[indexPath.section][indexPath.row] == "free" {
 //            cell.taskLabel.text = ""
             cell.imageView.image = UIImage(named: "freeImage1")//@目立つのでサイズを小さくして色も薄くしたい
             cell.imageView.isHidden = false
-            tasksAreDone[indexPath.section][indexPath.row] = true
+            currentBingo.tasksAreDone[indexPath.section][indexPath.row] = true
+//            tasksAreDone[indexPath.section][indexPath.row] = true
             cell.backgroundColor? = doneCellUIColor
         }
         
@@ -459,15 +507,17 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
         //@タップ時にイラストを表示したい
         let cell = bingoCollectionView.cellForItem(at: indexPath)
         
+        let currentBingo = bingoSheetsInProgress[x]
+        
 //        let task = tasks[indexPath.section][indexPath.row]
-        let taskIsDone = tasksAreDone[indexPath.section][indexPath.row]
+        let taskIsDone = currentBingo.tasksAreDone[indexPath.section][indexPath.row]
         bingoStatusLabel.text = "BINGO!"
         bingoStatusLabel.isHidden = true
     
         //セルタップ時にtrue/falseを切り替え、trueの時backgroundColorを灰色にする
         //未完了タスクセル
         if taskIsDone == false {
-            tasksAreDone[indexPath.section][indexPath.row] = true
+            currentBingo.tasksAreDone[indexPath.section][indexPath.row] = true
             cell?.backgroundColor = doneCellUIColor
             cell?.isOpaque = false//透過にする
             
@@ -475,7 +525,7 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
             taskIsDoneSoundPlay()
         //完了タスクセル
         } else {
-            tasksAreDone[indexPath.section][indexPath.row] = false
+            currentBingo.tasksAreDone[indexPath.section][indexPath.row] = false
             cell?.backgroundColor? = undoneCellUIColor//.yellow
             cell?.isHighlighted = false
             taskIsUndoneSoundPlay()
@@ -483,13 +533,19 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
         
         //縦横斜めが揃ったら「ビンゴ」と表示する
         //横の判定
-        if tasksAreDone[indexPath.section] == [true, true, true] {
+        if currentBingo.tasksAreDone[indexPath.section] == [true, true, true] {
+//        if tasksAreDone[indexPath.section] == [true, true, true] {
             print("よこビンゴ！")
             bingoAction()
         }
         
         //結果シートの縦の列を配列に格納
-        let tasksAreDoneColumn = [tasksAreDone[0][indexPath.row], tasksAreDone[1][indexPath.row], tasksAreDone[2][indexPath.row]]
+        let tasksAreDoneColumn = [
+            currentBingo.tasksAreDone[0][indexPath.row],
+            currentBingo.tasksAreDone[1][indexPath.row],
+            currentBingo.tasksAreDone[2][indexPath.row]
+        ]
+//        let tasksAreDoneColumn = [tasksAreDone[0][indexPath.row], tasksAreDone[1][indexPath.row], tasksAreDone[2][indexPath.row]]
         //縦の判定
         if tasksAreDoneColumn == [true, true, true] {
             print("たてビンゴ！")
@@ -497,8 +553,14 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
         }
         
         //結果シートの斜めの列を配列に格納
-        let tasksAreDoneDiagonalArray1 = [tasksAreDone[0][0], tasksAreDone[1][1], tasksAreDone[2][2]]
-        let tasksAreDoneDiagonalArray2 = [tasksAreDone[0][2], tasksAreDone[1][1], tasksAreDone[2][0]]
+        let tasksAreDoneDiagonalArray1 = [currentBingo.tasksAreDone[0][0],
+                                          currentBingo.tasksAreDone[1][1],
+                                          currentBingo.tasksAreDone[2][2]]
+        let tasksAreDoneDiagonalArray2 = [currentBingo.tasksAreDone[0][2],
+                                          currentBingo.tasksAreDone[1][1],
+                                          currentBingo.tasksAreDone[2][0]]
+//        let tasksAreDoneDiagonalArray1 = [tasksAreDone[0][0], tasksAreDone[1][1], tasksAreDone[2][2]]
+//        let tasksAreDoneDiagonalArray2 = [tasksAreDone[0][2], tasksAreDone[1][1], tasksAreDone[2][0]]
             
             if indexPath.section == indexPath.row,
                tasksAreDoneDiagonalArray1 == [true, true, true] {
@@ -523,16 +585,19 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
 
 
         //ビンゴシート達成の判定
-        if tasksAreDone == [[true, true, true], [true, true, true], [true, true, true]] {
+        if currentBingo.tasksAreDone == [[true, true, true], [true, true, true], [true, true, true]] {
+//        if tasksAreDone == [[true, true, true], [true, true, true], [true, true, true]] {
             print("ビンゴシートクリア！")
-            bingoSheetIsDone = true
+            currentBingo.isDone = true
+//            bingoSheetIsDone = true
 //            sleep(1)
             bingoStatusLabel.text = "COMPLETE!"
             bingoStatusLabel.isHidden = false
             clearSoundPlay()
             
             //ごほうびをアラート表示
-            let message = bingoSheets.last?.reward ?? "ポッキー1袋"
+            let message = currentBingo.bingoSheet.reward
+//            let message = bingoSheets.last?.reward ?? "ポッキー1袋"
             //UIAlertControllerクラスのインスタンスを生成
             let actionSheet = UIAlertController(title: "ビンゴミッション\nコンプリート!", message: message, preferredStyle: .alert)//.actionSheet:画面下部から出てくるアラート//.alert:画面中央に表示されるアラート
             //UIAlertControllerにActionを追加
