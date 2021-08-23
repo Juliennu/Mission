@@ -4,8 +4,10 @@
 //
 //  Created by Juri Ohto on 2021/07/09.
 //
-import Firebase
+
 import UIKit
+import Firebase
+import SafariServices
 
 struct SettingCellModel {
     let title: String
@@ -51,12 +53,20 @@ final class SettingViewController: UIViewController {
                 self?.didTapLogOut()
             },
             SettingCellModel(title: "お問い合わせ") { [ weak self] in
-                return
+                self?.didTapInquiry()
             }
 
         ]
         data.append(section)
     }
+    
+    //Googleformへ移動
+    private func didTapInquiry() {
+        guard let url = URL(string: "https://forms.gle/BbH9Am6tnesK1hqg9") else { return }
+        let vc = SFSafariViewController(url: url)
+        present(vc, animated: true)
+    }
+    
     
     //@匿名から永久アカウントへの昇格。既に永久アカウントの場合は無効にする。
     private func didTapResister() {
