@@ -28,6 +28,8 @@ class MissionInProgressViewController: UIViewController {
     //実行中のビンゴ情報を格納する配列
     var bingoSheetsInProgress = [BingoSheetInProgress]()
     //pageControlのcurrentPage番号
+    
+    var offsetX: CGFloat = 0
     var x: Int = 0
 //    //実行中のビンゴ情報を格納する配列
 //    var bingoSheets = [BingoSheet]()
@@ -35,10 +37,6 @@ class MissionInProgressViewController: UIViewController {
 //    var tasks = [[String]]()
 //    //タスクの完了状況を管理する二次元配列
 //    var tasksAreDone = [[Bool]]()
-
-    
-    
-    
     //ビンゴシートの完了状況を管理するBool型
 //    var bingoSheetIsDone = false//@bingoSheets.last?.isDoneみたいな感じで対応するのでこれは消す予定
     
@@ -254,7 +252,7 @@ class MissionInProgressViewController: UIViewController {
         scrollView = UIScrollView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 630))
         // scrollViewのデリゲートになる
         scrollView.delegate = self
-        scrollView.backgroundColor = .systemPink
+        scrollView.backgroundColor = scrollViewColor
         // ページ単位のスクロールを可能にする
         scrollView.isPagingEnabled = true
         // 水平方向のスクロールインジケータを非表示にする
@@ -294,16 +292,35 @@ class MissionInProgressViewController: UIViewController {
         pageControl.pageIndicatorTintColor = UIColor.gray
         // pageControlの現在のページのドットの色
         pageControl.currentPageIndicatorTintColor = UIColor.systemPink
+        //pageControlの値変更時にアクションを設定
+        pageControl.addTarget(self, action: #selector(pageScroll), for: .valueChanged)
 
         
         self.view.addSubview(pageControl)
     }
     
-//    @objc func pageControlValueChanged() {
-//        let currentPageIndex = pageControl.currentPage
-//
-//
-//    }
+    //offsetXの値更新時にページを移動
+    @objc func pageScroll() {
+        //画面の幅分offsetXを移動
+//        if Int(offsetX) < bingoSheetsInProgress.count {
+//            offsetX += view.frame.size.width
+//        } else {
+//            offsetX -= view.frame.size.width
+//        }
+        let viewWidth = view.frame.size.width
+        let currentPageIndex = pageControl.currentPage
+        offsetX = CGFloat(Int(viewWidth) * currentPageIndex)
+        
+        //scrollViewの原点からずらす
+        scrollView.contentOffset.x = offsetX
+        print("現在ページ", pageControl.currentPage)
+        
+        
+        
+        
+
+
+    }
     
     
     private func setUpBarButtonItem() {
@@ -613,11 +630,17 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
 
 
 //MARK:- ScrollView Delegate
-// scrollViewのページ移動に合わせてpageControlの表示も移動させる
+
 extension MissionInProgressViewController: UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        // scrollViewのページ移動に合わせてpageControlの表示も移動させる
         pageControl.currentPage = Int(scrollView.contentOffset.x / scrollView.frame.size.width)
+        //offsetXの値を更新
+        offsetX = scrollView.contentOffset.x
+        
+        
+        
 //        print("現在のページ: ", pageControl.currentPage)//動いた瞬間に検知される。0ページからスタート
         //@pageControlのcurrentPageの移動に合わせてscrollViewのページも移動させたい
         
@@ -632,14 +655,6 @@ extension MissionInProgressViewController: UIScrollViewDelegate {
     //    }
     
 }
-
-
-
-
-
-
-
-
 
 
 //MARK:- Admob BannerView Delegate
@@ -697,7 +712,7 @@ class BingoCollectionViewCell: UICollectionViewCell {
     
     var imageView: UIImageView = {
         let image = UIImageView()
-        image.image = UIImage(named: "bingoImage2")//thumbsUpImage, checkMarkImage, medalImage
+        image.image = UIImage(named: "thumbsUpImage")//thumbsUpImage, checkMarkImage, medalImage
         //＠設定画面でスタンプのデザインを選べるようにしたい
         return image
     }()
