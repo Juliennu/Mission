@@ -99,7 +99,7 @@ final class SettingViewController: UIViewController {
                         
                         
 //                        let loginVC = LoginViewController()
-//                        //こうすると、ただInstanceを作成しているだけなので、Storyboardの情報は入っていきません。なので、IBOutletしても、nil、つまりそんなのないよってなるわけです。
+//                    //こうすると、ただInstanceを作成しているだけなので、Storyboardの情報は入っていきません。なので、IBOutletしても、nil、つまりそんなのないよってなるわけです。
 //                        loginVC.modalPresentationStyle = .fullScreen
 //                        self.present(loginVC, animated: true) {
 //                            //ログイン後のルートビューコントローラーをFolderViewControllerにする

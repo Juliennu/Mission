@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1A1EC7AC26D3346F006E26A0 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1EC7AB26D3346F006E26A0 /* UIViewController.swift */; };
+		1A1EC7AF26D3A908006E26A0 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 1A1EC7AE26D3A908006E26A0 /* SnapKit */; };
 		1A487C8626B050A1000CC727 /* Sound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A487C8526B050A1000CC727 /* Sound.swift */; };
 		1A487C8A26B053CE000CC727 /* po.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1A487C8926B053CE000CC727 /* po.mp3 */; };
 		1A487C8C26B053D5000CC727 /* ka.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1A487C8B26B053D5000CC727 /* ka.mp3 */; };
@@ -122,6 +123,7 @@
 				1A8393BE269D85D900904EC4 /* FirebaseFirestore in Frameworks */,
 				1A736703269D894C003D263D /* FSCalendar in Frameworks */,
 				1A8393BC269D85D900904EC4 /* FirebaseAuth in Frameworks */,
+				1A1EC7AF26D3A908006E26A0 /* SnapKit in Frameworks */,
 				1A736709269D8B60003D263D /* Eureka in Frameworks */,
 				6D546517E02DB685069E9757 /* Pods_Mission.framework in Frameworks */,
 			);
@@ -322,6 +324,7 @@
 				1A736705269D8B08003D263D /* CalculateCalendarLogic */,
 				1A736708269D8B60003D263D /* Eureka */,
 				1ACBC7C426CF96D60047BC69 /* PKHUD */,
+				1A1EC7AE26D3A908006E26A0 /* SnapKit */,
 			);
 			productName = Mission;
 			productReference = 1AF53D7326981AB000124197 /* Mission.app */;
@@ -356,6 +359,7 @@
 				1A736704269D8B08003D263D /* XCRemoteSwiftPackageReference "handMadeCalendarAdvance" */,
 				1A736707269D8B60003D263D /* XCRemoteSwiftPackageReference "Eureka" */,
 				1ACBC7C326CF96D60047BC69 /* XCRemoteSwiftPackageReference "PKHUD" */,
+				1A1EC7AD26D3A908006E26A0 /* XCRemoteSwiftPackageReference "SnapKit" */,
 			);
 			productRefGroup = 1AF53D7426981AB000124197 /* Products */;
 			projectDirPath = "";
@@ -669,6 +673,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		1A1EC7AD26D3A908006E26A0 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.1;
+			};
+		};
 		1A736701269D894B003D263D /* XCRemoteSwiftPackageReference "FSCalendar" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/WenchaoD/FSCalendar";
@@ -712,6 +724,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		1A1EC7AE26D3A908006E26A0 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1A1EC7AD26D3A908006E26A0 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
 		1A736702269D894C003D263D /* FSCalendar */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 1A736701269D894B003D263D /* XCRemoteSwiftPackageReference "FSCalendar" */;
