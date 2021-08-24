@@ -55,50 +55,111 @@ import PKHUD
         registerButton.backgroundColor = .rgb(red: 100, green: 100, blue: 100, alpha: 1.0)
     }
     
+
     
-    //既にアカウントありの場合、ログイン画面へ遷移
     @objc func tappedRegisterButton() {
-        createUserToFirestore()
+//        createUserToFirestore()
+        
+        guard let email = emailTextField.text else { return }
+        guard let password = passwordTextField.text else { return }
+        emailAuthUser(email: email, password: password)
     }
     
+
     
-    @objc func tappedAlreadyHaveAccountButton() {
+    //匿名ユーザーからemailとパスワードで本ユーザー登録
+    func emailAuthUser(email: String, password: String) {
         
+        guard let user = Auth.auth().currentUser else { return }
+        
+        if user.isAnonymous {
+            
+            let emailCredential = EmailAuthProvider.credential(withEmail: email, password: password)
+            user.link(with: emailCredential) { authResult, error in
+                //エラーダイアログを表示
+                if let error = error as NSError?,
+                   let errorCode = AuthErrorCode(rawValue: error.code) {
+                    let errorMessage = self.switchErrMessage(error: error, errorCode: errorCode)
+                    let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                    self.showAlert(title: "エラー", message: errorMessage, actions: [okAction])
+                    return
+                }
+                //メールアドレスへ認証リンクを送信
+                user.sendEmailVerification { [weak self] error in
+                    if let error = error {
+                        print("メールリンクの送信に失敗しました", error)
+                        return
+                    }
+                    //ユーザー登録完了時
+                }
+                print("会員登録が完了しました。", authResult?.user.uid)
+                HUD.flash(.success)
+                let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                self.showAlert(title: "メールアドレス宛に認証リンクを送信しました", message: "認証リンクをクリックすることで登録完了となります", actions: [okAction])
+                
+                //＠画面遷移する
+                
+            }
+        } else {
+            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            showAlert(title: "エラー", message: "このユーザーは既に会員登録されています", actions: [okAction])
+        }
+    }
+    
+    //認証エラーコードごとにメッセージの出し分けを行う
+    func switchErrMessage(error: NSError, errorCode: AuthErrorCode) -> String {
+        switch errorCode {
+        case .invalidEmail:
+            return "メールアドレスの形式が\n正しくありません"
+            
+        case .emailAlreadyInUse:
+            return "このメールアドレスは\n既に登録されています"
+        case .weakPassword:
+            return "パスワードは6文字以上で\n入力してください"
+        default:
+            return "エラーコード: \(error.domain)"
+        }
     }
     
     //@本当はここで匿名アカウントから永久アカウントへの切り替えを行いたい
-    func createUserToFirestore() {
-        guard let email = emailTextField.text else { return }
-        guard let password = passwordTextField.text else { return }
+//    func createUserToFirestore() {
+//        guard let email = emailTextField.text else { return }
+//        guard let password = passwordTextField.text else { return }
+//
+//        Auth.auth().createUser(withEmail: email, password: password) { (res, err) in
+//            if let err = err {
+//                print("認証情報の保存に失敗しました", err)
+//                HUD.hide()
+//                HUD.flash(.error)
+//                return
+//            }
+//            //UserのUID（割り当てられるUser個別のID）を取得する
+//            guard let uid = res?.user.uid else { return }
+//
+//            let docData = [
+//                "email": email,
+//                "createdAt": Timestamp()
+//            ] as [String: Any]
+//
+//            self.db.collection("users").document(uid).setData(docData) { (err) in
+//                if let err = err {
+//                    print("Firestoreへの保存に失敗しました", err)
+//                    HUD.hide()
+//                    HUD.flash(.error)
+//                    return
+//                }
+//                print("Firestoreへの保存に成功しました")
+//                HUD.flash(.success)
+//                //登録画面を閉じる
+//                self.dismiss(animated: true, completion: nil)
+//            }
+//        }
+//    }
+    
+    
+    //既にアカウントありの場合、ログイン画面へ遷移
+    @objc func tappedAlreadyHaveAccountButton() {
         
-        Auth.auth().createUser(withEmail: email, password: password) { (res, err) in
-            if let err = err {
-                print("認証情報の保存に失敗しました", err)
-                HUD.hide()
-                HUD.flash(.error)
-                return
-            }
-            //UserのUID（割り当てられるUser個別のID）を取得する
-            guard let uid = res?.user.uid else { return }
-            
-            let docData = [
-                "email": email,
-                "createdAt": Timestamp()
-            ] as [String: Any]
-            
-            self.db.collection("users").document(uid).setData(docData) { (err) in
-                if let err = err {
-                    print("Firestoreへの保存に失敗しました", err)
-                    HUD.hide()
-                    HUD.flash(.error)
-                    return
-                }
-                print("Firestoreへの保存に成功しました")
-                HUD.flash(.success)
-                //登録画面を閉じる
-                self.dismiss(animated: true, completion: nil)
-            }
-        }
     }
     
     //textfieldの枠外をタップしたときにedit状態を終了してくれる

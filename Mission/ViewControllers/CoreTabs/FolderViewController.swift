@@ -20,8 +20,7 @@ class FolderViewController: UIViewController {
         let storyboard = UIStoryboard.init(name: "CreateNewBingoSheet", bundle: nil)
         let createNewBingoSheetVC = storyboard.instantiateViewController(withIdentifier: "CreateNewBingoSheetViewController") as! CreateNewBingoSheetViewController
         navigationController?.pushViewController(createNewBingoSheetVC, animated: true)
-        //新規ビンゴカード作成時に匿名認証をする
-        createAnonymousUserToFirestore()
+
     }
     
     var bingosheets = [BingoSheet]()
@@ -40,7 +39,9 @@ class FolderViewController: UIViewController {
         tableView.dataSource = self
         searchBar.delegate = self
         setUpEditButton()
- 
+        
+        checkUser()
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -48,6 +49,47 @@ class FolderViewController: UIViewController {
         
         bingosheets = []//@画面表示ごとに初期化、Firebaseと通信しているので通信回数が多い。削除や追加時にのみFirestoreと通信するようにしたい
         readDataFromFirestore()
+    }
+    
+    func checkUser() {
+        //ログインユーザーがいる場合
+        if Auth.auth().currentUser != nil {
+            print("ログインユーザーがいます: ", Auth.auth().currentUser?.uid)
+            return
+        } else {
+            createAnonymousUserToFirestore()
+        }
+    }
+    
+    
+    
+    //FireAuth：匿名認証 -> @初回ログインの場合のみにする
+    func createAnonymousUserToFirestore() {
+
+        Auth.auth().signInAnonymously() {( authResult, error) in
+            if let error = error {
+                print("認証情報の保存に失敗しました: ", error)
+                return
+            }
+            guard let user = authResult?.user else { return }
+            
+            let isAnonymous = user.isAnonymous
+            let uid = user.uid
+            
+            //uidとcreatedAtをfirestoreに保存する
+            let docData = [
+                "createdAt": Timestamp()
+            ] as [String : Any]
+            
+            Firestore.firestore().collection("users").document(uid).setData(docData) { (err) in
+                if let err = err {
+                    print("Firestoreへの保存に失敗しました", err)
+                    return
+                }
+                print("Firestoreへの保存に成功しました")
+            }
+            print("匿名ユーザー: \(isAnonymous), uid: \(uid)")
+        }
     }
     
     //Firestoreからデータの読み込み
@@ -79,21 +121,7 @@ class FolderViewController: UIViewController {
     
     
     
-    //FireAuth：匿名認証 -> @初回ログインの場合のみにする
-    public func createAnonymousUserToFirestore() {
-        Auth.auth().signInAnonymously() {( authResult, error) in
-            if let error = error {
-                print("認証情報の保存に失敗しました: ", error)
-                return
-            }
-            guard let user = authResult?.user else { return }
-            
-            let isAnonymous = user.isAnonymous
-            let uid = user.uid
-            
-            print(isAnonymous, uid)
-        }
-    }
+
     
     private func setUpEditButton() {
         navigationItem.rightBarButtonItem = editButtonItem//押すとDoneに切り替わる

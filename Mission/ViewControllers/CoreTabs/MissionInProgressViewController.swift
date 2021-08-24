@@ -10,6 +10,7 @@
 
 import UIKit
 import GoogleMobileAds
+import SnapKit//AutoLayoutを簡潔にかけるライブラリ
 
 class MissionInProgressViewController: UIViewController {
     
@@ -144,8 +145,21 @@ class MissionInProgressViewController: UIViewController {
         setUpBingoCollectionView()
         setUpView()
         
+        self.scrollView.addSubview(bingoCollectionView)
+        self.scrollView.addSubview(titleLabel)
+        
         let width = self.view.frame.size.width
         let positionX = CGFloat(Int(width) * (bingoSheetsInProgress.count - 1))//＠座標の指定をどこにすればいいかわからない
+        
+        //SnapKitを利用したAutoLayout
+//        let bingoSheetWidth = view.frame.width - 40
+//        bingoCollectionView.snp.makeConstraints { make in
+//            //幅と高さを同じ長さに設定
+//            make.size.equalTo(bingoSheetWidth)
+//            make.centerY.equalTo(view)
+//            make.centerX.equalTo(view)
+//            make.leading.equalTo(positionX + 20)
+//        }
         bingoCollectionView.frame = CGRect(x: positionX + 20, y: 100, width: 350, height: 350)
         
         titleLabel.frame = CGRect(x: positionX + 20, y: 20, width: width - 40, height: 30)
@@ -160,8 +174,7 @@ class MissionInProgressViewController: UIViewController {
         pageControl.currentPage = bingoSheetsInProgress.count
         pageScroll()
         
-        self.scrollView.addSubview(bingoCollectionView)
-        self.scrollView.addSubview(titleLabel)
+
     }
 
     

@@ -42,22 +42,31 @@ final class SettingViewController: UIViewController {
     }
     
     private func configureModels() {
-        let section = [
-            SettingCellModel(title: "ユーザーID : ") { [ weak self] in
-                return
-            },
-            SettingCellModel(title: "データ引き継ぎ") { [ weak self] in
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        
+        let section0 = [
+            SettingCellModel(title: "ユーザーID : \(uid)") { return }
+        ]
+        data.append(section0)
+        
+        let section1 = [
+            SettingCellModel(title: "会員登録") { [ weak self] in
                 self?.didTapResister()
             },
             SettingCellModel(title: "ログアウト") { [ weak self] in
                 self?.didTapLogOut()
-            },
-            SettingCellModel(title: "お問い合わせ") { [ weak self] in
-                self?.didTapInquiry()
             }
 
         ]
-        data.append(section)
+        data.append(section1)
+        
+        let section2 = [
+            SettingCellModel(title: "お問い合わせ") { [ weak self] in
+                self?.didTapInquiry()
+            }
+        ]
+        data.append(section2)
+        
     }
     
     //Googleformへ移動

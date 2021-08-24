@@ -12,30 +12,30 @@ public class AuthManager {
     static let shared = AuthManager()
     
     
-    
+
     
     
     let email = "test@gmail.com"
     let password = "123456"
+    
+//    //FireAuth：匿名認証 -> @初回ログインの場合のみにする
+//    func createAnonymousUserToFirestore() {
+//        Auth.auth().signInAnonymously() {( authResult, error) in
+//            if let error = error {
+//                print("認証情報の保存に失敗しました: ", error)
+//                return
+//            }
+//            guard let user = authResult?.user else { return }
+//            
+//            let isAnonymous = user.isAnonymous
+//            let uid = user.uid
+//            
+//            print(isAnonymous, uid)
+//            
+//        }
+//    }
+    
 
-
-
-    public func createAnonymousUserToFirestore() {
-        //匿名認証
-        Auth.auth().signInAnonymously() {( authResult, error) in
-            if let error = error {
-                print("匿名認証情報の保存に失敗しました: ", error)
-                return
-            }
-            guard let user = authResult?.user else { return }
-
-            let isAnonymous = user.isAnonymous
-            let uid = user.uid
-            
-
-
-        }
-    }
     
     public func emailAccountUser() {
         //メールアドレス登録時
@@ -68,20 +68,58 @@ public class AuthManager {
         }
     }
     
+//    //匿名ユーザーからemailとパスワードで本ユーザー登録
+//    func emailAuthUser(email: String, password: String) {
+//        if let user = Auth.auth().currentUser, user.isAnonymous {
+//            
+//            let emailCredential = EmailAuthProvider.credential(withEmail: email, password: password)
+//            user.link(with: emailCredential) { authResult, error in
+//                //認証エラーコードごとにメッセージの出し分けを行う
+//                if let error = error as NSError?,
+//                   let errorCode = AuthErrorCode(rawValue: error.code) {
+//                    let errorMessage = self.switchErrMessage(error: error, errorCode: errorCode)
+//                    print(errorMessage)
+//                } else {
+//                    //ユーザー登録完了時
+//                    print(authResult?.user.uid)
+//                }
+//            }
+//        }
+//    }
+//    
+//    //認証エラーコードごとにメッセージの出し分けを行う
+//    func switchErrMessage(error: NSError, errorCode: AuthErrorCode) -> String {
+//        switch errorCode {
+//        case .invalidEmail:
+//            return "メールアドレスの形式が正しくありません。"
+//            
+//        case .emailAlreadyInUse:
+//            return "このメールアドレスは既に登録されています。"
+//        case .weakPassword:
+//            return "パスワードは6文字以上で入力してください。"
+//        default:
+//            return "エラー内容: \(error.domain)"
+//        }
+//    }
     
-    func emailAuthUser() {
-        if let user = Auth.auth().currentUser, user.isAnonymous {
-            //emailとパスワードで本ユーザー登録
-            let email: String = ""
-            let password: String = ""
-            let emailCredential = EmailAuthProvider.credential(withEmail: email, password: password)
-            user.link(with: emailCredential) { authResult, error in
-                print(authResult?.user.uid)
-            }
-        }
-    }
+    
+    
+    
     
     //Googleアカウントで本ユーザー登録
+    
+//    guard let authentication = Auth.auth().currentUser.authentication else { return }
+//    let credential = GoogleAuthProvider.credential(
+//        withIDToken: authentication.idToken,
+//        accessToken: authentication.accessToken
+//    )
+//    if let currentUser = Auth.auth().currentUser {
+//        currentUser.link(with: credential) { authResult, error in
+//            print(authResult.user?.uid)
+//        }
+//    }
+
+
 
     
     
