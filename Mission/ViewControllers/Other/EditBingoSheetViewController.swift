@@ -23,8 +23,6 @@ class EditBingoSheetViewController: UIViewController {
     @IBOutlet weak var titleButton: UIButton!
     @IBOutlet weak var rewardButton: UIButton!
     @IBOutlet weak var deadlineDatePicker: UIDatePicker!
-    
-//    @IBOutlet weak var deadlineButton: UIButton!
     @IBOutlet weak var shuffleButton: UIButton!
     
     
@@ -52,14 +50,21 @@ class EditBingoSheetViewController: UIViewController {
         let distanceFromOtherView = 15
         
         bingoCollectionView.snp.makeConstraints { make in
+            //中央揃えが最優先
+            make.centerX.equalToSuperview().priority(.required)
+            make.left.equalTo(20).priority(.high)
+            make.right.equalTo(20).priority(.high)
             
-            make.left.equalTo(20).priority(.required)
-            make.right.equalTo(20).priority(.required)
-            make.centerX.equalToSuperview()
-            //centerYをsuperViewより20ずらす
+            //centerYをsuperViewより上にずらす
             make.centerY.equalToSuperview().offset(-70)
             //横幅の最大値を設定
-            make.width.lessThanOrEqualTo(view).offset(-40)
+            if self.view.frame.width > 700 {
+                //iPad用
+                make.width.equalToSuperview().dividedBy(2)
+            } else {
+                //スマホ用
+                make.width.equalToSuperview().offset(-40)
+            }
             //縦横比を1:1にする
             make.height.equalTo(bingoCollectionView.snp.width)
         }
@@ -94,24 +99,21 @@ class EditBingoSheetViewController: UIViewController {
         
         deadlineLabel.snp.makeConstraints { make in
             make.top.equalTo(rewardButton.snp.bottom).offset(distanceFromOtherView)
-            make.left.equalTo(20)
+            make.left.equalTo(rewardButton.snp.left)
+            make.width.equalTo(200)
             make.height.equalTo(labelsHeight)
         }
         
         deadlineDatePicker.snp.makeConstraints { make in
             make.top.equalTo(deadlineLabel.snp.bottom).offset(distanceFromLabel)
-            make.left.equalTo(20)
-//            make.centerX.equalToSuperview()
-            make.width.equalTo(200)
+            make.left.equalTo(rewardButton.snp.left)
+            make.width.equalTo(deadlineLabel.snp.width)
             make.height.equalTo(35)
         }
         
         shuffleButton.snp.makeConstraints { make in
-//            make.top.equalTo(deadlineDatePicker.snp.bottom).offset(distanceFromOtherView)
-//            make.centerX.equalToSuperview()
-//            make.width.equalTo(bingoCollectionView.snp.width)
             make.top.equalTo(deadlineDatePicker.snp.top)
-            make.right.equalTo(-20).priority(.required)
+            make.right.equalTo(rewardButton.snp.right)
             make.width.equalTo(138).priority(.high)
             make.left.equalTo(deadlineDatePicker.snp.right).offset(10).priority(.medium)
 

@@ -7,6 +7,7 @@
 
 import UIKit
 import Firebase
+import SnapKit
 
 class FolderViewController: UIViewController {
 
@@ -32,14 +33,8 @@ class FolderViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellId")
-
-        tableView.delegate = self
-        tableView.dataSource = self
-        searchBar.delegate = self
+        setUpViews()
         setUpEditButton()
-        
         checkUser()
 
     }
@@ -50,6 +45,28 @@ class FolderViewController: UIViewController {
         bingosheets = []//@画面表示ごとに初期化、Firebaseと通信しているので通信回数が多い。削除や追加時にのみFirestoreと通信するようにしたい
         readDataFromFirestore()
     }
+    
+    private func setUpViews() {
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellId")
+        tableView.delegate = self
+        tableView.dataSource = self
+        searchBar.delegate = self
+        
+        let buttonImage = UIImage(named: "addImage")?.withRenderingMode(.alwaysTemplate)
+        addNewBingoSheetButton.setImage(buttonImage, for: .normal)
+        addNewBingoSheetButton.tintColor = .systemBlue
+        
+        addNewBingoSheetButton.snp.makeConstraints { make in
+            make.width.equalToSuperview().dividedBy(10)
+            //縦横比を1:1にする
+            make.height.equalTo(addNewBingoSheetButton.snp.width)
+            make.bottom.equalToSuperview().offset(-70)
+            make.right.equalToSuperview().offset(-50)
+        }
+    }
+    
+    
+    
     
     func checkUser() {
         //ログインユーザーがいる場合
@@ -175,7 +192,7 @@ extension FolderViewController: UITableViewDelegate, UITableViewDataSource {
 //        }
         
         //セパレーターの色
-        tableView.separatorColor = .systemGreen
+//        tableView.separatorColor = .systemGreen
 //        //セパレータの削除
 //        tableView.separatorStyle = .none
         
@@ -228,6 +245,12 @@ extension FolderViewController: UITableViewDelegate, UITableViewDataSource {
 
 
 extension FolderViewController: UISearchBarDelegate {
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        return
+    }
+    
+    
     func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
     }
 
