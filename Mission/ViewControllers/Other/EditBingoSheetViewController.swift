@@ -16,7 +16,7 @@ class EditBingoSheetViewController: UIViewController {
 //    @IBOutlet weak var deadlineLabel: UILabel!
     @IBOutlet weak var bingoCollectionView: UICollectionView!
 
-    @IBOutlet weak var titleLabel: UILabel!
+//    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var rewardLabel: UILabel!
     @IBOutlet weak var deadlineLabel: UILabel!
     
@@ -46,8 +46,13 @@ class EditBingoSheetViewController: UIViewController {
     private func setUpLayout() {
         
         let labelsHeight = 25
+        let buttonHeight = 35
         let distanceFromLabel = 3
-        let distanceFromOtherView = 15
+        let distanceFromOtherView = 10
+        
+        let smallDeviceButtonHeight = 30
+        let smallDeviceDistanceFromOtherView = 10
+        
         
         bingoCollectionView.snp.makeConstraints { make in
             //中央揃えが最優先
@@ -56,11 +61,16 @@ class EditBingoSheetViewController: UIViewController {
             make.right.equalTo(20).priority(.high)
             
             //centerYをsuperViewより上にずらす
-            make.centerY.equalToSuperview().offset(-70)
+            if view.frame.height < 667 {
+                make.centerY.equalToSuperview().offset(-30)
+            } else {
+                make.centerY.equalToSuperview().offset(-50)
+            }
+            
             //横幅の最大値を設定
             if self.view.frame.width > 700 {
                 //iPad用
-                make.width.equalToSuperview().dividedBy(2)
+                make.width.equalToSuperview().dividedBy(1.5)
             } else {
                 //スマホ用
                 make.width.equalToSuperview().offset(-40)
@@ -70,20 +80,34 @@ class EditBingoSheetViewController: UIViewController {
         }
         
         titleButton.snp.makeConstraints { make in
-            make.bottom.equalTo(bingoCollectionView.snp.top).offset(-(distanceFromOtherView))
+
             make.centerX.equalToSuperview()
             make.width.equalTo(bingoCollectionView.snp.width)
-            make.height.equalTo(35)
+            
+            if view.frame.height < 667 {
+                make.bottom.equalTo(bingoCollectionView.snp.top).offset(-(smallDeviceDistanceFromOtherView))
+                make.height.equalTo(smallDeviceButtonHeight)
+            } else {
+                make.bottom.equalTo(bingoCollectionView.snp.top).offset(-(distanceFromOtherView))
+                make.height.equalTo(buttonHeight)
+            }
+
         }
         
-        titleLabel.snp.makeConstraints { make in
-            make.bottom.equalTo(titleButton.snp.top).offset(-(distanceFromLabel))
-            make.centerX.equalToSuperview()
-            make.width.equalTo(bingoCollectionView.snp.width)
-            make.height.equalTo(labelsHeight)
-        }
+//        titleLabel.snp.makeConstraints { make in
+//            make.bottom.equalTo(titleButton.snp.top).offset(-(distanceFromLabel))
+//            make.centerX.equalToSuperview()
+//            make.width.equalTo(bingoCollectionView.snp.width)
+//            make.height.equalTo(labelsHeight)
+//        }
         
         rewardLabel.snp.makeConstraints { make in
+            //一定値以下の場合は表示しない
+            guard view.frame.height >= 667 else {
+                rewardLabel.textColor = .clear
+                return
+            }
+            
             make.top.equalTo(bingoCollectionView.snp.bottom).offset(distanceFromOtherView)
             make.centerX.equalToSuperview()
             make.width.equalTo(bingoCollectionView.snp.width)
@@ -91,13 +115,26 @@ class EditBingoSheetViewController: UIViewController {
         }
         
         rewardButton.snp.makeConstraints { make in
-            make.top.equalTo(rewardLabel.snp.bottom).offset(distanceFromLabel)
+            
             make.centerX.equalToSuperview()
             make.width.equalTo(bingoCollectionView.snp.width)
-            make.height.equalTo(35)
+            
+            if view.frame.height < 667 {
+                make.top.equalTo(bingoCollectionView.snp.bottom).offset(smallDeviceDistanceFromOtherView)
+                make.height.equalTo(smallDeviceButtonHeight)
+            } else {
+                make.top.equalTo(rewardLabel.snp.bottom).offset(distanceFromLabel)
+                make.height.equalTo(buttonHeight)
+            }
         }
         
         deadlineLabel.snp.makeConstraints { make in
+            //一定値以下の場合は表示しない
+            guard view.frame.height >= 667 else {
+                deadlineLabel.textColor = .clear
+                return
+            }
+            
             make.top.equalTo(rewardButton.snp.bottom).offset(distanceFromOtherView)
             make.left.equalTo(rewardButton.snp.left)
             make.width.equalTo(200)
@@ -105,28 +142,44 @@ class EditBingoSheetViewController: UIViewController {
         }
         
         deadlineDatePicker.snp.makeConstraints { make in
-            make.top.equalTo(deadlineLabel.snp.bottom).offset(distanceFromLabel)
-            make.left.equalTo(rewardButton.snp.left)
-            make.width.equalTo(deadlineLabel.snp.width)
-            make.height.equalTo(35)
+            
+            if view.frame.height < 667 {
+                make.top.equalTo(rewardButton.snp.bottom).offset(smallDeviceDistanceFromOtherView)
+                make.centerX.equalToSuperview()
+//                make.left.equalTo(bingoCollectionView.snp.left)
+                make.height.equalTo(smallDeviceButtonHeight)
+                make.width.equalTo(200)
+                
+            } else {
+                make.top.equalTo(deadlineLabel.snp.bottom).offset(distanceFromLabel)
+                make.left.equalTo(rewardButton.snp.left)
+                make.width.equalTo(deadlineLabel.snp.width)
+                make.height.equalTo(buttonHeight)
+            }
         }
         
         shuffleButton.snp.makeConstraints { make in
-            make.top.equalTo(deadlineDatePicker.snp.top)
-            make.right.equalTo(rewardButton.snp.right)
             make.width.equalTo(138).priority(.high)
-            make.left.equalTo(deadlineDatePicker.snp.right).offset(10).priority(.medium)
-
-            make.height.equalTo(35)
+            
+            //viewの幅が一定値以下の場合はdatePickerの下に配置する
+            if self.view.frame.width < 375 {
+                make.top.equalTo(deadlineDatePicker.snp.bottom).offset(smallDeviceDistanceFromOtherView)
+                make.centerX.equalToSuperview()
+//                make.left.equalTo(deadlineDatePicker.snp.left)
+                make.height.equalTo(smallDeviceButtonHeight)
+            } else {
+                make.top.equalTo(deadlineDatePicker.snp.top)
+                make.right.equalTo(rewardButton.snp.right)
+                make.left.equalTo(deadlineDatePicker.snp.right).offset(10).priority(.medium)
+                make.height.equalTo(buttonHeight)
+            }
         }
-        
-        
     }
     
     
     
     private func setUpView() {
-        view.backgroundColor = cleamColor
+        view.backgroundColor = creamColor
         let views = [
             titleButton,
             rewardButton,
@@ -148,18 +201,14 @@ class EditBingoSheetViewController: UIViewController {
         
         //初期値はデータベース上のdeadlineの日付
         deadlineDatePicker.date = bingosheet!.deadline!
-        //西暦表示 -> ＠和暦表示になってしまうので直す
+        //西暦表示
         var calender = Calendar(identifier: .gregorian)
         calender.locale = Locale.current
         deadlineDatePicker.calendar = calender
         //日付と時間を変更できるように設定
         deadlineDatePicker.datePickerMode = .dateAndTime
-        // DatePickerを日本語化
-//        deadlineDatePicker.locale = Locale(identifier: "ja_JP")
         deadlineDatePicker.addTarget(self, action: #selector(deadlineDatePickerChanged), for: .allEvents)
 
-//        deadlineButton.setTitle(dateString, for: .normal)
-//        deadlineButton.addTarget(self, action: #selector(deadlineButtonTapped), for: .touchUpInside)
         
         shuffleButton.addTarget(self, action: #selector(shuffleButtonTapped), for: .touchUpInside)
 

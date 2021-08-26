@@ -109,7 +109,7 @@ class MissionInProgressViewController: UIViewController {
 //MARK: - functions
     
     func setUpView() {
-        view.backgroundColor = cleamColor
+        view.backgroundColor = creamColor
         titleLabel = UILabel(frame: CGRect(x: 20, y: 20, width: self.view.frame.size.width - 40, height: 30))
         titleLabel.text = "イントロダクション"
         titleLabel.textAlignment = .center
@@ -186,7 +186,7 @@ class MissionInProgressViewController: UIViewController {
         scrollView = UIScrollView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 630))
         // scrollViewのデリゲートになる
         scrollView.delegate = self
-        scrollView.backgroundColor = cleamColor
+        scrollView.backgroundColor = creamColor
         // ページ単位のスクロールを可能にする
         scrollView.isPagingEnabled = true
         // 水平方向のスクロールインジケータを非表示にする

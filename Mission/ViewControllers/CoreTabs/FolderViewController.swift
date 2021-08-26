@@ -12,7 +12,7 @@ import SnapKit
 class FolderViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var searchBar: UISearchBar!
+//    @IBOutlet weak var searchBar: UISearchBar!
     
     @IBOutlet weak var addNewBingoSheetButton: UIButton!
     
@@ -27,6 +27,8 @@ class FolderViewController: UIViewController {
     var bingosheets = [BingoSheet]()
 
     let db = Firestore.firestore()
+    //検索結果配列
+//    var searchResult = [BingoSheet]()
 
 
     
@@ -50,8 +52,9 @@ class FolderViewController: UIViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellId")
         tableView.delegate = self
         tableView.dataSource = self
-        searchBar.delegate = self
+
         
+        //ボタンの設定
         let buttonImage = UIImage(named: "addImage")?.withRenderingMode(.alwaysTemplate)
         addNewBingoSheetButton.setImage(buttonImage, for: .normal)
         addNewBingoSheetButton.tintColor = .systemBlue
@@ -60,9 +63,15 @@ class FolderViewController: UIViewController {
             make.width.equalToSuperview().dividedBy(10)
             //縦横比を1:1にする
             make.height.equalTo(addNewBingoSheetButton.snp.width)
-            make.bottom.equalToSuperview().offset(-70)
+            make.bottom.equalToSuperview().offset(-100)
             make.right.equalToSuperview().offset(-50)
         }
+        
+        //searchBarの設定
+//        searchBar.delegate = self
+//        searchBar.placeholder = "ビンゴシート名を検索"
+        //検索結果配列に代入する
+//        searchResult = bingosheets
     }
     
     
@@ -158,6 +167,8 @@ class FolderViewController: UIViewController {
             navigationItem.rightBarButtonItem?.title = "編集"
         }
     }
+    
+
 }
 
 
@@ -166,23 +177,21 @@ class FolderViewController: UIViewController {
 
 // MARK: - Delegates
 extension FolderViewController: UITableViewDelegate, UITableViewDataSource {
-    //初期値1なのでメソッドごと消して良い
-//    func numberOfSections(in tableView: UITableView) -> Int {
-//        return 1
-//    }
-    
+
     //cellの数
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return titleArray.count
         return bingosheets.count
+//        return searchResult.count
+        
         
     }
     
     //cellの中身
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath)
-//        cell.textLabel?.text = titleArray[indexPath.row]//bingosheet[indexPath.row].title
+
         cell.textLabel?.text = bingosheets[indexPath.row].title
+//        cell.textLabel?.text = searchResult[indexPath.row].title
         
 //        //cellの色を交互に変える
 //        if (indexPath.row == 0 || indexPath.row % 2 == 0) {
@@ -206,6 +215,7 @@ extension FolderViewController: UITableViewDelegate, UITableViewDataSource {
         let editBingoSheetVC = storyboard.instantiateViewController(withIdentifier: "EditBingoSheetViewController") as! EditBingoSheetViewController
         //タップされたセルのビンゴシート情報を遷移先の変数に渡す
         editBingoSheetVC.bingosheet = bingosheets[indexPath.row]
+//        editBingoSheetVC.bingosheet = searchResult[indexPath.row]
         navigationController?.pushViewController(editBingoSheetVC, animated: true)
        
     }
@@ -223,6 +233,8 @@ extension FolderViewController: UITableViewDelegate, UITableViewDataSource {
                 print("ビンゴシートを削除しました！")
                 //bingosheet配列から削除
                 self.bingosheets.remove(at: indexPath.row)
+                //bingosheetの情報を代入
+//                self.searchResult = self.bingosheets
                 //tableViewCellの削除
                 tableView.deleteRows(at: [indexPath], with: .automatic)
 //                tableView.reloadData()
@@ -231,6 +243,7 @@ extension FolderViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
+
     
     //cellの編集スタイル
 //    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
@@ -244,21 +257,44 @@ extension FolderViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 
-extension FolderViewController: UISearchBarDelegate {
+//extension FolderViewController: UISearchBarDelegate {
+//    //UISearchBarに入力した文字を確定したタイミングで呼び出される
+//    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+//        //キーボードを閉じる
+//        searchBar.endEditing(true)
+//
+//    }
+//
+//
+//    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+//        //検索結果配列を空にする
+//        searchResult.removeAll()
+//        //serchBarの文字列を取得
+//        if searchBar.text == "" {
+//            searchResult = bingosheets
+//        } else {
+//            for bingo in bingosheets {
+//                if ((bingo.title?.contains(searchBar.text!)) != nil) {
+//                    searchResult.append(bingo)
+//                }
+//            }
+//        }
+//        tableView.reloadData()
+//    }
     
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        return
-    }
-    
-    
-    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
-    }
+//    private func search(_ text: String) {
+//        var newArray: [BingoSheet] = []
+//        bingosheets.forEach({
+//            if (($0.title?.contains(text)) != nil) {
+//                newArray.insert($0, at: 0)
+//            } else {
+//                newArray.append($0)
+//            }
+//        })
+//        bingosheets = newArray//新しい配列を代入
+//        tableView.reloadData()
+//    }
 
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        guard searchText.isEmpty == false else {
 
-//            folderListTableView.reloadData()
-            return
-        }
-    }
-}
+
+

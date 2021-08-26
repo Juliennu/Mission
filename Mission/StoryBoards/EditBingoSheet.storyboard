@@ -38,18 +38,6 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="タイトル" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kQO-j2-PtS">
-                                <rect key="frame" x="164.33333333333334" y="65" width="61.333333333333343" height="24"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="クリアごほうび" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0qv-2q-vcc">
-                                <rect key="frame" x="141.33333333333334" y="518" width="107.33333333333334" height="27"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="期限" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ido-Q7-06J">
                                 <rect key="frame" x="20" y="618" width="157" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -77,6 +65,12 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="タスクをシャッフル"/>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="クリアごほうび" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0qv-2q-vcc">
+                                <rect key="frame" x="142" y="513" width="107.33333333333334" height="27"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -84,7 +78,6 @@
                             <constraint firstItem="26e-6B-f46" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="QCb-OV-oiC"/>
                             <constraint firstItem="cHy-X3-OFX" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="bGT-qx-CWF"/>
                             <constraint firstItem="0qv-2q-vcc" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="dBb-wO-j9W"/>
-                            <constraint firstItem="kQO-j2-PtS" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="m5c-aB-WBr"/>
                         </constraints>
                     </view>
                     <connections>
@@ -95,7 +88,6 @@
                         <outlet property="rewardLabel" destination="0qv-2q-vcc" id="IEg-jO-3KC"/>
                         <outlet property="shuffleButton" destination="w4M-ys-tx1" id="Fhv-wF-dZm"/>
                         <outlet property="titleButton" destination="26e-6B-f46" id="pF6-3H-Wa7"/>
-                        <outlet property="titleLabel" destination="kQO-j2-PtS" id="EK0-QG-06h"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

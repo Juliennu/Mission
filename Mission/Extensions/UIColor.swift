@@ -27,7 +27,7 @@ let bingoCellBorderColor = UIColor.rgb(red: 6, green: 71, blue: 161, alpha: 1.0)
 //UIColor.rgb(red: 245, green: 76, blue: 136, alpha: 1.0)
 
 //クリーム色
-let cleamColor = UIColor.rgb(red: 252, green: 237, blue: 181, alpha: 1.0)
+let creamColor = UIColor.rgb(red: 252, green: 237, blue: 181, alpha: 1.0)
 //水色
 let lightBlueColor = UIColor.rgb(red: 49, green: 187, blue: 183, alpha: 1.0)
 //オレンジ色
