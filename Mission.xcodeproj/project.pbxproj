@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1A1EC7AC26D3346F006E26A0 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1EC7AB26D3346F006E26A0 /* UIViewController.swift */; };
 		1A1EC7AF26D3A908006E26A0 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 1A1EC7AE26D3A908006E26A0 /* SnapKit */; };
+		1A1EC7B126D5DD64006E26A0 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1EC7B026D5DD64006E26A0 /* UIViewController.swift */; };
 		1A487C8626B050A1000CC727 /* Sound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A487C8526B050A1000CC727 /* Sound.swift */; };
 		1A487C8A26B053CE000CC727 /* po.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1A487C8926B053CE000CC727 /* po.mp3 */; };
 		1A487C8C26B053D5000CC727 /* ka.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1A487C8B26B053D5000CC727 /* ka.mp3 */; };
@@ -62,7 +62,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1A1EC7AB26D3346F006E26A0 /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
+		1A1EC7B026D5DD64006E26A0 /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
 		1A487C8526B050A1000CC727 /* Sound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sound.swift; sourceTree = "<group>"; };
 		1A487C8926B053CE000CC727 /* po.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = po.mp3; sourceTree = "<group>"; };
 		1A487C8B26B053D5000CC727 /* ka.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ka.mp3; sourceTree = "<group>"; };
@@ -171,7 +171,7 @@
 			children = (
 				1A984DBD26C0F37400DC5095 /* UIColor.swift */,
 				1A984DED26C6460A00DC5095 /* Array.swift */,
-				1A1EC7AB26D3346F006E26A0 /* UIViewController.swift */,
+				1A1EC7B026D5DD64006E26A0 /* UIViewController.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -451,7 +451,6 @@
 				1AF53D9026982D6D00124197 /* CalenderViewController.swift in Sources */,
 				1AF53DA8269D33C400124197 /* AuthManager.swift in Sources */,
 				1AF53D96269AB01600124197 /* SignUpViewController.swift in Sources */,
-				1A1EC7AC26D3346F006E26A0 /* UIViewController.swift in Sources */,
 				1AF53D9F269AB35B00124197 /* BingoSheet.swift in Sources */,
 				1AF53D9C269AB0D200124197 /* EditBingoSheetViewController.swift in Sources */,
 				1AF53D8C26982BA000124197 /* FolderViewController.swift in Sources */,
@@ -462,6 +461,7 @@
 				1AE1456F26A0630F000D3E7E /* BingoLogic.swift in Sources */,
 				1A487C8626B050A1000CC727 /* Sound.swift in Sources */,
 				1A984DBE26C0F37400DC5095 /* UIColor.swift in Sources */,
+				1A1EC7B126D5DD64006E26A0 /* UIViewController.swift in Sources */,
 				1AE1457126A123A7000D3E7E /* AppTrackingTransparency.swift in Sources */,
 				1AF53D7926981AB000124197 /* SceneDelegate.swift in Sources */,
 				1AF53D9226982DD400124197 /* SettingViewController.swift in Sources */,

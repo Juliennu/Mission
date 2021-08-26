@@ -16,6 +16,9 @@ class EditBingoSheetViewController: UIViewController {
 //    @IBOutlet weak var deadlineLabel: UILabel!
     @IBOutlet weak var bingoCollectionView: UICollectionView!
 
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var rewardLabel: UILabel!
+    @IBOutlet weak var deadlineLabel: UILabel!
     
     @IBOutlet weak var titleButton: UIButton!
     @IBOutlet weak var rewardButton: UIButton!
@@ -37,25 +40,108 @@ class EditBingoSheetViewController: UIViewController {
         setUpView()
         setUpBingoCollectionView()
         addEventListner()
+        setUpLayout()
 //        fetchBingosheetInfoFromFirestore()
         
     }
     
+    private func setUpLayout() {
+        
+        let labelsHeight = 25
+        let distanceFromLabel = 3
+        let distanceFromOtherView = 15
+        
+        bingoCollectionView.snp.makeConstraints { make in
+            
+            make.left.equalTo(20).priority(.required)
+            make.right.equalTo(20).priority(.required)
+            make.centerX.equalToSuperview()
+            //centerYをsuperViewより20ずらす
+            make.centerY.equalToSuperview().offset(-70)
+            //横幅の最大値を設定
+            make.width.lessThanOrEqualTo(view).offset(-40)
+            //縦横比を1:1にする
+            make.height.equalTo(bingoCollectionView.snp.width)
+        }
+        
+        titleButton.snp.makeConstraints { make in
+            make.bottom.equalTo(bingoCollectionView.snp.top).offset(-(distanceFromOtherView))
+            make.centerX.equalToSuperview()
+            make.width.equalTo(bingoCollectionView.snp.width)
+            make.height.equalTo(35)
+        }
+        
+        titleLabel.snp.makeConstraints { make in
+            make.bottom.equalTo(titleButton.snp.top).offset(-(distanceFromLabel))
+            make.centerX.equalToSuperview()
+            make.width.equalTo(bingoCollectionView.snp.width)
+            make.height.equalTo(labelsHeight)
+        }
+        
+        rewardLabel.snp.makeConstraints { make in
+            make.top.equalTo(bingoCollectionView.snp.bottom).offset(distanceFromOtherView)
+            make.centerX.equalToSuperview()
+            make.width.equalTo(bingoCollectionView.snp.width)
+            make.height.equalTo(labelsHeight)
+        }
+        
+        rewardButton.snp.makeConstraints { make in
+            make.top.equalTo(rewardLabel.snp.bottom).offset(distanceFromLabel)
+            make.centerX.equalToSuperview()
+            make.width.equalTo(bingoCollectionView.snp.width)
+            make.height.equalTo(35)
+        }
+        
+        deadlineLabel.snp.makeConstraints { make in
+            make.top.equalTo(rewardButton.snp.bottom).offset(distanceFromOtherView)
+            make.left.equalTo(20)
+            make.height.equalTo(labelsHeight)
+        }
+        
+        deadlineDatePicker.snp.makeConstraints { make in
+            make.top.equalTo(deadlineLabel.snp.bottom).offset(distanceFromLabel)
+            make.left.equalTo(20)
+//            make.centerX.equalToSuperview()
+            make.width.equalTo(200)
+            make.height.equalTo(35)
+        }
+        
+        shuffleButton.snp.makeConstraints { make in
+//            make.top.equalTo(deadlineDatePicker.snp.bottom).offset(distanceFromOtherView)
+//            make.centerX.equalToSuperview()
+//            make.width.equalTo(bingoCollectionView.snp.width)
+            make.top.equalTo(deadlineDatePicker.snp.top)
+            make.right.equalTo(-20).priority(.required)
+            make.width.equalTo(138).priority(.high)
+            make.left.equalTo(deadlineDatePicker.snp.right).offset(10).priority(.medium)
+
+            make.height.equalTo(35)
+        }
+        
+        
+    }
+    
+    
+    
     private func setUpView() {
-//        titleLabel.text = bingosheet?.title
-//        rewardLabel.text = bingosheet?.reward
-//        let dateString = dateToString(date: bingosheet!.deadline!)
-//        deadlineLabel.text = dateString
+        view.backgroundColor = cleamColor
+        let views = [
+            titleButton,
+            rewardButton,
+            shuffleButton
+        ]
+        
+        views.forEach {
+            $0?.tintColor = .systemBlue
+            $0?.backgroundColor = .systemFill
+            $0?.layer.cornerRadius = 8.0
+        }
         
         
         titleButton.setTitle(bingosheet?.title, for: .normal)
-        titleButton.backgroundColor = .systemGray5
-        titleButton.layer.cornerRadius = 8.0
         titleButton.addTarget(self, action: #selector(titleButtonTapped), for: .touchUpInside)
         
         rewardButton.setTitle(bingosheet?.reward, for: .normal)
-        rewardButton.backgroundColor = .systemGray5
-        rewardButton.layer.cornerRadius = 8.0
         rewardButton.addTarget(self, action: #selector(rewardButtonTapped), for: .touchUpInside)
         
         //初期値はデータベース上のdeadlineの日付
@@ -64,19 +150,17 @@ class EditBingoSheetViewController: UIViewController {
         var calender = Calendar(identifier: .gregorian)
         calender.locale = Locale.current
         deadlineDatePicker.calendar = calender
-        //日付のみ変更できるように設定
-        deadlineDatePicker.datePickerMode = .date
+        //日付と時間を変更できるように設定
+        deadlineDatePicker.datePickerMode = .dateAndTime
         // DatePickerを日本語化
-        deadlineDatePicker.locale = Locale(identifier: "ja_JP")
+//        deadlineDatePicker.locale = Locale(identifier: "ja_JP")
         deadlineDatePicker.addTarget(self, action: #selector(deadlineDatePickerChanged), for: .allEvents)
 
 //        deadlineButton.setTitle(dateString, for: .normal)
 //        deadlineButton.addTarget(self, action: #selector(deadlineButtonTapped), for: .touchUpInside)
         
         shuffleButton.addTarget(self, action: #selector(shuffleButtonTapped), for: .touchUpInside)
-        shuffleButton.backgroundColor = .systemGray5
-        shuffleButton.layer.cornerRadius = 8.0
-        
+
         let startButton = UIBarButtonItem(image: UIImage(systemName: "arrowtriangle.forward.square"), style: .plain, target: self, action: #selector(startButtonTapped))
         startButton.tintColor = .systemPink
 //        startButton.title = "START"

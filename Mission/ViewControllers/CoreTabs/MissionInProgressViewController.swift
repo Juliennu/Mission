@@ -11,6 +11,7 @@
 import UIKit
 import GoogleMobileAds
 import SnapKit//AutoLayoutを簡潔にかけるライブラリ
+import UserNotifications
 
 class MissionInProgressViewController: UIViewController {
     
@@ -47,6 +48,7 @@ class MissionInProgressViewController: UIViewController {
         setUpBingoStatusLabel()
         setUpView()
         setUpBingoCollectionView()
+//        localNotification()
 
     }
     
@@ -107,7 +109,7 @@ class MissionInProgressViewController: UIViewController {
 //MARK: - functions
     
     func setUpView() {
-        
+        view.backgroundColor = cleamColor
         titleLabel = UILabel(frame: CGRect(x: 20, y: 20, width: self.view.frame.size.width - 40, height: 30))
         titleLabel.text = "イントロダクション"
         titleLabel.textAlignment = .center
@@ -184,7 +186,7 @@ class MissionInProgressViewController: UIViewController {
         scrollView = UIScrollView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 630))
         // scrollViewのデリゲートになる
         scrollView.delegate = self
-        scrollView.backgroundColor = scrollViewColor
+        scrollView.backgroundColor = cleamColor
         // ページ単位のスクロールを可能にする
         scrollView.isPagingEnabled = true
         // 水平方向のスクロールインジケータを非表示にする
@@ -227,7 +229,7 @@ class MissionInProgressViewController: UIViewController {
     
     private func setUpBarButtonItem() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: self, action: #selector(shared))//(title: "シェア", style: .plain, target: self, action: #selector(shared))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "nosign"), style: .plain, target: self, action: #selector(canceled))//(title: "中断", style: .plain, target: self, action: #selector(canceled))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark.circle"), style: .plain, target: self, action: #selector(canceled))//(title: "中断", style: .plain, target: self, action: #selector(canceled))
         navigationItem.leftBarButtonItem?.tintColor = .red
     }
     
@@ -256,30 +258,30 @@ class MissionInProgressViewController: UIViewController {
     
     //中断
     @objc func canceled() {
-        //中断をアラート表示
-        //UIAlertControllerクラスのインスタンスを生成
-        let actionSheet = UIAlertController(title: "挑戦中のビンゴシートを中断しますか", message: "この画面からビンゴシートが削除されます", preferredStyle: .actionSheet)//.actionSheet:画面下部から出てくるアラート//.alert:画面中央に表示されるアラート
-        //UIAlertControllerにActionを追加
-        actionSheet.addAction(UIAlertAction(title: "キャンセル", style: .cancel, handler: nil))
-        actionSheet.addAction(UIAlertAction(title: "OK", style: .destructive) { _ in
-            //@OKだった時のビンゴシート中断処理を実装
-            //bingoSheetsから削除
+        //ビンゴシートが存在しない時エラー表示
+        if bingoSheetsInProgress.count < 1 {
+            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            showAlert(title: "削除に失敗しました", message: "実行中のビンゴシートが存在しません", actions: [okAction])
+            return
+        }
+
+        //削除をアラート表示
+        let cancelAction = UIAlertAction(title: "キャンセル", style: .cancel, handler: nil)
+        let okAction = UIAlertAction(title: "OK", style: .destructive) { _ in
+            //OKだった時のビンゴシート削除処理
+            //@bingoCollectionViewから削除!!!!!!!!!!!!!!!!!!!!!
+            
             self.bingoSheetsInProgress.remove(at: Int(self.currentPageIndex))//＠現在表示中のビンゴシートの順番を取得したい！！！！！
-//            self.bingoSheets.removeFirst()
             // scrollViewのサイズを指定（幅は1ページに表示するViewの幅×ページ数）
             self.scrollView.contentSize = CGSize(width: Int(self.view.frame.size.width) * self.bingoSheetsInProgress.count, height: 200)
-//            self.scrollView.contentSize = CGSize(width: Int(self.view.frame.size.width) * self.bingoSheets.count, height: 200)
             // pageControlのページ数を設定
             self.pageControl.numberOfPages = self.bingoSheetsInProgress.count
-//            self.pageControl.numberOfPages = self.bingoSheets.count
-            
-        })
+
+        }
         
         //Alertを表示
-        present(actionSheet, animated: true, completion: nil)
-        
-        
-        
+            showAlert(title: "ビンゴシート削除", message: "現在表示中のビンゴシートを削除してよろしいですか", actions: [cancelAction, okAction])
+
     }
     
 
@@ -299,13 +301,6 @@ class MissionInProgressViewController: UIViewController {
 //        bingoStatusLabel.layer.cornerRadius = 20
 //        bingoStatusLabel.clipsToBounds = true//この設定を入れないと角丸にならない
     }
-    
-    
-
-
-    
-    
-    
 
     //ビンゴになった時の挙動
     func bingoAction() {
@@ -315,53 +310,44 @@ class MissionInProgressViewController: UIViewController {
 //        sleep(2)//2秒止める
 //        bingoStatusLabel.isHidden = true
     }
+    //日時指定通知
+    func localNotification() {
+        //通知内容
+        let content = UNMutableNotificationContent()
+        content.sound = UNNotificationSound.default
+        content.title = "ローカル通知テスト"
+        content.subtitle = "日時指定"
+        content.body = "まだ未完了のタスクがありますよ〜"//@未完了タスクの有無によって通知を切り替える？
+        //通知日時をセット
+        guard let deadline = bingoSheetsInProgress[currentPageIndex].bingoSheet.deadline else { return }//@今開いているビンゴシートしか通知対象にならないので要修正
+        //1時間前に通知
+        let alertDate = Date(timeInterval: -(60*60), since: deadline)
+        let component = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: alertDate)
+        //通知リクエストを作成
+        let trigger = UNCalendarNotificationTrigger(dateMatching: component, repeats: true)
+        //ユニークなIDを作る
+        let identifier = NSUUID().uuidString
+        let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
+        
+        //通知リクエストを登録
+        UNUserNotificationCenter.current().add(request) { (error) in
+            if let error = error {
+                print("通知リクエストの登録に失敗しました: ", error.localizedDescription)
+            }
+        }
+    }
+    
+        private func dateFormatter(date: Date) -> String {
+            let formatter = DateFormatter()
+            formatter.dateStyle = .short
+            formatter.timeStyle = .none
+            formatter.locale = Locale(identifier: "ja_JP")
+            return formatter.string(from: date)
+        }
     
 }
 
-//    //左右スワイプでビンゴシートの切り替え
-//    private func addEventListner() {
-//        //右スワイプ
-//        let rightSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(swiped))
-//        rightSwipeGesture.direction = .right
-//        bingoCollectionView.addGestureRecognizer(rightSwipeGesture)
-//
-//        //左スワイプ
-//        let leftSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(swiped))
-//        leftSwipeGesture.direction = .left
-//        bingoCollectionView.addGestureRecognizer(leftSwipeGesture)
-//    }
-//
-//    @objc func swiped(sender: UISwipeGestureRecognizer) {
-//        switch sender.direction {
-//        case .right:
-//            print("右スワイプ")
-//            //配列の一つ隣のアイテムを表示
-//        case .left:
-//            print("左スワイプ")
-//            //配列の一つ前のアイテムを表示
-//        default:
-//            break
-//        }
-//    }
 
-//    private func setUpScrollView() {
-//
-//        scrollView.delegate = self
-//        //横幅
-//        let width: CGFloat = 350
-//        //タブのx座標．0から始まり，少しずつずらしていく．
-//        var originX: CGFloat = 0
-//
-//        for title in titles {
-//            titleLabel.frame = CGRect(x: originX, y: 0, width: width, height: 23.5)
-//            titleLabel.text = title
-//            //次のタブのx座標を用意する
-//            originX += width
-//        }
-//        //scrollViewのcontentSizeを，タブ全体のサイズに合わせてあげる(ここ重要！)
-//        //最終的なoriginX = タブ全体の横幅 になります
-//        scrollView.contentSize = CGSize(width: width, height: 505)
-//    }
     
 
 // MARK: - CollectionView Delegates

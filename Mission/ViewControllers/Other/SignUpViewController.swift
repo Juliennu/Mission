@@ -51,6 +51,7 @@ import PKHUD
         emailTextField.tag = 0
         passwordTextField.tag = 1
         
+        
         registerButton.isEnabled = false
         registerButton.backgroundColor = .rgb(red: 100, green: 100, blue: 100, alpha: 1.0)
     }

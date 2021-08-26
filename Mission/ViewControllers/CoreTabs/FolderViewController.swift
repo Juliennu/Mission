@@ -230,10 +230,10 @@ extension FolderViewController: UITableViewDelegate, UITableViewDataSource {
 extension FolderViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
     }
-    
+
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         guard searchText.isEmpty == false else {
-            
+
 //            folderListTableView.reloadData()
             return
         }

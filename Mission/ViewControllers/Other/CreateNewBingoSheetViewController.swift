@@ -42,8 +42,7 @@ class CreateNewBingoSheetViewController: FormViewController {
     form
         +++ Section(header: "", footer: "未入力の場合は No Title となります。")//"ビンゴシートの名前を入力してください。"
         <<< TextRow() { row in
-            row.title = "ビンゴ名"
-            row.placeholder = "ビンゴシートの名前を入力"
+            row.placeholder = "ビンゴ名"
         }.onChange({ row in
             self.bingosheet.title = row.value ?? "No Title"
 //            self.bingosheetTitle = row.value ?? "No Title"
@@ -69,8 +68,8 @@ class CreateNewBingoSheetViewController: FormViewController {
         
         
         <<< TextRow() { row in
-            row.title = "タスク1"
-            row.placeholder = "タスクを入力"
+            
+            row.placeholder = "タスク1"
         }.onChange({row in
             self.taskString = row.value ?? "free"
             self.bingosheet.tasks![0] = self.taskString
@@ -80,64 +79,64 @@ class CreateNewBingoSheetViewController: FormViewController {
         })
         
         <<< TextRow() { row in
-            row.title = "タスク2"
-            row.placeholder = "タスクを入力"
+            
+            row.placeholder = "タスク2"
         }.onChange({row in
             self.taskString = row.value ?? "free"
             self.bingosheet.tasks![1] = self.taskString
         })
         
         <<< TextRow() { row in
-            row.title = "タスク3"
-            row.placeholder = "タスクを入力"
+            
+            row.placeholder = "タスク3"
         }.onChange({row in
             self.taskString = row.value ?? "free"
             self.bingosheet.tasks![2] = self.taskString
         })
         
         <<< TextRow() { row in
-            row.title = "タスク4"
-            row.placeholder = "タスクを入力"
+            
+            row.placeholder = "タスク4"
         }.onChange({row in
             self.taskString = row.value ?? "free"
             self.bingosheet.tasks![3] = self.taskString
         })
         
         <<< TextRow() { row in
-            row.title = "タスク5"
-            row.placeholder = "タスクを入力"
+            
+            row.placeholder = "タスク5"
         }.onChange({row in
             self.taskString = row.value ?? "free"
             self.bingosheet.tasks![4] = self.taskString
         })
         
         <<< TextRow() { row in
-            row.title = "タスク6"
-            row.placeholder = "タスクを入力"
+            
+            row.placeholder = "タスク6"
         }.onChange({row in
             self.taskString = row.value ?? "free"
             self.bingosheet.tasks![5] = self.taskString
         })
         
         <<< TextRow() { row in
-            row.title = "タスク7"
-            row.placeholder = "タスクを入力"
+            
+            row.placeholder = "タスク7"
         }.onChange({row in
             self.taskString = row.value ?? "free"
             self.bingosheet.tasks![6] = self.taskString
         })
         
         <<< TextRow() { row in
-            row.title = "タスク8"
-            row.placeholder = "タスクを入力"
+            
+            row.placeholder = "タスク8"
         }.onChange({row in
             self.taskString = row.value ?? "free"
             self.bingosheet.tasks![7] = self.taskString
         })
         
         <<< TextRow() { row in
-            row.title = "タスク9"
-            row.placeholder = "タスクを入力"
+            
+            row.placeholder = "タスク9"
         }.onChange({row in
             self.taskString = row.value ?? "free"
             self.bingosheet.tasks![8] = self.taskString
@@ -145,8 +144,7 @@ class CreateNewBingoSheetViewController: FormViewController {
         
         +++ Section(header: "", footer: "未入力の場合は　No Reward となります。")//"タスク設定"
         <<< TextRow() { row in
-            row.title = "クリアごほうび"
-            row.placeholder = "全クリア時のごほうびを入力"
+            row.placeholder = "全クリアごほうび"
         }.onChange({ row in
             self.bingosheet.reward = row.value ?? "No Reward"
 //            self.reward = row.value ?? "No Reward"
@@ -159,22 +157,112 @@ class CreateNewBingoSheetViewController: FormViewController {
         form
             +++
             
-            DateRow() { row in
-                let formatter = DateFormatter()
-                formatter.dateStyle = .medium
-                formatter.timeStyle = .none
-                formatter.locale = Locale(identifier: "ja_JP")
-                formatter.string(from: Date())
+//            DateRow() { row in
+//                let formatter = DateFormatter()
+//                formatter.dateStyle = .medium
+//                formatter.timeStyle = .none
+//                formatter.locale = Locale(identifier: "ja_JP")
+//                formatter.string(from: Date())
+//
+//
+//                row.title = "期限"
+//                row.value = Date()//＠日本語表示に直したい（2021/7/18）
+//            }.onChange({ row in
+//                self.bingosheet.deadline = row.value!
+//            })
+            
+            SwitchRow("終日") {
+                $0.title = $0.tag
+            }.onChange { [weak self] row in
+//                let startDate: DateTimeInlineRow! = self?.form.rowBy(tag: "Starts")
+                let endDate: DateTimeInlineRow! = self?.form.rowBy(tag: "期限")
                 
-                
-                row.title = "期限"
-                row.value = Date()//＠日本語表示に直したい（2021/7/18）
-            }.onChange({ row in
-                self.bingosheet.deadline = row.value!
-//                self.deadline = row.value!
-//                print(self.bingosheets.deadline)
-//                print(self.deadline)
-            })
+                if row.value ?? false {
+//                    startDate.dateFormatter?.dateStyle = .medium
+//                    startDate.dateFormatter?.timeStyle = .none
+                    endDate.dateFormatter?.dateStyle = .short
+                    endDate.dateFormatter?.timeStyle = .none
+                }
+                else {
+//                    startDate.dateFormatter?.dateStyle = .short
+//                    startDate.dateFormatter?.timeStyle = .short
+                    endDate.dateFormatter?.dateStyle = .short
+                    endDate.dateFormatter?.timeStyle = .short
+                }
+//                startDate.updateCell()
+                endDate.updateCell()
+//                startDate.inlineRow?.updateCell()
+                endDate.inlineRow?.updateCell()
+            }
+            .cellSetup{ cell, row in
+                cell.imageView?.image = UIImage(systemName: "clock")
+            }
+        
+            <<< DateTimeInlineRow("期限"){
+                $0.title = $0.tag
+                $0.value = Date().addingTimeInterval(60*60*25)
+                }
+                .onChange { [weak self] row in
+//                    let startRow: DateTimeInlineRow! = self?.form.rowBy(tag: "Starts")
+//                    if row.value?.compare(startRow.value!) == .orderedAscending {
+//                        row.cell!.backgroundColor = .red
+//                    }
+//                    else{
+//                        row.cell!.backgroundColor = .white
+//                    }
+//                    row.updateCell()
+                    self!.bingosheet.deadline = row.value!
+                }
+                .onExpandInlineRow { [weak self] cell, row, inlineRow in
+                    inlineRow.cellUpdate { cell, dateRow in
+                        let allRow: SwitchRow! = self?.form.rowBy(tag: "終日")
+                        if allRow.value ?? false {
+                            cell.datePicker.datePickerMode = .date
+                        }
+                        else {
+                            cell.datePicker.datePickerMode = .dateAndTime
+                        }
+                    }
+                    let color = cell.detailTextLabel?.textColor
+                    row.onCollapseInlineRow { cell, _, _ in
+                        cell.detailTextLabel?.textColor = color
+                    }
+                    cell.detailTextLabel?.textColor = cell.tintColor
+        }
+            .cellSetup{ cell, row in
+                cell.imageView?.image = UIImage(systemName: "calendar.badge.clock")
+            }
+        
+        form +++
+
+            PushRow<EventAlert>() {
+                $0.title = "通知"
+                $0.options = EventAlert.allCases
+                $0.value = .Never
+                }
+            .cellSetup{ cell, row in
+                cell.imageView?.image = UIImage(systemName: "bell")
+            }
+                .onChange { [weak self] row in
+                    //Another Alertの設定
+//                    if row.value == .Never {
+//                        if let second : PushRow<EventAlert> = self?.form.rowBy(tag: "Another Alert"), let secondIndexPath = second.indexPath {
+//                            row.section?.remove(at: secondIndexPath.row)
+//                        }
+//                    }
+//                    else{
+//                        guard let _ : PushRow<EventAlert> = self?.form.rowBy(tag: "Another Alert") else {
+//                            let second = PushRow<EventAlert>("Another Alert") {
+//                                $0.title = $0.tag
+//                                $0.value = .Never
+//                                $0.options = EventAlert.allCases
+//                            }
+//                            let secondIndex = row.indexPath!.row + 1
+//                            row.section?.insert(second, at: secondIndex)
+//                            return
+//                        }
+//                    }
+        }
             
 //            <<< PushRow<RepeatInterval>("繰り返し")/*これがタグ*/ {
 //                $0.title = $0.tag
@@ -255,7 +343,20 @@ class CreateNewBingoSheetViewController: FormViewController {
         }
     }
     
-    
+    enum EventAlert : String, CaseIterable, CustomStringConvertible {
+        case Never = "なし"
+//        case At_time_of_event = "期限と同時"
+        case Five_Minutes = "5分前"
+        case FifTeen_Minutes = "15分前"
+        case Half_Hour = "30分前"
+        case One_Hour = "1時間前"
+        case Two_Hour = "2時間前"
+        case One_Day = "1日前"
+        case Two_Days = "2日前"
+
+        var description : String { return rawValue }
+    }
+
     
     
     
@@ -272,13 +373,7 @@ class CreateNewBingoSheetViewController: FormViewController {
     
   
     
-//    private func dateFormatter(date: Date) -> String {
-//        let formatter = DateFormatter()
-//        formatter.dateStyle = .short
-//        formatter.timeStyle = .none
-//        formatter.locale = Locale(identifier: "ja_JP")
-//        return formatter.string(from: date)
-//    }
+
     
     
     

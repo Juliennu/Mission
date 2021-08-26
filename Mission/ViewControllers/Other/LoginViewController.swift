@@ -60,10 +60,12 @@ class LoginViewController: UIViewController {
                 return
             }
             //ログイン成功時
-            // - ＠会員のビンゴシート情報を取得
-            // - ＠folderVCへ遷移
+
             HUD.hide()
             HUD.flash(.success)
+            //ログイン成功時はviewcontrollerを消す
+            self.dismiss(animated: true, completion: nil)
+            // - ＠会員のビンゴシート情報を取得
             
         }
     }
