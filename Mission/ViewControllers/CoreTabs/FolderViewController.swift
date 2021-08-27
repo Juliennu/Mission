@@ -29,6 +29,7 @@ class FolderViewController: UIViewController {
     let db = Firestore.firestore()
     //検索結果配列
 //    var searchResult = [BingoSheet]()
+    
 
 
     
@@ -38,6 +39,7 @@ class FolderViewController: UIViewController {
         setUpViews()
         setUpEditButton()
         checkUser()
+//        readDataFromFirestore()
 
     }
     
@@ -80,7 +82,9 @@ class FolderViewController: UIViewController {
     func checkUser() {
         //ログインユーザーがいる場合
         if Auth.auth().currentUser != nil {
-            print("ログインユーザーがいます: ", Auth.auth().currentUser?.uid)
+            
+            guard let uid = Auth.auth().currentUser?.uid else { return }
+            print("ログインユーザーがいます: ", uid)
             return
         } else {
             createAnonymousUserToFirestore()
@@ -120,28 +124,42 @@ class FolderViewController: UIViewController {
     
     //Firestoreからデータの読み込み
     public func readDataFromFirestore() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
         //Firestoreからコレクションのすべてのドキュメントを取得する
-        db.collection("bingoSheets").getDocuments() { (querySnapshot, err) in
+        db.collection("users").document(uid).collection("bingoSheets").getDocuments() { (querySnapshot, err) in
+//        db.collection("bingoSheets").getDocuments() { (querySnapshot, err) in
             //非同期処理：記述された順番は関係なく、getDocumentsの処理が完了したらクロージャを実行する
             if let err = err {
                 print("Firestoreから情報の取得に失敗しました。", err)
             } else {
                 for document in querySnapshot!.documents {
-//
                     //Firestoreから取得した情報をBingoSheet型のモデルに変換
                     let bingosheet = BingoSheet(document: document)
-                    //モデルをbingosheets配列に追加する
-                    self.bingosheets.append(bingosheet)
+                    
+                    self.appendBingoSheet(bingoSheet: bingosheet)
 
-                    //ビンゴシートを作成日順に並び替え(新規ビンゴシートを上に表示する)
-                    self.bingosheets.sort{ (b1, b2) -> Bool in
-                        let b1Date = b1.createdAt.dateValue()
-                        let b2Date = b2.createdAt.dateValue()
-                        return b1Date > b2Date
-                    }
                 }
-                self.tableView.reloadData()
+//                self.tableView.reloadData()
             }
+        }
+    }
+    
+    public func appendBingoSheet(bingoSheet: BingoSheet) {
+        //モデルをbingosheets配列に追加する
+        bingosheets.append(bingoSheet)
+        sortByCreatedAt()
+        tableView.reloadData()
+    }
+    
+    
+    
+    
+    private func sortByCreatedAt() {
+        //ビンゴシートを作成日順に並び替え(新規ビンゴシートを上に表示する)
+        self.bingosheets.sort{ (b1, b2) -> Bool in
+            let b1Date = b1.createdAt.dateValue()
+            let b2Date = b2.createdAt.dateValue()
+            return b1Date > b2Date
         }
     }
     
@@ -223,10 +241,11 @@ extension FolderViewController: UITableViewDelegate, UITableViewDataSource {
     //cell編集
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
+        guard let uid = Auth.auth().currentUser?.uid else { return }
         //選択したセルのドキュメントIDを取得
         guard let documentId = bingosheets[indexPath.row].documentId else { return }
         //documentIdを指定してFirestoreから削除
-        db.collection("bingoSheets").document(documentId).delete() { err in
+        db.collection("users").document(uid).collection("bingoSheets").document(documentId).delete() { err in
             if let err = err {
                 print("ビンゴシートの削除に失敗しました", err)
             } else {

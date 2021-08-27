@@ -22,7 +22,6 @@
                     <connections>
                         <segue destination="iQZ-pN-gfO" kind="relationship" relationship="viewControllers" id="5j5-vn-EH2"/>
                         <segue destination="P1N-h7-vnL" kind="relationship" relationship="viewControllers" id="uVU-Ex-Wux"/>
-                        <segue destination="uvR-BS-YWm" kind="relationship" relationship="viewControllers" id="eHH-3e-UxK"/>
                         <segue destination="vBE-N3-7sO" kind="relationship" relationship="viewControllers" id="1xX-kT-aOq"/>
                     </connections>
                 </tabBarController>
@@ -46,23 +45,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KPW-bq-6Fl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1474" y="147"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="uri-em-WRc">
-            <objects>
-                <navigationController id="uvR-BS-YWm" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="calendar" catalog="system" id="Xrr-X2-bs1"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="SQc-xc-3tm">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="iUG-9g-Ygj" kind="relationship" relationship="rootViewController" id="jfJ-Ry-dNO"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="mY7-Un-cd8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-142" y="147"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="RQP-Kw-TsS">
@@ -184,62 +166,6 @@
             </objects>
             <point key="canvasLocation" x="-797.10144927536237" y="831.69642857142856"/>
         </scene>
-        <!--カレンダー-->
-        <scene sceneID="USD-h7-TRc">
-            <objects>
-                <viewController storyboardIdentifier="Calender" useStoryboardIdentifierAsRestorationIdentifier="YES" id="iUG-9g-Ygj" customClass="CalenderViewController" customModule="Mission" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Bnl-zx-Y6A">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="IfJ-5S-a9y">
-                                <rect key="frame" x="0.0" y="463" width="414" height="350"/>
-                                <view key="tableHeaderView" contentMode="scaleToFill" id="0Ua-bo-HpQ">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="256"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" red="1" green="0.49327188729999999" blue="0.47399842739999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </view>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Jpa-nF-cLd">
-                                        <rect key="frame" x="0.0" y="280.5" width="414" height="43.5"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Jpa-nF-cLd" id="ZLw-WY-tj8">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </prototypes>
-                                <sections/>
-                            </tableView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eph-6X-VPf" customClass="FSCalendar">
-                                <rect key="frame" x="0.0" y="88" width="414" height="375"/>
-                            </view>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="6Q2-Vj-rYq"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="6Q2-Vj-rYq" firstAttribute="bottom" secondItem="IfJ-5S-a9y" secondAttribute="bottom" id="2Ib-T6-1Uz"/>
-                            <constraint firstItem="IfJ-5S-a9y" firstAttribute="trailing" secondItem="6Q2-Vj-rYq" secondAttribute="trailing" id="I63-oa-vgk"/>
-                            <constraint firstItem="eph-6X-VPf" firstAttribute="trailing" secondItem="6Q2-Vj-rYq" secondAttribute="trailing" id="IuB-x7-Xzs"/>
-                            <constraint firstItem="IfJ-5S-a9y" firstAttribute="top" secondItem="eph-6X-VPf" secondAttribute="bottom" id="JoR-xp-VJx"/>
-                            <constraint firstItem="IfJ-5S-a9y" firstAttribute="leading" secondItem="6Q2-Vj-rYq" secondAttribute="leading" id="Mls-SA-Bgz"/>
-                            <constraint firstItem="IfJ-5S-a9y" firstAttribute="leading" secondItem="6Q2-Vj-rYq" secondAttribute="leading" id="NTI-Bg-D9A"/>
-                            <constraint firstItem="eph-6X-VPf" firstAttribute="leading" secondItem="6Q2-Vj-rYq" secondAttribute="leading" id="ay3-EA-AIm"/>
-                            <constraint firstItem="6Q2-Vj-rYq" firstAttribute="bottom" secondItem="eph-6X-VPf" secondAttribute="bottom" constant="350" id="iSx-uo-12E"/>
-                            <constraint firstItem="6Q2-Vj-rYq" firstAttribute="trailing" secondItem="IfJ-5S-a9y" secondAttribute="trailing" id="kJC-ug-hrM"/>
-                            <constraint firstItem="eph-6X-VPf" firstAttribute="top" secondItem="6Q2-Vj-rYq" secondAttribute="top" id="ss9-4J-ixb"/>
-                            <constraint firstItem="IfJ-5S-a9y" firstAttribute="bottom" secondItem="6Q2-Vj-rYq" secondAttribute="bottom" id="tHk-Sd-c5i"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" title="カレンダー" id="X9M-81-YEh"/>
-                    <connections>
-                        <outlet property="calenderView" destination="eph-6X-VPf" id="d4s-tf-io5"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="qrz-o3-jJY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-117.39130434782609" y="831.69642857142856"/>
-        </scene>
         <!--設定-->
         <scene sceneID="btd-Lc-Hh5">
             <objects>
@@ -280,7 +206,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="calendar" catalog="system" width="128" height="106"/>
         <image name="folder" catalog="system" width="128" height="97"/>
         <image name="gearshape" catalog="system" width="128" height="121"/>
         <image name="music.note.list" catalog="system" width="128" height="115"/>

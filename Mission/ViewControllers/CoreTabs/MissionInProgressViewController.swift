@@ -12,6 +12,7 @@ import UIKit
 import GoogleMobileAds
 import SnapKit//AutoLayoutを簡潔にかけるライブラリ
 import UserNotifications
+import Lottie//Animation
 
 class MissionInProgressViewController: UIViewController {
     
@@ -20,6 +21,7 @@ class MissionInProgressViewController: UIViewController {
     private var bingoCollectionView: UICollectionView!
     private var titleLabel: UILabel!
     private var bingoStatusLabel: UILabel!
+    private var deadlineLabel: UILabel!
 
     @IBOutlet weak var bannerView: GADBannerView!//Admobを表示
     
@@ -31,6 +33,7 @@ class MissionInProgressViewController: UIViewController {
     var offsetX: CGFloat = 0
     //pageControlのcurrentPage番号
     var currentPageIndex: Int = 0
+    
 
     
     
@@ -108,6 +111,21 @@ class MissionInProgressViewController: UIViewController {
     
 //MARK: - functions
     
+//    func setUpBigCheckAnimationView() {
+//        let animationView = AnimationView(name: "lf30_editor_rk36ohuj")//大きいチェックマーク
+//        animationView.loopMode = .playOnce
+//        animationView.play()
+//        view.addSubview(animationView)
+//    }
+    
+//    func setUpSmallCrackerAnimationView() {
+//        let animationView = AnimationView(name: "71420-sparkle")//弾けるクラッカー
+//    //        animationView.frame =
+//        animationView.loopMode = .playOnce
+//        animationView.play()
+//        bingoCollectionView.addSubview(animationView)
+//    }
+    
     func setUpView() {
         view.backgroundColor = creamColor
         titleLabel = UILabel(frame: CGRect(x: 20, y: 20, width: self.view.frame.size.width - 40, height: 30))
@@ -123,6 +141,30 @@ class MissionInProgressViewController: UIViewController {
     private func setUpBingoCollectionView() {
 
         // bingoCollectionViewの画面表示サイズ・レイアウトを指定
+//        bingoCollectionView.snp.makeConstraints { make in
+//            //中央揃えが最優先
+//            make.centerX.equalToSuperview().priority(.required)
+//            make.left.equalTo(20).priority(.high)
+//            make.right.equalTo(20).priority(.high)
+//
+//            //centerYをsuperViewより上にずらす
+//            if view.frame.height < 667 {
+//                make.centerY.equalToSuperview().offset(-30)
+//            } else {
+//                make.centerY.equalToSuperview().offset(-50)
+//            }
+//
+//            //横幅の長さにbingoCollectionViewのサイズ設定を変更
+//            if self.view.frame.width > 700 {
+//                //iPad用
+//                make.width.equalToSuperview().dividedBy(1.5)
+//            } else {
+//                //スマホ用
+//                make.width.equalToSuperview().offset(-40)
+//            }
+//            //縦横比を1:1にする
+//            make.height.equalTo(bingoCollectionView.snp.width)
+//        }
         bingoCollectionView = UICollectionView(frame: CGRect(x: 20, y: 100, width: 350, height: 350), collectionViewLayout: UICollectionViewFlowLayout())
 //        let layout = UICollectionViewFlowLayout()
 //        bingoCollectionView.collectionViewLayout = layout
@@ -256,7 +298,7 @@ class MissionInProgressViewController: UIViewController {
         //@シュミレーター上でimageとして保存しようとするとクラッシュするのを直す
     }
     
-    //中断
+    //ビンゴシート削除
     @objc func canceled() {
         //ビンゴシートが存在しない時エラー表示
         if bingoSheetsInProgress.count < 1 {
@@ -280,7 +322,7 @@ class MissionInProgressViewController: UIViewController {
         }
         
         //Alertを表示
-            showAlert(title: "ビンゴシート削除", message: "現在表示中のビンゴシートを削除してよろしいですか", actions: [cancelAction, okAction])
+            showAlert(title: "ビンゴシート削除", message: "現在表示中のビンゴシートを\n削除してよろしいですか?", actions: [cancelAction, okAction])
 
     }
     
@@ -292,7 +334,7 @@ class MissionInProgressViewController: UIViewController {
 //        bingoStatusLabel.frame = CGRect(x: 20, y: 320, width: self.view.frame.size.width - 20, height: 90)
         bingoStatusLabel.isHidden = true
         bingoStatusLabel.font = UIFont(name: "Party LET Plain", size: 61.0)
-        bingoStatusLabel.backgroundColor = .yellow
+//        bingoStatusLabel.backgroundColor = .yellow
         bingoStatusLabel.textAlignment = .center
         self.view.addSubview(bingoStatusLabel)
 //        self.bingoCollectionView.addSubview(bingoStatusLabel)
@@ -307,6 +349,7 @@ class MissionInProgressViewController: UIViewController {
 //        sleep(1)//1秒止める
         bingoStatusLabel.isHidden = false
         bingoSoundPlay()
+//        setUpSmallCrackerAnimationView()
 //        sleep(2)//2秒止める
 //        bingoStatusLabel.isHidden = true
     }
@@ -499,6 +542,7 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
             bingoStatusLabel.text = "COMPLETE!"
             bingoStatusLabel.isHidden = false
             clearSoundPlay()
+//            setUpBigCheckAnimationView()
             
             //ごほうびをアラート表示
             let message = currentBingo.bingoSheet.reward

@@ -67,7 +67,7 @@ class EditBingoSheetViewController: UIViewController {
                 make.centerY.equalToSuperview().offset(-50)
             }
             
-            //横幅の最大値を設定
+            //横幅の長さにbingoCollectionViewのサイズ設定を変更
             if self.view.frame.width > 700 {
                 //iPad用
                 make.width.equalToSuperview().dividedBy(1.5)

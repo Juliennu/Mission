@@ -306,14 +306,6 @@ class CreateNewBingoSheetViewController: FormViewController {
         let tasks = bingosheet.tasks ?? [String](repeating: "free", count: 9)
         let deadline = bingosheet.deadline ?? Date()//Timestamp()
         let reward = bingosheet.reward ?? "No Reward"
-        
-//        guard let title = bingosheets?.title else { return }//bingosheetTitle else { return }
-//        guard let tasks = bingosheets?.tasks else { return }
-//        guard let deadLine = bingosheets?.deadline else { return }
-//        guard let reward = bingosheets?.reward else { return }
-        
-//        guard let documentId = bingosheets?.doumentId else { return }
-//        guard let createdAt = bingosheets?.createdAt else { return }
 
         var ref: DocumentReference? = nil
         
@@ -323,22 +315,25 @@ class CreateNewBingoSheetViewController: FormViewController {
             "deadline": deadline,
             "reward": reward,
             "createdAt": Timestamp()
-//            "selectedSquare": selectedSquare,
-//            "task": taskArray,
-//            "deadLine": deadline,
-//            "reward": reward,
-//            "creatdAt": Timestamp()
         ] as [String : Any]
-//        print(taskArray)
         
+        guard let uid = Auth.auth().currentUser?.uid else { return }
         
         //Firestoreにコレクションを作成
-        ref = db.collection("bingoSheets").addDocument(data: dogData) { err in
+        ref = db.collection("users").document(uid).collection("bingoSheets").addDocument(data: dogData) { err in
+//        ref = db.collection("bingoSheets").addDocument(data: dogData) { err in
             if let err = err {
                 print("データベースへの保存に失敗しました: ", err)
             } else {
-                self.navigationController?.popToRootViewController(animated: true)
+
                 print("データベースへの保存に成功しました: ", ref!.documentID)
+                //＠FolderViewController.bingoSheetにこのbingoSheetを追加したい
+//                self.db.collection("users").document(uid).collection("bingoSheets").document("documentID").getDocument { document, err in
+//                    let bingosheet = BingoSheet(documentSnapshot: document!)
+//                    FolderViewController.appendBingoSheet(bingosheet)!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//                }
+                //画面遷移
+                self.navigationController?.popToRootViewController(animated: true)
             }
         }
     }
