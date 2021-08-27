@@ -45,7 +45,6 @@ class MissionInProgressViewController: UIViewController {
         setUpVannerView()
         setUpSoundPrepare()
         setUpBarButtonItem()
-
         setUpScrollView()
         setUpPageControl()
         setUpBingoStatusLabel()
@@ -129,13 +128,26 @@ class MissionInProgressViewController: UIViewController {
     func setUpView() {
         view.backgroundColor = creamColor
         titleLabel = UILabel(frame: CGRect(x: 20, y: 20, width: self.view.frame.size.width - 40, height: 30))
-        titleLabel.text = "イントロダクション"
         titleLabel.textAlignment = .center
         titleLabel.font = UIFont(name: "System Bold", size: 19.0)
         titleLabel.backgroundColor = .systemGray5
+        titleLabel.text = "イントロダクション"
+        
+        deadlineLabel = UILabel(frame: CGRect(x: 20, y: 550, width: self.view.frame.size.width, height: 30))
+        deadlineLabel.textAlignment = .center
+        deadlineLabel.text = ""
+        deadlineLabel.font = UIFont(name: "System Bold", size: 19.0)
+        deadlineLabel.backgroundColor = .systemGray5
 
     }
-    
+    //Date型をString型へ変換
+    func dateFormatter(date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.timeStyle = .none
+        formatter.locale = Locale(identifier: "ja_JP")
+        return formatter.string(from: date)
+    }
     
     
     private func setUpBingoCollectionView() {
@@ -188,9 +200,11 @@ class MissionInProgressViewController: UIViewController {
         //bingoCollectionViewの新しいインスタンスを生成
         setUpBingoCollectionView()
         setUpView()
+
         
         self.scrollView.addSubview(bingoCollectionView)
         self.scrollView.addSubview(titleLabel)
+        self.scrollView.addSubview(deadlineLabel)
         
         let width = self.view.frame.size.width
         let positionX = CGFloat(Int(width) * (bingoSheetsInProgress.count - 1))//＠座標の指定をどこにすればいいかわからない
@@ -208,6 +222,10 @@ class MissionInProgressViewController: UIViewController {
         
         titleLabel.frame = CGRect(x: positionX + 20, y: 20, width: width - 40, height: 30)
         titleLabel.text = bingoSheetInProgress.bingoSheet.title
+        
+        deadlineLabel.frame = CGRect(x: positionX + 20, y: 600, width: width - 40, height: 30)
+        let dateString = dateFormatter(date: bingoSheetsInProgress[currentPageIndex].bingoSheet.deadline!)
+        deadlineLabel.text = "\(dateString)"
         
         // scrollViewのサイズを指定（幅は1ページに表示するViewの幅×ページ数）
         scrollView.contentSize = CGSize(width: Int(width) * bingoSheetsInProgress.count, height: 200)
@@ -270,9 +288,9 @@ class MissionInProgressViewController: UIViewController {
     
     
     private func setUpBarButtonItem() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: self, action: #selector(shared))//(title: "シェア", style: .plain, target: self, action: #selector(shared))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark.circle"), style: .plain, target: self, action: #selector(canceled))//(title: "中断", style: .plain, target: self, action: #selector(canceled))
-        navigationItem.leftBarButtonItem?.tintColor = .red
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: self, action: #selector(shared))//(title: "シェア", style: .plain, target: self, action: #selector(shared))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark.circle"), style: .plain, target: self, action: #selector(canceled))//(title: "中断", style: .plain, target: self, action: #selector(canceled))
+        navigationItem.rightBarButtonItem?.tintColor = .red
     }
     
     //シェア
@@ -322,7 +340,7 @@ class MissionInProgressViewController: UIViewController {
         }
         
         //Alertを表示
-            showAlert(title: "ビンゴシート削除", message: "現在表示中のビンゴシートを\n削除してよろしいですか?", actions: [cancelAction, okAction])
+            showAlert(title: "ビンゴシート削除", message: "現在表示中のビンゴシートを\n削除してもよろしいですか?", actions: [cancelAction, okAction])
 
     }
     
@@ -380,13 +398,7 @@ class MissionInProgressViewController: UIViewController {
         }
     }
     
-        private func dateFormatter(date: Date) -> String {
-            let formatter = DateFormatter()
-            formatter.dateStyle = .short
-            formatter.timeStyle = .none
-            formatter.locale = Locale(identifier: "ja_JP")
-            return formatter.string(from: date)
-        }
+
     
 }
 
@@ -467,7 +479,6 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
             currentBingo.tasksAreDone[indexPath.section][indexPath.row] = true
             cell?.backgroundColor = doneCellUIColor
             cell?.isOpaque = false//透過にする
-            
             cell?.isHighlighted = true
             taskIsDoneSoundPlay()
         //完了タスクセル

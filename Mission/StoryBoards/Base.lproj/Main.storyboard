@@ -134,7 +134,7 @@
             </objects>
             <point key="canvasLocation" x="-1475.3623188405797" y="832.36607142857144"/>
         </scene>
-        <!--Misson In Progress-->
+        <!--ビンゴ-->
         <scene sceneID="dbg-hk-gYD">
             <objects>
                 <viewController storyboardIdentifier="MissionInProgressViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="NFI-ze-xdO" customClass="MissionInProgressViewController" customModule="Mission" customModuleProvider="target" sceneMemberID="viewController">
@@ -154,7 +154,7 @@
                             <constraint firstItem="b8h-Zu-AiW" firstAttribute="centerX" secondItem="H6O-QD-PoY" secondAttribute="centerX" id="La6-oi-Fvo"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Misson In Progress" id="mV3-XO-KDK">
+                    <navigationItem key="navigationItem" title="ビンゴ" id="mV3-XO-KDK">
                         <barButtonItem key="leftBarButtonItem" title="Item" id="rGc-hJ-oZw"/>
                         <barButtonItem key="rightBarButtonItem" title="Item" id="gZB-4p-kaM"/>
                     </navigationItem>

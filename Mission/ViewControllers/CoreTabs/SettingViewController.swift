@@ -50,7 +50,7 @@ final class SettingViewController: UIViewController {
         data.append(section0)
         
         let section1 = [
-            SettingCellModel(title: "会員登録") { [ weak self] in
+            SettingCellModel(title: "メールアドレス登録") { [ weak self] in
                 self?.didTapResister()
             },
             SettingCellModel(title: "ログアウト") { [ weak self] in
