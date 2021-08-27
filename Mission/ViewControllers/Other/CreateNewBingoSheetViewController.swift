@@ -233,36 +233,18 @@ class CreateNewBingoSheetViewController: FormViewController {
                 cell.imageView?.image = UIImage(systemName: "calendar.badge.clock")
             }
         
-        form +++
-
-            PushRow<EventAlert>() {
-                $0.title = "通知"
-                $0.options = EventAlert.allCases
-                $0.value = .Never
-                }
-            .cellSetup{ cell, row in
-                cell.imageView?.image = UIImage(systemName: "bell")
-            }
-                .onChange { [weak self] row in
-                    //Another Alertの設定
-//                    if row.value == .Never {
-//                        if let second : PushRow<EventAlert> = self?.form.rowBy(tag: "Another Alert"), let secondIndexPath = second.indexPath {
-//                            row.section?.remove(at: secondIndexPath.row)
-//                        }
-//                    }
-//                    else{
-//                        guard let _ : PushRow<EventAlert> = self?.form.rowBy(tag: "Another Alert") else {
-//                            let second = PushRow<EventAlert>("Another Alert") {
-//                                $0.title = $0.tag
-//                                $0.value = .Never
-//                                $0.options = EventAlert.allCases
-//                            }
-//                            let secondIndex = row.indexPath!.row + 1
-//                            row.section?.insert(second, at: secondIndex)
-//                            return
-//                        }
-//                    }
-        }
+//        form +++
+//
+//            PushRow<EventAlert>() {
+//                $0.title = "通知"
+//                $0.options = EventAlert.allCases
+//                $0.value = .Never
+//                }
+//            .cellSetup{ cell, row in
+//                cell.imageView?.image = UIImage(systemName: "bell")
+//            }
+//                .onChange { [weak self] row in
+//        }
             
 //            <<< PushRow<RepeatInterval>("繰り返し")/*これがタグ*/ {
 //                $0.title = $0.tag

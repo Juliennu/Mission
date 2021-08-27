@@ -140,24 +140,14 @@ class MissionInProgressViewController: UIViewController {
         deadlineLabel.backgroundColor = .systemGray5
 
     }
-    //Date型をString型へ変換
-    func dateFormatter(date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .short
-        formatter.timeStyle = .none
-        formatter.locale = Locale(identifier: "ja_JP")
-        return formatter.string(from: date)
-    }
-    
+
     
     private func setUpBingoCollectionView() {
-
-        // bingoCollectionViewの画面表示サイズ・レイアウトを指定
+        
+//        //bingoCollectionViewの画面表示サイズ・レイアウトを指定
 //        bingoCollectionView.snp.makeConstraints { make in
 //            //中央揃えが最優先
 //            make.centerX.equalToSuperview().priority(.required)
-//            make.left.equalTo(20).priority(.high)
-//            make.right.equalTo(20).priority(.high)
 //
 //            //centerYをsuperViewより上にずらす
 //            if view.frame.height < 667 {
@@ -177,10 +167,8 @@ class MissionInProgressViewController: UIViewController {
 //            //縦横比を1:1にする
 //            make.height.equalTo(bingoCollectionView.snp.width)
 //        }
+//        bingoCollectionView.collectionViewLayout = UICollectionViewFlowLayout()
         bingoCollectionView = UICollectionView(frame: CGRect(x: 20, y: 100, width: 350, height: 350), collectionViewLayout: UICollectionViewFlowLayout())
-//        let layout = UICollectionViewFlowLayout()
-//        bingoCollectionView.collectionViewLayout = layout
-
         bingoCollectionView.delegate = self
         bingoCollectionView.dataSource = self
         bingoCollectionView.register(BingoCollectionViewCell.self, forCellWithReuseIdentifier: "cellId")
@@ -199,6 +187,7 @@ class MissionInProgressViewController: UIViewController {
         
         //bingoCollectionViewの新しいインスタンスを生成
         setUpBingoCollectionView()
+        
         setUpView()
 
         
@@ -235,8 +224,6 @@ class MissionInProgressViewController: UIViewController {
         // pageControlの現在ページを配列の最後のインデックスと同じにする
         pageControl.currentPage = bingoSheetsInProgress.count
         pageScroll()
-        
-
     }
 
     
@@ -289,12 +276,19 @@ class MissionInProgressViewController: UIViewController {
     
     private func setUpBarButtonItem() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: self, action: #selector(shared))//(title: "シェア", style: .plain, target: self, action: #selector(shared))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark.circle"), style: .plain, target: self, action: #selector(canceled))//(title: "中断", style: .plain, target: self, action: #selector(canceled))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark.circle"), style: .plain, target: self, action: #selector(removeButtonTapped))//(title: "中断", style: .plain, target: self, action: #selector(canceled))
         navigationItem.rightBarButtonItem?.tintColor = .red
     }
     
     //シェア
     @objc func shared() {
+        //ビンゴシートが存在しない時エラー表示
+        if bingoSheetsInProgress.count < 1 {
+            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            showAlert(title: "共有エラー", message: "実行中のビンゴシートが存在しません", actions: [okAction])
+            return
+        }
+        
         let size = view.frame.size//スクリーンショットを撮る座標と縦横幅を指定->@AdMobの範囲は外す。
         UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
         view.drawHierarchy(in: view.frame, afterScreenUpdates: true)
@@ -317,21 +311,27 @@ class MissionInProgressViewController: UIViewController {
     }
     
     //ビンゴシート削除
-    @objc func canceled() {
+    @objc func removeButtonTapped() {
         //ビンゴシートが存在しない時エラー表示
         if bingoSheetsInProgress.count < 1 {
             let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-            showAlert(title: "削除に失敗しました", message: "実行中のビンゴシートが存在しません", actions: [okAction])
+            showAlert(title: "削除エラー", message: "実行中のビンゴシートが存在しません", actions: [okAction])
             return
         }
 
         //削除をアラート表示
         let cancelAction = UIAlertAction(title: "キャンセル", style: .cancel, handler: nil)
         let okAction = UIAlertAction(title: "OK", style: .destructive) { _ in
-            //OKだった時のビンゴシート削除処理
-            //@bingoCollectionViewから削除!!!!!!!!!!!!!!!!!!!!!
+
+            //現在表示中のビンゴシートを配列から削除
+            self.bingoSheetsInProgress.remove(at: Int(self.currentPageIndex))
             
-            self.bingoSheetsInProgress.remove(at: Int(self.currentPageIndex))//＠現在表示中のビンゴシートの順番を取得したい！！！！！
+            let width = self.view.frame.size.width
+            let positionX = CGFloat(Int(width) * (self.bingoSheetsInProgress.count - 1))
+            self.bingoCollectionView.frame = CGRect(x: positionX + 20, y: 100, width: 350, height: 350)
+            
+            self.titleLabel.frame = CGRect(x: positionX + 20, y: 20, width: width - 40, height: 30)
+            
             // scrollViewのサイズを指定（幅は1ページに表示するViewの幅×ページ数）
             self.scrollView.contentSize = CGSize(width: Int(self.view.frame.size.width) * self.bingoSheetsInProgress.count, height: 200)
             // pageControlのページ数を設定
@@ -371,32 +371,44 @@ class MissionInProgressViewController: UIViewController {
 //        sleep(2)//2秒止める
 //        bingoStatusLabel.isHidden = true
     }
-    //日時指定通知
-    func localNotification() {
-        //通知内容
-        let content = UNMutableNotificationContent()
-        content.sound = UNNotificationSound.default
-        content.title = "ローカル通知テスト"
-        content.subtitle = "日時指定"
-        content.body = "まだ未完了のタスクがありますよ〜"//@未完了タスクの有無によって通知を切り替える？
-        //通知日時をセット
-        guard let deadline = bingoSheetsInProgress[currentPageIndex].bingoSheet.deadline else { return }//@今開いているビンゴシートしか通知対象にならないので要修正
-        //1時間前に通知
-        let alertDate = Date(timeInterval: -(60*60), since: deadline)
-        let component = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: alertDate)
-        //通知リクエストを作成
-        let trigger = UNCalendarNotificationTrigger(dateMatching: component, repeats: true)
-        //ユニークなIDを作る
-        let identifier = NSUUID().uuidString
-        let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
-        
-        //通知リクエストを登録
-        UNUserNotificationCenter.current().add(request) { (error) in
-            if let error = error {
-                print("通知リクエストの登録に失敗しました: ", error.localizedDescription)
-            }
-        }
+    
+    //Date型をString型へ変換
+    func dateFormatter(date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.timeStyle = .none
+        formatter.locale = Locale(identifier: "ja_JP")
+        return formatter.string(from: date)
     }
+    
+    
+    
+    //日時指定通知
+//    func localNotification() {
+//        //通知内容
+//        let content = UNMutableNotificationContent()
+//        content.sound = UNNotificationSound.default
+//        content.title = "ローカル通知テスト"
+//        content.subtitle = "日時指定"
+//        content.body = "まだ未完了のタスクがありますよ〜"//@未完了タスクの有無によって通知を切り替える？
+//        //通知日時をセット
+//        guard let deadline = bingoSheetsInProgress[currentPageIndex].bingoSheet.deadline else { return }//@今開いているビンゴシートしか通知対象にならないので要修正
+//        //1時間前に通知
+//        let alertDate = Date(timeInterval: -(60*60), since: deadline)
+//        let component = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: alertDate)
+//        //通知リクエストを作成
+//        let trigger = UNCalendarNotificationTrigger(dateMatching: component, repeats: true)
+//        //ユニークなIDを作る
+//        let identifier = NSUUID().uuidString
+//        let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
+//
+//        //通知リクエストを登録
+//        UNUserNotificationCenter.current().add(request) { (error) in
+//            if let error = error {
+//                print("通知リクエストの登録に失敗しました: ", error.localizedDescription)
+//            }
+//        }
+//    }
     
 
     
@@ -450,7 +462,7 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
         //freeマスの時はイラストを表示
         if currentBingo.tasks[indexPath.section][indexPath.row] == "free" {
 //            cell.taskLabel.text = ""
-            cell.imageView.image = UIImage(named: "freeImage1")//@目立つのでサイズを小さくして色も薄くしたい
+            cell.imageView.image = UIImage(named: "freeImage1")
             cell.imageView.isHidden = false
             currentBingo.tasksAreDone[indexPath.section][indexPath.row] = true
 //            tasksAreDone[indexPath.section][indexPath.row] = true
@@ -462,12 +474,11 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
     
     //セルタップ時の挙動
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        //@タップ時にイラストを表示したい
         let cell = bingoCollectionView.cellForItem(at: indexPath)
         
         let currentBingo = bingoSheetsInProgress[currentPageIndex]
         
-        print("タップされたビンゴシートのタイトル: ", currentBingo.bingoSheet.title!)
+//        print("タップされたビンゴシートのタイトル: ", currentBingo.bingoSheet.title!)
 //        let task = tasks[indexPath.section][indexPath.row]
         let taskIsDone = currentBingo.tasksAreDone[indexPath.section][indexPath.row]
         bingoStatusLabel.text = "BINGO!"
@@ -494,7 +505,7 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
         //横の判定
         if currentBingo.tasksAreDone[indexPath.section] == [true, true, true] {
 //        if tasksAreDone[indexPath.section] == [true, true, true] {
-            print("よこビンゴ！")
+//            print("よこビンゴ！")
             bingoAction()
         }
         
@@ -507,7 +518,7 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
 //        let tasksAreDoneColumn = [tasksAreDone[0][indexPath.row], tasksAreDone[1][indexPath.row], tasksAreDone[2][indexPath.row]]
         //縦の判定
         if tasksAreDoneColumn == [true, true, true] {
-            print("たてビンゴ！")
+//            print("たてビンゴ！")
             bingoAction()
         }
         
@@ -523,24 +534,15 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
             
             if indexPath.section == indexPath.row,
                tasksAreDoneDiagonalArray1 == [true, true, true] {
-                print("ななめビンゴ1！")
+//                print("ななめビンゴ1！")
                 bingoAction()
             }
             
             if indexPath.section + indexPath.row == 2,
                tasksAreDoneDiagonalArray2 == [true, true, true] {
-                print("ななめビンゴ2！")
+//                print("ななめビンゴ2！")
                 bingoAction()
             }
-        //斜めビンゴの対象となるセルのindexPathをInt型の二次元配列にする
-//        let diagonalArrayIndexPaths = [[0, 0], [1, 1], [2, 2], [0, 2], [2, 0]]
-        //IndexPath型をInt型に変換
-//        let indexPathInt = indexPath.map({element in Int(element)})
-        //斜めの判定
-//        if //diagonalArrayIndexPaths.contains(indexPathInt),
-//           tasksAreDone[indexPath.section][indexPath.row] == true {
-//        }
-        
 
 
         //ビンゴシート達成の判定
@@ -557,7 +559,6 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
             
             //ごほうびをアラート表示
             let message = currentBingo.bingoSheet.reward
-//            let message = bingoSheets.last?.reward ?? "ポッキー1袋"
             //UIAlertControllerクラスのインスタンスを生成
             let actionSheet = UIAlertController(title: "ビンゴミッション\nコンプリート!", message: message, preferredStyle: .alert)//.actionSheet:画面下部から出てくるアラート//.alert:画面中央に表示されるアラート
             //UIAlertControllerにActionを追加
@@ -584,20 +585,7 @@ extension MissionInProgressViewController: UIScrollViewDelegate {
         //currentPageIndexの値を更新
         currentPageIndex = pageControl.currentPage
         
-        
-        
-//        print("現在のページ: ", pageControl.currentPage)//動いた瞬間に検知される。0ページからスタート
-        //@pageControlのcurrentPageの移動に合わせてscrollViewのページも移動させたい
-        
     }
-    
-    //    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-    //        guard scrollView == self.scrollView else { return }
-    //    }
-    //
-    //    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-    //        guard scrollView == self.scrollView else { return }
-    //    }
     
 }
 
@@ -610,28 +598,12 @@ extension MissionInProgressViewController: GADBannerViewDelegate {
 //        UIView.animate(withDuration: 1, animations: {
 //            bannerView.alpha = 1
 //        })
-        print("bannerView:広告を受信しました")
+//        print("bannerView:広告を受信しました")
     }
 //
     func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
-        print("bannerView:広告の受信に失敗しました: \(error.localizedDescription)")
+//        print("bannerView:広告の受信に失敗しました: \(error.localizedDescription)")
     }
-//
-//    func bannerViewDidRecordImpression(_ bannerView: GADBannerView) {
-//        print("bannerViewDidRecordImpression")
-//    }
-//
-//    func bannerViewWillPresentScreen(_ bannerView: GADBannerView) {
-//        print("bannerViewWillPresentScreen")
-//    }
-//
-//    func bannerViewWillDismissScreen(_ bannerView: GADBannerView) {
-//        print("bannerViewWillDIsmissScreen")
-//    }
-//
-//    func bannerViewDidDismissScreen(_ bannerView: GADBannerView) {
-//        print("bannerViewDidDismissScreen")
-//    }
 }
 
 

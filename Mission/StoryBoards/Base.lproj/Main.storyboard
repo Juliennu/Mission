@@ -142,7 +142,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" placeholderIntrinsicWidth="320" placeholderIntrinsicHeight="50" image="music.note.list" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="b8h-Zu-AiW" customClass="GADBannerView">
+                            <imageView clipsSubviews="YES" contentMode="scaleAspectFit" placeholderIntrinsicWidth="320" placeholderIntrinsicHeight="50" image="music.note.list" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="b8h-Zu-AiW" customClass="GADBannerView">
                                 <rect key="frame" x="47" y="763.5" width="320" height="49"/>
                                 <color key="backgroundColor" systemColor="systemTealColor"/>
                             </imageView>
