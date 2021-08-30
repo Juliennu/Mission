@@ -1,0 +1,71 @@
+name: Google-Mobile-Ads-SDK, nameSpecified: 
+body: Copyright 2021 Googl…
+version: 8.7.0
+
+name: GoogleAppMeasurement, nameSpecified: 
+body: Copyright 2021 Googl…
+version: 8.3.0
+
+name: GoogleUserMessagingPlatform, nameSpecified: 
+body: Copyright 2021 Googl…
+version: 2.0.0
+
+name: GoogleUtilities, nameSpecified: 
+body: 
+                   …
+version: 7.5.0
+
+name: LicensePlist, nameSpecified: 
+body: MIT License
+
+Copyrig…
+version: 3.13.0
+
+name: nanopb, nameSpecified: 
+body: Copyright (c) 2011 P…
+version: 2.30908.0
+
+name: PromisesObjC, nameSpecified: 
+body: 
+                   …
+version: 2.0.0
+
+name: abseil-cpp-SwiftPM, nameSpecified: abseil, owner: firebase, version: 0.20200225.4
+
+name: boringssl-SwiftPM, nameSpecified: BoringSSL-GRPC, owner: firebase, version: 0.7.2
+
+name: Eureka, nameSpecified: Eureka, owner: xmartlabs, version: 5.3.3
+
+name: firebase-ios-sdk, nameSpecified: Firebase, owner: firebase, version: 8.3.1
+
+name: FSCalendar, nameSpecified: FSCalendar, owner: WenchaoD, version: 2.8.2
+
+name: GoogleAppMeasurement, nameSpecified: GoogleAppMeasurement, owner: google, version: 8.3.1
+
+name: GoogleDataTransport, nameSpecified: GoogleDataTransport, owner: google, version: 9.1.0
+
+name: GoogleUtilities, nameSpecified: GoogleUtilities, owner: google, version: 7.5.0
+
+name: grpc-SwiftPM, nameSpecified: gRPC, owner: firebase, version: 1.28.4
+
+name: gtm-session-fetcher, nameSpecified: GTMSessionFetcher, owner: google, version: 1.6.1
+
+name: handMadeCalendarAdvance, nameSpecified: CalculateCalendarLogic, owner: fumiyasac, version: 0.5.0
+
+name: leveldb, nameSpecified: leveldb, owner: firebase, version: 1.22.2
+
+name: lottie-ios, nameSpecified: Lottie, owner: airbnb, version: 3.2.3
+
+name: nanopb, nameSpecified: nanopb, owner: firebase, version: 2.30908.0
+
+name: PKHUD, nameSpecified: PKHUD, owner: pkluz, version: 5.4.0
+
+name: promises, nameSpecified: Promises, owner: google, version: 1.2.12
+
+name: SnapKit, nameSpecified: SnapKit, owner: SnapKit, version: 5.0.1
+
+name: swift-protobuf, nameSpecified: SwiftProtobuf, owner: apple, version: 1.17.0
+
+add-version-numbers: false
+
+LicensePlist Version: 3.13.0

@@ -8,5 +8,5 @@ target 'Mission' do
   # Pods for Mission
 
 pod 'Google-Mobile-Ads-SDK'
-
+pod 'LicensePlist'
 end

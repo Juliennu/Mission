@@ -57,7 +57,7 @@ class FolderViewController: UIViewController {
 
         
         //ボタンの設定
-        let buttonImage = UIImage(named: "addImage")?.withRenderingMode(.alwaysTemplate)
+        let buttonImage = UIImage(named: "plusSymple")?.withRenderingMode(.alwaysTemplate)//addImage//plusColor
         addNewBingoSheetButton.setImage(buttonImage, for: .normal)
         addNewBingoSheetButton.tintColor = .systemBlue
         

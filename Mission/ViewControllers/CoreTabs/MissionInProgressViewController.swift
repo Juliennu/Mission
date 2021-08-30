@@ -18,9 +18,10 @@ class MissionInProgressViewController: UIViewController {
     
     private var scrollView: UIScrollView!
     private var pageControl: UIPageControl!
-    private var bingoCollectionView: UICollectionView!
+//    private var bingoCollectionView: UICollectionView!
     private var titleLabel: UILabel!
     private var bingoStatusLabel: UILabel!
+    private var imageView: UIImageView!
     private var deadlineLabel: UILabel!
 
     @IBOutlet weak var bannerView: GADBannerView!//Admobを表示
@@ -47,9 +48,11 @@ class MissionInProgressViewController: UIViewController {
         setUpBarButtonItem()
         setUpScrollView()
         setUpPageControl()
-        setUpBingoStatusLabel()
+        
         setUpView()
         setUpBingoCollectionView()
+        setUpImageView()
+        setUpBingoStatusLabel()
 //        localNotification()
 
     }
@@ -124,6 +127,7 @@ class MissionInProgressViewController: UIViewController {
 //        animationView.play()
 //        bingoCollectionView.addSubview(animationView)
 //    }
+
     
     func setUpView() {
         view.backgroundColor = creamColor
@@ -168,14 +172,14 @@ class MissionInProgressViewController: UIViewController {
 //            make.height.equalTo(bingoCollectionView.snp.width)
 //        }
 //        bingoCollectionView.collectionViewLayout = UICollectionViewFlowLayout()
-        bingoCollectionView = UICollectionView(frame: CGRect(x: 20, y: 100, width: 350, height: 350), collectionViewLayout: UICollectionViewFlowLayout())
-        bingoCollectionView.delegate = self
-        bingoCollectionView.dataSource = self
-        bingoCollectionView.register(BingoCollectionViewCell.self, forCellWithReuseIdentifier: "cellId")
-
-        bingoCollectionView.backgroundColor = .clear
-        bingoCollectionView.layer.borderWidth = 0.0
-//        bingoCollectionView.layer.borderColor = UIColor.systemGray2.cgColor
+        
+//        bingoCollectionView = UICollectionView(frame: CGRect(x: 20, y: 100, width: 350, height: 350), collectionViewLayout: UICollectionViewFlowLayout())
+////        bingoCollectionView.delegate = self
+////        bingoCollectionView.dataSource = self
+//        bingoCollectionView.register(BingoCollectionViewCell.self, forCellWithReuseIdentifier: "cellId")
+//
+//        bingoCollectionView.backgroundColor = .clear
+//        bingoCollectionView.layer.borderWidth = 0.0
 
     }
     
@@ -191,7 +195,7 @@ class MissionInProgressViewController: UIViewController {
         setUpView()
 
         
-        self.scrollView.addSubview(bingoCollectionView)
+//        self.scrollView.addSubview(bingoCollectionView)
         self.scrollView.addSubview(titleLabel)
         self.scrollView.addSubview(deadlineLabel)
         
@@ -207,7 +211,7 @@ class MissionInProgressViewController: UIViewController {
 //            make.centerX.equalTo(view)
 //            make.leading.equalTo(positionX + 20)
 //        }
-        bingoCollectionView.frame = CGRect(x: positionX + 20, y: 100, width: 350, height: 350)
+//        bingoCollectionView.frame = CGRect(x: positionX + 20, y: 100, width: 350, height: 350)
         
         titleLabel.frame = CGRect(x: positionX + 20, y: 20, width: width - 40, height: 30)
         titleLabel.text = bingoSheetInProgress.bingoSheet.title
@@ -328,7 +332,7 @@ class MissionInProgressViewController: UIViewController {
             
             let width = self.view.frame.size.width
             let positionX = CGFloat(Int(width) * (self.bingoSheetsInProgress.count - 1))
-            self.bingoCollectionView.frame = CGRect(x: positionX + 20, y: 100, width: 350, height: 350)
+//            self.bingoCollectionView.frame = CGRect(x: positionX + 20, y: 100, width: 350, height: 350)
             
             self.titleLabel.frame = CGRect(x: positionX + 20, y: 20, width: width - 40, height: 30)
             
@@ -344,6 +348,14 @@ class MissionInProgressViewController: UIViewController {
 
     }
     
+    func setUpImageView() {
+        let bingoImage = UIImage(named: "cracker")?.withRenderingMode(.alwaysTemplate)
+//        let congratulations = UIImage(named: "")?.withRenderingMode(.alwaysTemplate)
+        imageView = UIImageView(frame: CGRect(x: 20, y: 320, width: self.view.frame.size.width - 40, height: 400))
+        imageView.image = bingoImage
+        imageView.isHidden = true
+        self.view.addSubview(imageView)
+    }
 
     
     
@@ -367,6 +379,7 @@ class MissionInProgressViewController: UIViewController {
 //        sleep(1)//1秒止める
         bingoStatusLabel.isHidden = false
         bingoSoundPlay()
+        imageView.isHidden = false
 //        setUpSmallCrackerAnimationView()
 //        sleep(2)//2秒止める
 //        bingoStatusLabel.isHidden = true
@@ -452,7 +465,19 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
     
     //セルの中身
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = bingoCollectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! BingoCollectionViewCell
+//        let cell = bingoCollectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! BingoCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! BingoCollectionViewCell
+        
+        let width = self.view.frame.size.width
+        let positionX = CGFloat(Int(width) * (bingoSheetsInProgress.count - 1))
+        
+//        collectionView = UICollectionView(frame: CGRect(x: positionX, y: 100, width: 350, height: 350), collectionViewLayout: UICollectionViewFlowLayout())
+
+//        collectionView.register(BingoCollectionViewCell.self, forCellWithReuseIdentifier: "cellId")
+
+        collectionView.backgroundColor = .clear
+        collectionView.layer.borderWidth = 0.0
+        
         
         let currentBingo = bingoSheetsInProgress[currentPageIndex]
 
@@ -474,15 +499,15 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
     
     //セルタップ時の挙動
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = bingoCollectionView.cellForItem(at: indexPath)
+//        let cell = bingoCollectionView.cellForItem(at: indexPath)
+        let cell = collectionView.cellForItem(at: indexPath)
         
         let currentBingo = bingoSheetsInProgress[currentPageIndex]
-        
-//        print("タップされたビンゴシートのタイトル: ", currentBingo.bingoSheet.title!)
-//        let task = tasks[indexPath.section][indexPath.row]
+
         let taskIsDone = currentBingo.tasksAreDone[indexPath.section][indexPath.row]
         bingoStatusLabel.text = "BINGO!"
         bingoStatusLabel.isHidden = true
+        imageView.isHidden = true
     
         //セルタップ時にtrue/falseを切り替え、trueの時backgroundColorを灰色にする
         //未完了タスクセル

@@ -36,6 +36,7 @@
 		1AB9086126D877CD00AC920B /* 71420-sparkle.json in Resources */ = {isa = PBXBuildFile; fileRef = 1AB9086026D877CD00AC920B /* 71420-sparkle.json */; };
 		1AB9086326D880A100AC920B /* lf30_editor_rk36ohuj.json in Resources */ = {isa = PBXBuildFile; fileRef = 1AB9086226D880A100AC920B /* lf30_editor_rk36ohuj.json */; };
 		1AB9086526D8846C00AC920B /* Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB9086426D8846C00AC920B /* Animation.swift */; };
+		1AB9086A26DCD1DB00AC920B /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1AB9086926DCD1DB00AC920B /* Settings.bundle */; };
 		1AC54A6826B90D190016E08E /* add-folder.png in Resources */ = {isa = PBXBuildFile; fileRef = 1AC54A6726B90D190016E08E /* add-folder.png */; };
 		1ACBC7C026CD12150047BC69 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACBC7BF26CD12150047BC69 /* User.swift */; };
 		1ACBC7C226CF8E670047BC69 /* SignUp.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1ACBC7C126CF8E670047BC69 /* SignUp.storyboard */; };
@@ -84,6 +85,7 @@
 		1AB9086026D877CD00AC920B /* 71420-sparkle.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "71420-sparkle.json"; sourceTree = "<group>"; };
 		1AB9086226D880A100AC920B /* lf30_editor_rk36ohuj.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = lf30_editor_rk36ohuj.json; sourceTree = "<group>"; };
 		1AB9086426D8846C00AC920B /* Animation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animation.swift; sourceTree = "<group>"; };
+		1AB9086926DCD1DB00AC920B /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		1AC54A6726B90D190016E08E /* add-folder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add-folder.png"; sourceTree = "<group>"; };
 		1ACBC7BF26CD12150047BC69 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		1ACBC7C126CF8E670047BC69 /* SignUp.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SignUp.storyboard; sourceTree = "<group>"; };
@@ -215,6 +217,7 @@
 		1AF53D6A26981AB000124197 = {
 			isa = PBXGroup;
 			children = (
+				1AB9086926DCD1DB00AC920B /* Settings.bundle */,
 				1AF53D7526981AB000124197 /* Mission */,
 				1AF53D7426981AB000124197 /* Products */,
 				DF95DA7AD24E79F5B8E49DF5 /* Pods */,
@@ -399,6 +402,7 @@
 				1A487C8C26B053D5000CC727 /* ka.mp3 in Resources */,
 				1AF53DA1269AB48700124197 /* GoogleService-Info.plist in Resources */,
 				1ACBC7C226CF8E670047BC69 /* SignUp.storyboard in Resources */,
+				1AB9086A26DCD1DB00AC920B /* Settings.bundle in Resources */,
 				1A984DEA26C3D88E00DC5095 /* KosugiMaru-Regular.ttf in Resources */,
 				1A487C9426B05DF3000CC727 /* huin.mp3 in Resources */,
 				1AF53DA4269BD59400124197 /* CreateNewBingoSheet.storyboard in Resources */,
@@ -646,6 +650,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bochan.Mission;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -666,6 +671,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bochan.Mission;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
