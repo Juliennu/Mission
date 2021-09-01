@@ -50,20 +50,7 @@ class FolderViewController: UIViewController {
         readDataFromFirestore()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        //初回起動時にはログイン画面を表示する
-        let ud = UserDefaults.standard
-        let firstLaunchKey = "firstLaunch"
-        if  ud.bool(forKey: firstLaunchKey) {
-            ud.set(false, forKey: firstLaunchKey)
-            ud.synchronize()
-            
-            //Xibへ遷移
-            let initialVC = InitialViewController(nibName: "InitialViewController", bundle: nil)
-            present(initialVC,animated: false)
-        }
-    }
+
     
     
     

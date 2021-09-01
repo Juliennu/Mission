@@ -27,6 +27,7 @@
 		1A8393BC269D85D900904EC4 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 1A8393BB269D85D900904EC4 /* FirebaseAuth */; };
 		1A8393BE269D85D900904EC4 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 1A8393BD269D85D900904EC4 /* FirebaseFirestore */; };
 		1A8393C0269D85D900904EC4 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 1A8393BF269D85D900904EC4 /* FirebaseDatabase */; };
+		1A8E089326DFBD5F00CB32F7 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8E089226DFBD5F00CB32F7 /* FirstViewController.swift */; };
 		1A984DBE26C0F37400DC5095 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A984DBD26C0F37400DC5095 /* UIColor.swift */; };
 		1A984DE626C3D66E00DC5095 /* TenhamasenFont-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1A984DE526C3D66E00DC5095 /* TenhamasenFont-Regular.otf */; };
 		1A984DEA26C3D88E00DC5095 /* KosugiMaru-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1A984DE926C3D88E00DC5095 /* KosugiMaru-Regular.ttf */; };
@@ -79,6 +80,7 @@
 		1A487C9326B05DF2000CC727 /* huin.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = huin.mp3; sourceTree = "<group>"; };
 		1A487C9526B05F8C000CC727 /* piko.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = piko.mp3; sourceTree = "<group>"; };
 		1A487C9726B05FF0000CC727 /* pioooin.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = pioooin.mp3; sourceTree = "<group>"; };
+		1A8E089226DFBD5F00CB32F7 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
 		1A984DBD26C0F37400DC5095 /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		1A984DE526C3D66E00DC5095 /* TenhamasenFont-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TenhamasenFont-Regular.otf"; sourceTree = "<group>"; };
 		1A984DE926C3D88E00DC5095 /* KosugiMaru-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "KosugiMaru-Regular.ttf"; sourceTree = "<group>"; };
@@ -290,6 +292,7 @@
 				1AF53D9B269AB0D200124197 /* EditBingoSheetViewController.swift */,
 				1AF53D95269AB01600124197 /* SignUpViewController.swift */,
 				1AF53D97269AB04000124197 /* LoginViewController.swift */,
+				1A8E089226DFBD5F00CB32F7 /* FirstViewController.swift */,
 				1AB9086B26DDD1F300AC920B /* InitialViewController.swift */,
 			);
 			path = Other;
@@ -511,6 +514,7 @@
 				1AF53D8E26982D5200124197 /* MissionInProgressViewController.swift in Sources */,
 				1AB9086526D8846C00AC920B /* Animation.swift in Sources */,
 				1ACBC7C026CD12150047BC69 /* User.swift in Sources */,
+				1A8E089326DFBD5F00CB32F7 /* FirstViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

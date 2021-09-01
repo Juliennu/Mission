@@ -57,6 +57,7 @@ public class BingoSheet {
 public class BingoSheetInProgress {
     
     let startedAt: Timestamp
+//    let documentId: String?
     let bingoSheet: BingoSheet
     let tasks: [[String]]
     
@@ -70,6 +71,13 @@ public class BingoSheetInProgress {
         self.tasksAreDone = [[Bool]](repeating: [Bool](repeating: false, count: tasks.count), count: tasks.count)
         self.isDone = false
     }
+    
+//    init(document: QueryDocumentSnapshot) {
+//        self.startedAt = document.get("startedAt") as? Timestamp ?? Timestamp()
+//        self.documentId = document.documentID
+//        self.bingoSheet = document.get("bingoSheet") as! BingoSheet
+//        self.
+//    }
 }
 //        self.bingoSheet = dic["bingoSheet"] as? BingoSheet ?? BingoSheet(dic: ["createdAt": Timestamp(), "documentId": String.self])
 

@@ -25,7 +25,7 @@ class InitialViewController: UIViewController {
         startButton.layer.cornerRadius = 15
         startButton.addTarget(self, action: #selector(startButtonTapped), for: .touchUpInside)
 
-        
+        alreadyHaveAccountButton.addTarget(self, action: #selector(alreadyHaveAccountButtonTapped), for: .touchUpInside)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -35,7 +35,21 @@ class InitialViewController: UIViewController {
     }
     
     @objc func startButtonTapped() {
-        //folderTabに遷移
+        //TabBarControllerに遷移
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewController(identifier: "TabBar")
+        
+        vc.modalPresentationStyle = .fullScreen
+        present(vc, animated: true, completion: nil)
+
+        
+    }
+    
+    @objc func alreadyHaveAccountButtonTapped() {
+        
+        
+        
+        
         
     }
 
