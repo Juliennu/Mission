@@ -24,6 +24,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Initialize the Google Mobile Ads SDK.
         GADMobileAds.sharedInstance().start(completionHandler: nil)
         
+        //初回起動かを判定
+        let ud = UserDefaults.standard
+        let firstLaunchKey = "firstLaunch"
+        let firstLaunch = [firstLaunchKey: true]
+        ud.register(defaults: firstLaunch)
+        
         //通知許可のダイアログを表示
 //        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, _ in
 //            if granted {

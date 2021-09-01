@@ -335,9 +335,11 @@ class EditBingoSheetViewController: UIViewController {
                 "reward": self.bingosheet!.reward ?? "",
                 "deadline": self.bingosheet!.deadline!
             ] as [String: Any]
-
+            
+            guard let uid = Auth.auth().currentUser?.uid else { return }
+            
             //Firestoreにデータを上書き保存
-            self.db.collection("bingoSheets").document(documentId).setData(dogData, merge: true) { err in
+            self.db.collection("users").document(uid).collection("bingoSheets").document(documentId).setData(dogData, merge: true) { err in
                 if let err = err {
                     print("Firestoreへの上書きに失敗しました", err)
 
@@ -363,9 +365,6 @@ class EditBingoSheetViewController: UIViewController {
 
                     //ビンゴシート情報を遷移先の変数に渡す
                     missionInProgressVC.createNewBingoSheet(bingoSheetInProgress: bingoSheetInProgress)
-                    
-//                    missionInProgressVC.createNewBingoSheet(bingosheet: self.bingosheet!)
-//                    missionInProgressVC.bingoSheets.append(self.bingosheet!)
                     
                     //MissionInprogressタブを選択状態にする（0が一番左）
                     DispatchQueue.main.async {
@@ -406,9 +405,11 @@ class EditBingoSheetViewController: UIViewController {
             "reward": bingosheet!.reward ?? "",
             "deadline": bingosheet!.deadline!
         ] as [String: Any]
+        
+        guard let uid = Auth.auth().currentUser?.uid else { return }
 
         //Firestpreにデータを上書き保存
-        db.collection("bingoSheets").document(documentId).setData(dogData, merge: true) { err in
+        db.collection("users").document(uid).collection("bingoSheets").document(documentId).setData(dogData, merge: true) { err in
             if let err = err {
                 print("Firestoreへの上書きに失敗しました", err)
                 

@@ -37,6 +37,8 @@
 		1AB9086326D880A100AC920B /* lf30_editor_rk36ohuj.json in Resources */ = {isa = PBXBuildFile; fileRef = 1AB9086226D880A100AC920B /* lf30_editor_rk36ohuj.json */; };
 		1AB9086526D8846C00AC920B /* Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB9086426D8846C00AC920B /* Animation.swift */; };
 		1AB9086A26DCD1DB00AC920B /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1AB9086926DCD1DB00AC920B /* Settings.bundle */; };
+		1AB9086D26DDD1F300AC920B /* InitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB9086B26DDD1F300AC920B /* InitialViewController.swift */; };
+		1AB9086E26DDD1F300AC920B /* InitialViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AB9086C26DDD1F300AC920B /* InitialViewController.xib */; };
 		1AC54A6826B90D190016E08E /* add-folder.png in Resources */ = {isa = PBXBuildFile; fileRef = 1AC54A6726B90D190016E08E /* add-folder.png */; };
 		1ACBC7C026CD12150047BC69 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACBC7BF26CD12150047BC69 /* User.swift */; };
 		1ACBC7C226CF8E670047BC69 /* SignUp.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1ACBC7C126CF8E670047BC69 /* SignUp.storyboard */; };
@@ -86,6 +88,8 @@
 		1AB9086226D880A100AC920B /* lf30_editor_rk36ohuj.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = lf30_editor_rk36ohuj.json; sourceTree = "<group>"; };
 		1AB9086426D8846C00AC920B /* Animation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animation.swift; sourceTree = "<group>"; };
 		1AB9086926DCD1DB00AC920B /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		1AB9086B26DDD1F300AC920B /* InitialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialViewController.swift; sourceTree = "<group>"; };
+		1AB9086C26DDD1F300AC920B /* InitialViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InitialViewController.xib; sourceTree = "<group>"; };
 		1AC54A6726B90D190016E08E /* add-folder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add-folder.png"; sourceTree = "<group>"; };
 		1ACBC7BF26CD12150047BC69 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		1ACBC7C126CF8E670047BC69 /* SignUp.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SignUp.storyboard; sourceTree = "<group>"; };
@@ -206,6 +210,14 @@
 			path = Animations;
 			sourceTree = "<group>";
 		};
+		1AB9086F26DDD2B100AC920B /* Xibs */ = {
+			isa = PBXGroup;
+			children = (
+				1AB9086C26DDD1F300AC920B /* InitialViewController.xib */,
+			);
+			path = Xibs;
+			sourceTree = "<group>";
+		};
 		1AD3274F26BADD1E0025F630 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -242,6 +254,7 @@
 				1AD3274F26BADD1E0025F630 /* View */,
 				1AF53D8A26982B6A00124197 /* ViewControllers */,
 				1AF53DA2269BD4AB00124197 /* StoryBoards */,
+				1AB9086F26DDD2B100AC920B /* Xibs */,
 				1AF53D7626981AB000124197 /* AppDelegate.swift */,
 				1AF53D7826981AB000124197 /* SceneDelegate.swift */,
 				1AF53D8426981AB200124197 /* Info.plist */,
@@ -277,6 +290,7 @@
 				1AF53D9B269AB0D200124197 /* EditBingoSheetViewController.swift */,
 				1AF53D95269AB01600124197 /* SignUpViewController.swift */,
 				1AF53D97269AB04000124197 /* LoginViewController.swift */,
+				1AB9086B26DDD1F300AC920B /* InitialViewController.swift */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -410,6 +424,7 @@
 				1AB9086326D880A100AC920B /* lf30_editor_rk36ohuj.json in Resources */,
 				1A487C9226B05CE9000CC727 /* done.mp3 in Resources */,
 				1ACBC7C726CFA9410047BC69 /* Login.storyboard in Resources */,
+				1AB9086E26DDD1F300AC920B /* InitialViewController.xib in Resources */,
 				1A487C9026B058A8000CC727 /* shuuun.mp3 in Resources */,
 				1AF53D8326981AB200124197 /* LaunchScreen.storyboard in Resources */,
 				1AF53D8026981AB200124197 /* Assets.xcassets in Resources */,
@@ -487,6 +502,7 @@
 				1AF53D98269AB04000124197 /* LoginViewController.swift in Sources */,
 				1AE1456F26A0630F000D3E7E /* BingoLogic.swift in Sources */,
 				1A487C8626B050A1000CC727 /* Sound.swift in Sources */,
+				1AB9086D26DDD1F300AC920B /* InitialViewController.swift in Sources */,
 				1A984DBE26C0F37400DC5095 /* UIColor.swift in Sources */,
 				1A1EC7B126D5DD64006E26A0 /* UIViewController.swift in Sources */,
 				1AE1457126A123A7000D3E7E /* AppTrackingTransparency.swift in Sources */,

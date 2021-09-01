@@ -16,8 +16,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="odt-or-Tla">
-                                <rect key="frame" x="57" y="256" width="300" height="160"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" distribution="fillEqually" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="odt-or-Tla">
+                                <rect key="frame" x="57" y="236" width="300" height="160"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="wBH-4e-4Qc">
                                         <rect key="frame" x="0.0" y="0.0" width="300" height="67.5"/>
@@ -57,10 +57,11 @@
                                 <constraints>
                                     <constraint firstAttribute="width" constant="300" id="1aS-N4-e39"/>
                                     <constraint firstAttribute="height" constant="160" id="WcR-nD-IPv"/>
+                                    <constraint firstItem="wBH-4e-4Qc" firstAttribute="top" secondItem="odt-or-Tla" secondAttribute="top" constant="40" id="uy5-IY-KRh"/>
                                 </constraints>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w54-fv-Afo">
-                                <rect key="frame" x="117" y="446" width="180" height="40"/>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w54-fv-Afo">
+                                <rect key="frame" x="117" y="426" width="180" height="40"/>
                                 <color key="backgroundColor" red="0.0" green="0.72549019609999998" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="bE5-IP-PvH"/>
@@ -71,14 +72,20 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hpN-ZJ-Xue">
-                                <rect key="frame" x="107.5" y="536" width="199" height="28"/>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hpN-ZJ-Xue">
+                                <rect key="frame" x="107.5" y="516" width="199" height="28"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <state key="normal" title="まだアカウントをお持ちでない方"/>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wbC-ag-Cbo">
-                                <rect key="frame" x="131" y="124" width="152.5" height="72"/>
+                                <rect key="frame" x="131" y="104" width="152.5" height="72"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="60"/>
+                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="メールアドレスを登録済みの方は、ログインすると他のiOS端末で作成したビンゴシート情報を利用することができます。" lineBreakMode="wordWrap" numberOfLines="7" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Sd-ou-bY9">
+                                <rect key="frame" x="57" y="186" width="300" height="50.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -86,13 +93,15 @@
                         <viewLayoutGuide key="safeArea" id="nax-ys-Ubo"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="5Sd-ou-bY9" firstAttribute="top" secondItem="wbC-ag-Cbo" secondAttribute="bottom" constant="10" id="8CY-r1-sH1"/>
                             <constraint firstItem="hpN-ZJ-Xue" firstAttribute="top" secondItem="w54-fv-Afo" secondAttribute="bottom" constant="50" id="M6c-WR-wxl"/>
                             <constraint firstItem="w54-fv-Afo" firstAttribute="centerX" secondItem="W7g-4M-hJY" secondAttribute="centerX" id="S1x-Gu-lvz"/>
                             <constraint firstItem="w54-fv-Afo" firstAttribute="top" secondItem="odt-or-Tla" secondAttribute="bottom" constant="30" id="XWH-so-vZ4"/>
-                            <constraint firstItem="wbC-ag-Cbo" firstAttribute="top" secondItem="nax-ys-Ubo" secondAttribute="top" constant="80" id="YlD-YZ-vN4"/>
+                            <constraint firstItem="wbC-ag-Cbo" firstAttribute="top" secondItem="nax-ys-Ubo" secondAttribute="top" constant="60" id="YlD-YZ-vN4"/>
                             <constraint firstItem="odt-or-Tla" firstAttribute="centerX" secondItem="W7g-4M-hJY" secondAttribute="centerX" id="Zv3-aX-Id9"/>
+                            <constraint firstItem="nax-ys-Ubo" firstAttribute="trailing" secondItem="5Sd-ou-bY9" secondAttribute="trailing" constant="57" id="afQ-k0-fDX"/>
                             <constraint firstItem="wbC-ag-Cbo" firstAttribute="centerX" secondItem="W7g-4M-hJY" secondAttribute="centerX" id="bTa-kK-57y"/>
-                            <constraint firstItem="odt-or-Tla" firstAttribute="top" secondItem="wbC-ag-Cbo" secondAttribute="bottom" constant="60" id="c9O-A6-STI"/>
+                            <constraint firstItem="5Sd-ou-bY9" firstAttribute="leading" secondItem="nax-ys-Ubo" secondAttribute="leading" constant="57" id="hqN-nq-VM8"/>
                             <constraint firstItem="hpN-ZJ-Xue" firstAttribute="centerX" secondItem="W7g-4M-hJY" secondAttribute="centerX" id="zeI-2W-0uP"/>
                         </constraints>
                     </view>

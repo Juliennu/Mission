@@ -9,10 +9,29 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--View Controller-->
+        <scene sceneID="xl3-gQ-mRi">
+            <objects>
+                <viewController id="VYt-S7-kuX" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="XQc-U1-GYh">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="zjU-j2-6mv"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <connections>
+                        <segue destination="KBi-SJ-q3i" kind="custom" id="dT2-Nc-tV1"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QaW-2f-Cdz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-584" y="-1234"/>
+        </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="CjR-Hb-QfO">
             <objects>
                 <tabBarController id="KBi-SJ-q3i" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="xBO-EY-dVW"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="F1O-oD-lBT">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
