@@ -45,7 +45,7 @@ class MissionInProgressViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = creamColor
+        view.backgroundColor = viewBackgroundColor
 
         setUpVannerView()
         setUpSoundPrepare()
@@ -63,7 +63,7 @@ class MissionInProgressViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        createBingoSheet()
+//        createBingoSheet()
     }
     
 //MARK: - AdMob バナー広告の設定
@@ -202,7 +202,7 @@ class MissionInProgressViewController: UIViewController {
         scrollView = UIScrollView(frame: CGRect(x: 0, y: 20, width: viewWidthInt, height: 100 + bingoWidth + 80))
         // scrollViewのデリゲートになる
         scrollView.delegate = self
-        scrollView.backgroundColor = creamColor
+        scrollView.backgroundColor = viewBackgroundColor
         // ページ単位のスクロールを可能にする
         scrollView.isPagingEnabled = true
         // 水平方向のスクロールインジケータを非表示にする
@@ -293,44 +293,44 @@ class MissionInProgressViewController: UIViewController {
         pageScroll()
     }
     
-    func createBingoSheet() {
-        
-        let viewWidthInt = Int(self.view.frame.size.width)
-        let positionX = Int(viewWidthInt) * (bingoSheetsInProgress.count - 1)
-        var bingoWidth = viewWidthInt - 40//スマホ用
-        if viewWidthInt > 700 {
-            //iPad用
-            bingoWidth = viewWidthInt / 15 * 10
-        }
-        let x = positionX + (viewWidthInt - bingoWidth) / 2
-        
-        
-        for i in 0..<bingoSheetsInProgress.count {
-            
-            let bingoCollectionView = setUpBingoCollectionView()
-            let titleLabel = setUpTitleLabel()
-            let deadlineLabel = setUpDeadlineLabel()
-            
-            //@ここで呼ばないとscrollView上に表示されないのはなんで？
-            deadlineLabel.frame = CGRect(x: x, y: 55, width: bingoWidth, height: 30)
-            
-            
-            titleLabel.text = bingoSheetsInProgress[i].bingoSheet.title
-            
-            let dateString = dateFormatter(date: bingoSheetsInProgress[i].bingoSheet.deadline!)
-            deadlineLabel.text = "期限 : \(dateString)"
-            
-            self.scrollView.addSubview(bingoCollectionView)
-            self.scrollView.addSubview(titleLabel)
-            self.scrollView.addSubview(deadlineLabel)
-     
-            // scrollViewのサイズを指定（幅は1ページに表示するViewの幅×ページ数）
-            
-            scrollView.contentSize = CGSize(width: viewWidthInt * bingoSheetsInProgress.count, height: 1)//縦スクロールなし
-            // pageControlのページ数を設定
-            pageControl.numberOfPages = bingoSheetsInProgress.count
-        }
-    }
+//    func createBingoSheet() {
+//
+//        let viewWidthInt = Int(self.view.frame.size.width)
+//        let positionX = Int(viewWidthInt) * (bingoSheetsInProgress.count - 1)
+//        var bingoWidth = viewWidthInt - 40//スマホ用
+//        if viewWidthInt > 700 {
+//            //iPad用
+//            bingoWidth = viewWidthInt / 15 * 10
+//        }
+//        let x = positionX + (viewWidthInt - bingoWidth) / 2
+//
+//
+//        for i in 0..<bingoSheetsInProgress.count {
+//
+//            let bingoCollectionView = setUpBingoCollectionView()
+//            let titleLabel = setUpTitleLabel()
+//            let deadlineLabel = setUpDeadlineLabel()
+//
+//            //@ここで呼ばないとscrollView上に表示されないのはなんで？
+//            deadlineLabel.frame = CGRect(x: x, y: 55, width: bingoWidth, height: 30)
+//
+//
+//            titleLabel.text = bingoSheetsInProgress[i].bingoSheet.title
+//
+//            let dateString = dateFormatter(date: bingoSheetsInProgress[i].bingoSheet.deadline!)
+//            deadlineLabel.text = "期限 : \(dateString)"
+//
+//            self.scrollView.addSubview(bingoCollectionView)
+//            self.scrollView.addSubview(titleLabel)
+//            self.scrollView.addSubview(deadlineLabel)
+//
+//            // scrollViewのサイズを指定（幅は1ページに表示するViewの幅×ページ数）
+//
+//            scrollView.contentSize = CGSize(width: viewWidthInt * bingoSheetsInProgress.count, height: 1)//縦スクロールなし
+//            // pageControlのページ数を設定
+//            pageControl.numberOfPages = bingoSheetsInProgress.count
+//        }
+//    }
 
     
 
@@ -436,7 +436,8 @@ class MissionInProgressViewController: UIViewController {
         bingoStatusLabel.isHidden = true
         bingoStatusLabel.font = UIFont(name: "Party LET Plain", size: 61.0)
         bingoStatusLabel.textColor = .yellow
-//        bingoStatusLabel.backgroundColor = .yellow
+        bingoStatusLabel.shadowColor = .brown
+
         bingoStatusLabel.textAlignment = .center
         self.view.addSubview(bingoStatusLabel)
 //        self.bingoCollectionView.addSubview(bingoStatusLabel)
@@ -462,6 +463,7 @@ class MissionInProgressViewController: UIViewController {
         let formatter = DateFormatter()
         formatter.dateStyle = .short
         formatter.timeStyle = .short
+        formatter.doesRelativeDateFormatting = true
         formatter.locale = Locale(identifier: "ja_JP")
         return formatter.string(from: date)
     }
@@ -737,7 +739,7 @@ class BingoCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.textColor = .black
         label.textAlignment = .center
-        label.text = "タスク１"
+        label.font = UIFont(name: "Futura", size: 20)
         label.clipsToBounds = true
         //lavelを折り返して全文表示
         label.lineBreakMode = .byWordWrapping//単語単位で区切って改行

@@ -38,7 +38,6 @@ class FolderViewController: UIViewController {
         super.viewDidLoad()
         setUpViews()
         setUpEditButton()
-        checkUser()
 //        readDataFromFirestore()
 
     }
@@ -63,7 +62,7 @@ class FolderViewController: UIViewController {
         //ボタンの設定
         let buttonImage = UIImage(named: "plusSymple")?.withRenderingMode(.alwaysTemplate)//addImage//plusColor
         addNewBingoSheetButton.setImage(buttonImage, for: .normal)
-        addNewBingoSheetButton.tintColor = .systemBlue
+        addNewBingoSheetButton.tintColor = iconBackgroundColor
         
         addNewBingoSheetButton.snp.makeConstraints { make in
             make.width.equalToSuperview().dividedBy(10)
@@ -83,48 +82,11 @@ class FolderViewController: UIViewController {
     
     
     
-    func checkUser() {
-        //ログインユーザーがいる場合
-        if Auth.auth().currentUser != nil {
-            
-            guard let uid = Auth.auth().currentUser?.uid else { return }
-            print("ログインユーザーがいます: ", uid)
-            return
-        } else {
-            createAnonymousUserToFirestore()
-        }
-    }
-    
-    
-    
-    //FireAuth：匿名認証 -> @初回ログインの場合のみにする
-    func createAnonymousUserToFirestore() {
 
-        Auth.auth().signInAnonymously() {( authResult, error) in
-            if let error = error {
-                print("認証情報の保存に失敗しました: ", error)
-                return
-            }
-            guard let user = authResult?.user else { return }
-            
-            let isAnonymous = user.isAnonymous
-            let uid = user.uid
-            
-            //uidとcreatedAtをfirestoreに保存する
-            let docData = [
-                "createdAt": Timestamp()
-            ] as [String : Any]
-            
-            Firestore.firestore().collection("users").document(uid).setData(docData) { (err) in
-                if let err = err {
-                    print("Firestoreへの保存に失敗しました", err)
-                    return
-                }
-                print("Firestoreへの保存に成功しました")
-            }
-            print("匿名ユーザー: \(isAnonymous), uid: \(uid)")
-        }
-    }
+    
+    
+    
+
     
     //Firestoreからデータの読み込み
     public func readDataFromFirestore() {

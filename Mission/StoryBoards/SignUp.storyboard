@@ -4,7 +4,6 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -16,20 +15,21 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="mz7-pg-1rl">
-                                <rect key="frame" x="57" y="276.5" width="300" height="160"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="25" id="mz7-pg-1rl">
+                                <rect key="frame" x="57" y="430" width="300" height="160"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="DJy-LL-jdU">
                                         <rect key="frame" x="0.0" y="0.0" width="300" height="67.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="email" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sN4-nZ-dct">
-                                                <rect key="frame" x="0.0" y="0.0" width="300" height="20.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="300" height="25"/>
+                                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="19"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="メールアドレス" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jLP-Di-SOj">
-                                                <rect key="frame" x="0.0" y="20.5" width="300" height="47"/>
+                                                <rect key="frame" x="0.0" y="25" width="300" height="42.5"/>
                                                 <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next" enablesReturnKeyAutomatically="YES" textContentType="email"/>
@@ -40,13 +40,13 @@
                                         <rect key="frame" x="0.0" y="92.5" width="300" height="67.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="password" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ouz-wI-cjh">
-                                                <rect key="frame" x="0.0" y="0.0" width="300" height="20.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="300" height="25"/>
+                                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="19"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textField opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="パスワード(6文字以上)" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nna-d4-DPi">
-                                                <rect key="frame" x="0.0" y="20.5" width="300" height="47"/>
+                                                <rect key="frame" x="0.0" y="25" width="300" height="42.5"/>
                                                 <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                 <textInputTraits key="textInputTraits" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="go" enablesReturnKeyAutomatically="YES" secureTextEntry="YES" textContentType="password"/>
@@ -54,59 +54,35 @@
                                         </subviews>
                                     </stackView>
                                 </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="160" id="UY9-iL-nmg"/>
-                                    <constraint firstAttribute="width" constant="300" id="yLd-kZ-Yjc"/>
-                                </constraints>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="STH-ZX-bZ0">
-                                <rect key="frame" x="117" y="466.5" width="180" height="40"/>
-                                <color key="backgroundColor" red="0.0" green="0.72549019609999998" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="f9I-mJ-73S"/>
-                                    <constraint firstAttribute="width" constant="180" id="yNA-5c-9gI"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="STH-ZX-bZ0">
+                                <rect key="frame" x="117" y="686" width="180" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="1" green="0.62511605020000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="24"/>
                                 <state key="normal" title="Register">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jJn-ha-6yH">
-                                <rect key="frame" x="94" y="556.5" width="226" height="28"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <state key="normal" title="既にアカウントをお持ちの方はこちら"/>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="メールアドレスを登録すると、iPhoneとiPadなど複数のiOSデバイス間において、保存したビンゴシート情報を共有することができます。" lineBreakMode="wordWrap" numberOfLines="7" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jZ6-aP-8fO">
-                                <rect key="frame" x="57" y="186" width="300" height="50.5"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Sign Up" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jl1-76-eCW">
+                                <rect key="frame" x="76" y="105" width="268" height="84"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="64"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sign Up" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jl1-76-eCW">
-                                <rect key="frame" x="100" y="104" width="214.5" height="72"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="60"/>
-                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="メールアドレスを登録すると、iPhoneやiPadなど複数のiOSデバイス間において、保存したビンゴシート情報を共有することができます。" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qDa-WF-tsx">
+                                <rect key="frame" x="76" y="251" width="263" height="85"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="13"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="PMB-L0-dCq"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="STH-ZX-bZ0" firstAttribute="top" secondItem="mz7-pg-1rl" secondAttribute="bottom" constant="30" id="22U-WR-HVz"/>
-                            <constraint firstItem="jJn-ha-6yH" firstAttribute="top" secondItem="STH-ZX-bZ0" secondAttribute="bottom" constant="50" id="39u-Ep-xL9"/>
-                            <constraint firstItem="mz7-pg-1rl" firstAttribute="top" secondItem="jZ6-aP-8fO" secondAttribute="bottom" constant="40" id="9zx-sQ-M6u"/>
-                            <constraint firstItem="STH-ZX-bZ0" firstAttribute="centerX" secondItem="tDX-pm-bFB" secondAttribute="centerX" id="PBm-83-GdQ"/>
-                            <constraint firstItem="jJn-ha-6yH" firstAttribute="centerX" secondItem="tDX-pm-bFB" secondAttribute="centerX" id="ZP0-4y-73M"/>
-                            <constraint firstItem="PMB-L0-dCq" firstAttribute="trailing" secondItem="jZ6-aP-8fO" secondAttribute="trailing" constant="57" id="gXz-Ys-WiV"/>
-                            <constraint firstItem="jZ6-aP-8fO" firstAttribute="leading" secondItem="PMB-L0-dCq" secondAttribute="leading" constant="57" id="oY3-KR-db7"/>
-                            <constraint firstItem="Jl1-76-eCW" firstAttribute="centerX" secondItem="tDX-pm-bFB" secondAttribute="centerX" id="ox6-t0-NlR"/>
-                            <constraint firstItem="mz7-pg-1rl" firstAttribute="centerX" secondItem="tDX-pm-bFB" secondAttribute="centerX" id="qQU-Eh-7gF"/>
-                            <constraint firstItem="Jl1-76-eCW" firstAttribute="top" secondItem="PMB-L0-dCq" secondAttribute="top" constant="60" id="xoy-rT-U6g"/>
-                            <constraint firstItem="jZ6-aP-8fO" firstAttribute="top" secondItem="Jl1-76-eCW" secondAttribute="bottom" constant="10" id="zbm-Rq-IO7"/>
-                        </constraints>
+                        <color key="backgroundColor" red="0.91125309470000004" green="0.30757841470000002" blue="0.30327910180000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <connections>
-                        <outlet property="alreadyHaveAccountButton" destination="jJn-ha-6yH" id="rli-nV-1kJ"/>
                         <outlet property="emailTextField" destination="jLP-Di-SOj" id="2X1-qK-5lv"/>
                         <outlet property="passwordTextField" destination="nna-d4-DPi" id="6Kd-QG-TWB"/>
                         <outlet property="registerButton" destination="STH-ZX-bZ0" id="94A-wP-FIA"/>
@@ -117,9 +93,4 @@
             <point key="canvasLocation" x="86.956521739130437" y="100.44642857142857"/>
         </scene>
     </scenes>
-    <resources>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-    </resources>
 </document>

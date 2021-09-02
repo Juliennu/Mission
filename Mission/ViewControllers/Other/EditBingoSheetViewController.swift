@@ -179,7 +179,7 @@ class EditBingoSheetViewController: UIViewController {
     
     
     private func setUpView() {
-        view.backgroundColor = creamColor
+        view.backgroundColor = viewBackgroundColor
         let views = [
             titleButton,
             rewardButton,
@@ -219,15 +219,6 @@ class EditBingoSheetViewController: UIViewController {
         navigationItem.rightBarButtonItems = [startButton, saveButton]
     }
     
-    //Date型からString型へ変換
-//    func dateToString(date: Date) -> String {
-//        let formatter = DateFormatter()
-//        formatter.calendar = Calendar(identifier: .gregorian)
-//        formatter.dateStyle = .medium//2017/08/13
-//        formatter.doesRelativeDateFormatting = true//当日を「今日」、前日を「昨日」などと表示する
-//        formatter.locale = Locale(identifier: "ja_JP")
-//        return formatter.string(from: date)
-//    }
     
     //タスクをランダムに並び替え
     @objc private func shuffleButtonTapped() {
@@ -356,10 +347,9 @@ class EditBingoSheetViewController: UIViewController {
 //
 //                    ] as [String: Any]
                     
-                    
-
                     //Tab Bar Controller -> Navigation Controller -> MissionInProgressViewControllerの順にインスタンスを取得
-                    guard let tabBarController = UIApplication.shared.windows.first?.rootViewController as? UITabBarController else { return }
+//                    guard let tabBarController = UIApplication.shared.windows.first?.rootViewController as? UITabBarController else { return }
+                    guard let tabBarController = self.navigationController?.tabBarController else { return }
                     guard let nc = tabBarController.viewControllers?[1] as? UINavigationController else { return }
                     guard let missionInProgressVC = nc.viewControllers[0] as? MissionInProgressViewController else { return }
 
@@ -583,7 +573,12 @@ class EditBingoCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.textColor = .systemBlue
         label.textAlignment = .center
-        label.text = "free"
+        label.font = UIFont(name: "Futura", size: 20)
+        //
+//        label.adjustsFontSizeToFitWidth = true
+//        //自動調整時の文字サイズ最小値(元々の文字サイズに対する比率)
+//        label.minimumScaleFactor = 0.8
+        
         label.clipsToBounds = true
         //lavelを折り返して全文表示
         label.lineBreakMode = .byWordWrapping//単語単位で区切って改行

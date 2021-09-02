@@ -53,6 +53,9 @@ final class SettingViewController: UIViewController {
             SettingCellModel(title: "メールアドレス登録") { [ weak self] in
                 self?.didTapResister()
             },
+            SettingCellModel(title: "ログイン") { [ weak self] in
+                self?.didTapLogin()
+            },
             SettingCellModel(title: "ログアウト") { [ weak self] in
                 self?.didTapLogOut()
             }
@@ -84,6 +87,15 @@ final class SettingViewController: UIViewController {
         let signUpVC = storyboard.instantiateViewController(withIdentifier: "SignUpViewController") as! SignUpViewController
         navigationController?.pushViewController(signUpVC, animated: true)
     }
+    
+    private func didTapLogin() {
+        let storyboard = UIStoryboard(name: "Login", bundle: nil)
+        let vc = storyboard.instantiateViewController(identifier: "LoginViewController") as! LoginViewController
+
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    
     
     private func didTapLogOut() {
         //ログアウトの意向についてアラートで確認

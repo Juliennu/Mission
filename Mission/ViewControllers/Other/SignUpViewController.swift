@@ -14,24 +14,17 @@ import PKHUD
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var registerButton: UIButton!
-    @IBOutlet weak var alreadyHaveAccountButton: UIButton!
+//    @IBOutlet weak var alreadyHaveAccountButton: UIButton!
     
     
     let db = Firestore.firestore()
     
-    
-    
-    
-    
-//    let email = "test@gmail.com"
-//    let password = "123456"
+
 
      override func viewDidLoad() {
         super.viewDidLoad()
-
-//        view.backgroundColor = .yellow
-        setUpViews()
         
+        setUpViews()
     }
     
     
@@ -43,7 +36,7 @@ import PKHUD
         
         registerButton.addTarget(self, action: #selector(tappedRegisterButton), for: .touchUpInside)
         
-        alreadyHaveAccountButton.addTarget(self, action: #selector(tappedAlreadyHaveAccountButton), for: .touchUpInside)
+//        alreadyHaveAccountButton.addTarget(self, action: #selector(tappedAlreadyHaveAccountButton), for: .touchUpInside)
         
         emailTextField.delegate = self
         passwordTextField.delegate = self
@@ -85,25 +78,31 @@ import PKHUD
                     self.showAlert(title: "エラー", message: errorMessage, actions: [okAction])
                     return
                 }
+                
                 //メールアドレスへ認証リンクを送信
                 user.sendEmailVerification { [weak self] error in
                     if let error = error {
                         print("メールリンクの送信に失敗しました", error)
                         return
                     }
+                    
                     //ユーザー登録完了時
                 }
+                
                 print("会員登録が完了しました。", authResult?.user.uid)
                 HUD.flash(.success)
-                let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-                self.showAlert(title: "メールアドレス宛に認証リンクを送信しました", message: "認証リンクをクリックすることで登録完了となります", actions: [okAction])
+                let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+                    //＠画面遷移する
+                    self.navigationController?.popToRootViewController(animated: true)
+                }
                 
-                //＠画面遷移する
+                self.showAlert(title: "メールアドレス宛に\n認証リンクを送信しました", message: "認証リンクをクリックすることで\n登録完了となります", actions: [okAction])
                 
+
             }
         } else {
             let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-            showAlert(title: "エラー", message: "このユーザーは既に会員登録されています", actions: [okAction])
+            showAlert(title: "メールアドレスユーザーが\nログイン中です", message: "新しいアカウントでログインする場合、\nログアウトボタンを押してください", actions: [okAction])
         }
     }
     
@@ -159,9 +158,9 @@ import PKHUD
     
     
     //既にアカウントありの場合、ログイン画面へ遷移
-    @objc func tappedAlreadyHaveAccountButton() {
-        
-    }
+//    @objc func tappedAlreadyHaveAccountButton() {
+//
+//    }
     
     //textfieldの枠外をタップしたときにedit状態を終了してくれる
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -214,7 +213,8 @@ extension SignUpViewController: UITextFieldDelegate {
             registerButton.backgroundColor = .rgb(red: 100, green: 100, blue: 100, alpha: 1.0)
         } else {
             registerButton.isEnabled = true
-            registerButton.backgroundColor = .rgb(red: 0, green: 185, blue: 0, alpha: 1.0)
+            //オレンジ
+            registerButton.backgroundColor = buttonOrange//.rgb(red: 255, green: 159, blue: 0, alpha: 1.0)
         }
     }
     

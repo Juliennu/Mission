@@ -34,6 +34,7 @@ class InitialViewController: UIViewController {
         
     }
     
+    
     @objc func startButtonTapped() {
         //TabBarControllerに遷移
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -47,7 +48,12 @@ class InitialViewController: UIViewController {
     
     @objc func alreadyHaveAccountButtonTapped() {
         
+        let storyboard = UIStoryboard(name: "Login", bundle: nil)
+        let vc = storyboard.instantiateViewController(identifier: "LoginViewController") as! LoginViewController
         
+        vc.modalPresentationStyle = .fullScreen
+        present(vc, animated: true, completion: nil)
+
         
         
         
