@@ -250,15 +250,13 @@ class MissionInProgressViewController: UIViewController {
     
     
     func createNewBingoSheet(bingoSheetInProgress: BingoSheetInProgress) {
+        
         bingoSheetsInProgress.append(bingoSheetInProgress)
 
         let bingoCollectionView = setUpBingoCollectionView()
         let titleLabel = setUpTitleLabel()
         let deadlineLabel = setUpDeadlineLabel()
 
-        
-        //@ここで呼ばないとscrollView上に表示されないのはなんで？
-        
         let viewWidthInt = Int(self.view.frame.size.width)
         let positionX = Int(viewWidthInt) * (bingoSheetsInProgress.count - 1)
         var bingoWidth = viewWidthInt - 40//スマホ用
@@ -268,11 +266,9 @@ class MissionInProgressViewController: UIViewController {
         }
         let x = positionX + (viewWidthInt - bingoWidth) / 2
         
+        //@ここで呼ばないとscrollView上に表示されないのはなんで？
         deadlineLabel.frame = CGRect(x: x, y: 55, width: bingoWidth, height: 30)
-        
-        
-        
-//        deadlineLabel.frame = CGRect(x: positionX + 20, y: 55, width: viewWidth - 40, height: 30)
+ 
         titleLabel.text = bingoSheetInProgress.bingoSheet.title
         
         let dateString = dateFormatter(date: bingoSheetInProgress.bingoSheet.deadline!)
@@ -293,52 +289,54 @@ class MissionInProgressViewController: UIViewController {
         pageScroll()
     }
     
-//    func createBingoSheet() {
-//
-//        let viewWidthInt = Int(self.view.frame.size.width)
-//        let positionX = Int(viewWidthInt) * (bingoSheetsInProgress.count - 1)
-//        var bingoWidth = viewWidthInt - 40//スマホ用
-//        if viewWidthInt > 700 {
-//            //iPad用
-//            bingoWidth = viewWidthInt / 15 * 10
-//        }
-//        let x = positionX + (viewWidthInt - bingoWidth) / 2
-//
-//
-//        for i in 0..<bingoSheetsInProgress.count {
-//
-//            let bingoCollectionView = setUpBingoCollectionView()
-//            let titleLabel = setUpTitleLabel()
-//            let deadlineLabel = setUpDeadlineLabel()
-//
-//            //@ここで呼ばないとscrollView上に表示されないのはなんで？
-//            deadlineLabel.frame = CGRect(x: x, y: 55, width: bingoWidth, height: 30)
-//
-//
-//            titleLabel.text = bingoSheetsInProgress[i].bingoSheet.title
-//
-//            let dateString = dateFormatter(date: bingoSheetsInProgress[i].bingoSheet.deadline!)
-//            deadlineLabel.text = "期限 : \(dateString)"
-//
-//            self.scrollView.addSubview(bingoCollectionView)
-//            self.scrollView.addSubview(titleLabel)
-//            self.scrollView.addSubview(deadlineLabel)
-//
-//            // scrollViewのサイズを指定（幅は1ページに表示するViewの幅×ページ数）
-//
-//            scrollView.contentSize = CGSize(width: viewWidthInt * bingoSheetsInProgress.count, height: 1)//縦スクロールなし
-//            // pageControlのページ数を設定
-//            pageControl.numberOfPages = bingoSheetsInProgress.count
-//        }
-//    }
+    func drawBingoSheet() {
+        
+        let viewWidthInt = Int(self.view.frame.size.width)
+        
+        guard bingoSheetsInProgress.count > 0 else {
+            //bingoSheetsInProgress.count = 0だった時
+            let subViews = scrollView.subviews
+            //scrollViewからsubViewsを削除する
+            for subview in subViews {
+                subview.removeFromSuperview()
+            }
+            return
+        }
+        
+        
+        for i in 0..<bingoSheetsInProgress.count {
+            let bingoCollectionView = setUpBingoCollectionView()
+            let titleLabel = setUpTitleLabel()
+            let deadlineLabel = setUpDeadlineLabel()
 
+            
+            let positionX = Int(viewWidthInt) * (i - 1)
+            var bingoWidth = viewWidthInt - 40//スマホ用
+            if viewWidthInt > 700 {
+                //iPad用
+                bingoWidth = viewWidthInt / 15 * 10
+            }
+            let x = positionX + (viewWidthInt - bingoWidth) / 2
+            
+            //@ここで呼ばないとscrollView上に表示されないのはなんで？
+            deadlineLabel.frame = CGRect(x: x, y: 55, width: bingoWidth, height: 30)
+     
+            titleLabel.text = bingoSheetsInProgress[i].bingoSheet.title
+            
+            let dateString = dateFormatter(date: bingoSheetsInProgress[i].bingoSheet.deadline!)
+            deadlineLabel.text = "期限 : \(dateString)"
+            
+            self.scrollView.addSubview(bingoCollectionView)
+            self.scrollView.addSubview(titleLabel)
+            self.scrollView.addSubview(deadlineLabel)
+        }
+        // scrollViewのサイズを指定（幅は1ページに表示するViewの幅×ページ数）
+        scrollView.contentSize = CGSize(width: viewWidthInt * bingoSheetsInProgress.count, height: 1)//縦スクロールなし
+        // pageControlのページ数を設定
+        pageControl.numberOfPages = bingoSheetsInProgress.count
+    }
     
 
-
-    
-
-    
-    
     private func setUpBarButtonItem() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: self, action: #selector(shared))//(title: "シェア", style: .plain, target: self, action: #selector(shared))
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark.circle"), style: .plain, target: self, action: #selector(removeButtonTapped))//(title: "中断", style: .plain, target: self, action: #selector(canceled))
@@ -400,24 +398,26 @@ class MissionInProgressViewController: UIViewController {
             //現在表示中のビンゴシートを配列から削除
             self.bingoSheetsInProgress.remove(at: Int(self.currentPageIndex))
             
-            let width = self.view.frame.size.width
-            let positionX = CGFloat(Int(width) * (self.bingoSheetsInProgress.count - 1))
+//            let width = self.view.frame.size.width
+//            let positionX = CGFloat(Int(width) * (self.bingoSheetsInProgress.count - 1))
             
             //@scrollView上のオブジェクトもろとも消し去りたい
 //            self.bingoCollectionView.frame = CGRect(x: positionX + 20, y: 100, width: 350, height: 350)
 //            self.titleLabel.frame = CGRect(x: positionX + 20, y: 20, width: width - 40, height: 30)
             
-            // scrollViewのサイズを指定（幅は1ページに表示するViewの幅×ページ数）
-            self.scrollView.contentSize = CGSize(width: Int(self.view.frame.size.width) * self.bingoSheetsInProgress.count, height: 200)
-            // pageControlのページ数を設定
-            self.pageControl.numberOfPages = self.bingoSheetsInProgress.count
-
+            //再描写する
+            self.drawBingoSheet()
+            
+//            // scrollViewのサイズを指定（幅は1ページに表示するViewの幅×ページ数）
+//            self.scrollView.contentSize = CGSize(width: Int(self.view.frame.size.width) * self.bingoSheetsInProgress.count, height: 200)
+//            // pageControlのページ数を設定
+//            self.pageControl.numberOfPages = self.bingoSheetsInProgress.count
         }
-        
         //Alertを表示
             showAlert(title: "ビンゴシート削除", message: "現在表示中のビンゴシートを\n削除してもよろしいですか?", actions: [cancelAction, okAction])
-
     }
+    
+    
     
 //    func setUpImageView() {
 //        let bingoImage = UIImage(named: "cracker")?.withRenderingMode(.alwaysTemplate)
