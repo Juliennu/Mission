@@ -320,6 +320,13 @@ class CreateNewBingoSheetViewController: FormViewController {
         }
     }
     
+
+    
+    
+    
+    
+    
+    
     enum EventAlert : String, CaseIterable, CustomStringConvertible {
         case Never = "なし"
 //        case At_time_of_event = "期限と同時"

@@ -337,18 +337,12 @@ class EditBingoSheetViewController: UIViewController {
                 } else {
                     print("Firestoreの情報を上書きしました！", documentId)
                     
-                    //@実行中のビンゴ情報をFirebaseに保存したい（BingoSheetInProgressクラス）
-                    let bingoSheetInProgress = BingoSheetInProgress(bingoSheet: bingosheet)
-//                    let dogData = [
-//
-//                        ""
-//
-//
-//
-//                    ] as [String: Any]
                     
-                    //Tab Bar Controller -> Navigation Controller -> MissionInProgressViewControllerの順にインスタンスを取得
-//                    guard let tabBarController = UIApplication.shared.windows.first?.rootViewController as? UITabBarController else { return }
+                    let bingoSheetInProgress = BingoSheetInProgress(bingoSheet: bingosheet)
+                    //実行中のビンゴ情報をFirebaseに保存
+                    self.addBingoSheetInProgressToFirestore()
+
+                    
                     guard let tabBarController = self.navigationController?.tabBarController else { return }
                     guard let nc = tabBarController.viewControllers?[1] as? UINavigationController else { return }
                     guard let missionInProgressVC = nc.viewControllers[0] as? MissionInProgressViewController else { return }
@@ -367,6 +361,34 @@ class EditBingoSheetViewController: UIViewController {
     }
     
     
+    private func addBingoSheetInProgressToFirestore() {
+
+        var ref: DocumentReference? = nil
+
+        let dogData = [
+            
+            "title": self.bingosheet!.title ?? "",
+            "tasks": self.bingosheet!.tasks ?? [],
+            "reward": self.bingosheet!.reward ?? "",
+            "deadline": self.bingosheet!.deadline!,
+            
+            "bingoSheetDocumentId": self.bingosheet!.documentId ?? "",
+            "tasksAreDone":[Bool](repeating: false, count: bingosheet!.tasks!.count),
+            "isDone": false,
+            "startedAt": Timestamp()
+        ] as [String : Any]
+
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+
+        //Firestoreにコレクションを作成
+        ref = db.collection("users").document(uid).collection("bingoSheetsInProgress").addDocument(data: dogData) { err in
+            if let err = err {
+                print("bingoSheetsInProgressへの保存に失敗しました: ", err)
+            } else {
+                print("bingoSheetsInProgressへの保存に成功しました: ", ref!.documentID)
+            }
+        }
+    }
     
     
     
@@ -415,13 +437,6 @@ class EditBingoSheetViewController: UIViewController {
     }
     
     
-//    private func showSaveAlert() {
-//        let alert = UIAlertController(title: "保存しました", message: "", preferredStyle: .alert)
-//        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-//        alert.addAction(okAction)
-//        present(alert, animated: true, completion: nil)
-//    }
-    
     
     private func setUpBingoCollectionView() {
         bingoCollectionView.delegate = self
@@ -430,7 +445,6 @@ class EditBingoSheetViewController: UIViewController {
         bingoCollectionView.backgroundColor = .clear
         
         bingoCollectionView.layer.borderWidth = 0
-//        bingoCollectionView.layer.borderColor = UIColor.clear.cgColor//UIColor.systemGray2.cgColor
         
         bingoCollectionView.collectionViewLayout = layout
     }
@@ -468,10 +482,7 @@ class EditBingoSheetViewController: UIViewController {
             bingoCollectionView.cancelInteractiveMovement()
         }
     }
-    
-    
-    
-    
+
 }
 
 

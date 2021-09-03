@@ -13,35 +13,28 @@ import GoogleMobileAds
 import SnapKit//AutoLayoutを簡潔にかけるライブラリ
 import UserNotifications
 import Lottie//Animation
+import Firebase
 
 class MissionInProgressViewController: UIViewController {
     
     private var scrollView: UIScrollView!
     private var pageControl: UIPageControl!
-//    private var bingoCollectionView: UICollectionView!
-//    private var titleLabel: UILabel!
-    private var bingoStatusLabel: UILabel!
-//    private var imageView: UIImageView!
-//    private var deadlineLabel: UILabel!
+
 
     @IBOutlet weak var bannerView: GADBannerView!//Admobを表示
     
+    let db = Firestore.firestore()
     //実行中のビンゴ情報を格納する配列
     var bingoSheetsInProgress = [BingoSheetInProgress]()
-    //実行中のbingoCollectionViewを格納する配列
-    var bingoCollectionViewArray = [UICollectionView]()
-
+    
+    var bingoSheetInProgressDataFromFirebase = [BingoSheetInProgressDataFromFirebase]()
+    
+    var bingoStatusLabelArray = [UILabel]()
+    
     var offsetX: CGFloat = 0
     //pageControlのcurrentPage番号
     var currentPageIndex: Int = 0
-    
 
-    
-
-    
-    
-
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -52,10 +45,6 @@ class MissionInProgressViewController: UIViewController {
         setUpBarButtonItem()
         setUpScrollView()
         setUpPageControl()
-
-//        setUpImageView()
-        setUpBingoStatusLabel()
-//        localNotification()
         
     }
     
@@ -107,7 +96,7 @@ class MissionInProgressViewController: UIViewController {
           }
     
     private func setUpVannerView() {
-        bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"//!!!!!!!!!!!Apple申請前に本番用IDに変更する!!!!!!!!!!!
+        bannerView.adUnitID = "ca-app-pub-4434300298107671/5662660412"//本番用
         bannerView.rootViewController = self
         bannerView.delegate = self
     }
@@ -190,7 +179,27 @@ class MissionInProgressViewController: UIViewController {
 
     }
     
-    func setUpScrollView() {
+    private func setUpBingoStatusLabel() -> UILabel {
+        
+        let viewWidthInt = Int(self.view.frame.size.width)
+        let positionX = Int(viewWidthInt) * (bingoSheetsInProgress.count - 1)
+        var bingoWidth = viewWidthInt - 40//スマホ用
+        if viewWidthInt > 700 {
+            //iPad用
+            bingoWidth = viewWidthInt / 15 * 10
+        }
+        let x = positionX + (viewWidthInt - bingoWidth) / 2
+        
+        let bingoStatusLabel = UILabel(frame: CGRect(x: x, y: (100 + bingoWidth / 2), width: bingoWidth, height: 80))
+        bingoStatusLabel.isHidden = true
+        bingoStatusLabel.font = UIFont(name: "Party LET Plain", size: 61.0)
+        bingoStatusLabel.textColor = .yellow
+        bingoStatusLabel.shadowColor = .brown
+        bingoStatusLabel.textAlignment = .center
+        return bingoStatusLabel
+    }
+    
+    private func setUpScrollView() {
         
         let viewWidthInt = Int(self.view.frame.size.width)
         var bingoWidth = viewWidthInt - 40//スマホ用
@@ -212,7 +221,7 @@ class MissionInProgressViewController: UIViewController {
         self.view.sendSubviewToBack(scrollView)
     }
     
-    func setUpPageControl() {
+    private func setUpPageControl() {
         
         let viewWidthInt = Int(self.view.frame.size.width)
         var bingoWidth = viewWidthInt - 40//スマホ用
@@ -256,6 +265,7 @@ class MissionInProgressViewController: UIViewController {
         let bingoCollectionView = setUpBingoCollectionView()
         let titleLabel = setUpTitleLabel()
         let deadlineLabel = setUpDeadlineLabel()
+        let bingoStatusLabel = setUpBingoStatusLabel()
 
         let viewWidthInt = Int(self.view.frame.size.width)
         let positionX = Int(viewWidthInt) * (bingoSheetsInProgress.count - 1)
@@ -277,6 +287,10 @@ class MissionInProgressViewController: UIViewController {
         self.scrollView.addSubview(bingoCollectionView)
         self.scrollView.addSubview(titleLabel)
         self.scrollView.addSubview(deadlineLabel)
+        self.scrollView.addSubview(bingoStatusLabel)
+        
+        //bingoStatusLabelを追加
+        bingoStatusLabelArray.append(bingoStatusLabel)
  
         // scrollViewのサイズを指定（幅は1ページに表示するViewの幅×ページ数）
         
@@ -288,6 +302,30 @@ class MissionInProgressViewController: UIViewController {
         pageControl.currentPage = bingoSheetsInProgress.count
         pageScroll()
     }
+    
+    private func readBingoSheetInProgressFromFirestore() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        //Firestoreからコレクションのすべてのドキュメントを取得する
+        db.collection("users").document(uid).collection("bingoSheetsInProgress").getDocuments() { (querySnapshot, err) in
+            //非同期処理：記述された順番は関係なく、getDocumentsの処理が完了したらクロージャを実行する
+            if let err = err {
+                print("Firestoreから情報の取得に失敗しました。", err)
+            } else {
+                for document in querySnapshot!.documents {
+                    //Firestoreから取得した情報をBingoSheet型のモデルに変換
+                    let data = BingoSheetInProgressDataFromFirebase(document: document)
+                    //配列に追加
+                    self.bingoSheetInProgressDataFromFirebase.append(data)
+                }
+            }
+        }
+
+    }
+    
+    
+
+    
+    
     
     func drawBingoSheet() {
         
@@ -308,6 +346,7 @@ class MissionInProgressViewController: UIViewController {
             let bingoCollectionView = setUpBingoCollectionView()
             let titleLabel = setUpTitleLabel()
             let deadlineLabel = setUpDeadlineLabel()
+            let bingoStatusLabel = setUpBingoStatusLabel()
 
             
             let positionX = Int(viewWidthInt) * (i - 1)
@@ -326,9 +365,16 @@ class MissionInProgressViewController: UIViewController {
             let dateString = dateFormatter(date: bingoSheetsInProgress[i].bingoSheet.deadline!)
             deadlineLabel.text = "期限 : \(dateString)"
             
+            if bingoSheetsInProgress[i].isDone! {
+                bingoStatusLabel.text = "Congratulations!"
+            } else {
+                bingoStatusLabel.text = "BINGO!"
+            }
+            
             self.scrollView.addSubview(bingoCollectionView)
             self.scrollView.addSubview(titleLabel)
             self.scrollView.addSubview(deadlineLabel)
+            self.scrollView.addSubview(bingoStatusLabel)
         }
         // scrollViewのサイズを指定（幅は1ページに表示するViewの幅×ページ数）
         scrollView.contentSize = CGSize(width: viewWidthInt * bingoSheetsInProgress.count, height: 1)//縦スクロールなし
@@ -396,22 +442,11 @@ class MissionInProgressViewController: UIViewController {
         let okAction = UIAlertAction(title: "OK", style: .destructive) { _ in
 
             //現在表示中のビンゴシートを配列から削除
-            self.bingoSheetsInProgress.remove(at: Int(self.currentPageIndex))
-            
-//            let width = self.view.frame.size.width
-//            let positionX = CGFloat(Int(width) * (self.bingoSheetsInProgress.count - 1))
-            
-            //@scrollView上のオブジェクトもろとも消し去りたい
-//            self.bingoCollectionView.frame = CGRect(x: positionX + 20, y: 100, width: 350, height: 350)
-//            self.titleLabel.frame = CGRect(x: positionX + 20, y: 20, width: width - 40, height: 30)
-            
+            self.bingoSheetsInProgress.remove(at: self.currentPageIndex)
+            //bingoStatusLabelArrayからも削除
+            self.bingoStatusLabelArray.remove(at: self.currentPageIndex)
             //再描写する
             self.drawBingoSheet()
-            
-//            // scrollViewのサイズを指定（幅は1ページに表示するViewの幅×ページ数）
-//            self.scrollView.contentSize = CGSize(width: Int(self.view.frame.size.width) * self.bingoSheetsInProgress.count, height: 200)
-//            // pageControlのページ数を設定
-//            self.pageControl.numberOfPages = self.bingoSheetsInProgress.count
         }
         //Alertを表示
             showAlert(title: "ビンゴシート削除", message: "現在表示中のビンゴシートを\n削除してもよろしいですか?", actions: [cancelAction, okAction])
@@ -430,27 +465,14 @@ class MissionInProgressViewController: UIViewController {
 
     
     
-    private func setUpBingoStatusLabel() {
-        bingoStatusLabel = UILabel(frame: CGRect(x: 20, y: 320, width: self.view.frame.size.width - 40, height: 80))
-//        bingoStatusLabel.frame = CGRect(x: 20, y: 320, width: self.view.frame.size.width - 20, height: 90)
-        bingoStatusLabel.isHidden = true
-        bingoStatusLabel.font = UIFont(name: "Party LET Plain", size: 61.0)
-        bingoStatusLabel.textColor = .yellow
-        bingoStatusLabel.shadowColor = .brown
 
-        bingoStatusLabel.textAlignment = .center
-        self.view.addSubview(bingoStatusLabel)
-//        self.bingoCollectionView.addSubview(bingoStatusLabel)
-        //viewを最前面に持ってくる->@最前面に来ない
-        self.view.bringSubviewToFront(bingoStatusLabel)
-//        bingoStatusLabel.layer.cornerRadius = 20
-//        bingoStatusLabel.clipsToBounds = true//この設定を入れないと角丸にならない
-    }
 
     //ビンゴになった時の挙動
     func bingoAction() {
 //        sleep(1)//1秒止める
-        bingoStatusLabel.isHidden = false
+        bingoStatusLabelArray[currentPageIndex].isHidden = false
+//        bingoStatusLabel.isHidden = false
+//        scrollView.bringSubviewToFront(bingoStatusLabel)
         bingoSoundPlay()
 //        imageView.isHidden = false
 //        setUpSmallCrackerAnimationView()
@@ -581,8 +603,9 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
         let currentBingo = bingoSheetsInProgress[currentPageIndex]
 
         let taskIsDone = currentBingo.tasksAreDone[indexPath.section][indexPath.row]
-        bingoStatusLabel.text = "BINGO!"
-        bingoStatusLabel.isHidden = true
+        bingoStatusLabelArray[currentPageIndex].text = "BINGO!"
+//        bingoStatusLabel.isHidden = true
+        bingoStatusLabelArray[currentPageIndex].isHidden = true
 //        imageView.isHidden = true
     
 //        taskIsDone.toggle()
@@ -651,15 +674,16 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
             currentBingo.isDone = true
 //            bingoSheetIsDone = true
 //            sleep(1)
-            bingoStatusLabel.text = "Congratulations!"
-            bingoStatusLabel.isHidden = false
+            bingoStatusLabelArray[currentPageIndex].text = "Congratulations!"
+//            bingoStatusLabel.isHidden = false
+            bingoStatusLabelArray[currentPageIndex].isHidden = false
             clearSoundPlay()
 //            setUpBigCheckAnimationView()
             
             //ごほうびをアラート表示
             let message = currentBingo.bingoSheet.reward
             //UIAlertControllerクラスのインスタンスを生成
-            let actionSheet = UIAlertController(title: "ビンゴミッション\nコンプリート!", message: message, preferredStyle: .alert)//.actionSheet:画面下部から出てくるアラート//.alert:画面中央に表示されるアラート
+            let actionSheet = UIAlertController(title: message, message: "", preferredStyle: .alert)//.actionSheet:画面下部から出てくるアラート//.alert:画面中央に表示されるアラート
             //UIAlertControllerにActionを追加
             let title = ["お疲れ様でした☕️", "いい感じです🍀", "さすが！", "バッチリです✨", "すごい!👏", "がんばってますね😌", "エライ！", "その調子！", "素晴らしい🌟", "やりました🎉", "その調子！"]
             actionSheet.addAction(UIAlertAction(title: title.randomElement(), style: .default, handler: nil))

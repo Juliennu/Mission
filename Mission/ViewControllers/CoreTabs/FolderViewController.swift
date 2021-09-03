@@ -93,7 +93,6 @@ class FolderViewController: UIViewController {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         //Firestoreからコレクションのすべてのドキュメントを取得する
         db.collection("users").document(uid).collection("bingoSheets").getDocuments() { (querySnapshot, err) in
-//        db.collection("bingoSheets").getDocuments() { (querySnapshot, err) in
             //非同期処理：記述された順番は関係なく、getDocumentsの処理が完了したらクロージャを実行する
             if let err = err {
                 print("Firestoreから情報の取得に失敗しました。", err)
@@ -105,7 +104,6 @@ class FolderViewController: UIViewController {
                     self.appendBingoSheet(bingoSheet: bingosheet)
 
                 }
-//                self.tableView.reloadData()
             }
         }
     }

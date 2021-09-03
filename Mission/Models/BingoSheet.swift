@@ -19,7 +19,6 @@ public class BingoSheet {
     var reward: String?
     var tasks: [String]?
     
-    
 
     //イニシャライザーは定数にのみ?
     init(dic: [String: Any]) {
@@ -57,12 +56,11 @@ public class BingoSheet {
 public class BingoSheetInProgress {
     
     let startedAt: Timestamp
-//    let documentId: String?
     let bingoSheet: BingoSheet
     let tasks: [[String]]
     
     var tasksAreDone: [[Bool]]
-    var isDone: Bool?//ビンゴシート全体の達成状況(全て完了か否か)
+    var isDone: Bool?
     
     init(bingoSheet: BingoSheet) {
         self.startedAt = Timestamp()
@@ -70,15 +68,32 @@ public class BingoSheetInProgress {
         self.tasks = bingoSheet.tasks?.chunked(by: 3) ?? [[String]]()
         self.tasksAreDone = [[Bool]](repeating: [Bool](repeating: false, count: tasks.count), count: tasks.count)
         self.isDone = false
-    }
-    
-//    init(document: QueryDocumentSnapshot) {
-//        self.startedAt = document.get("startedAt") as? Timestamp ?? Timestamp()
-//        self.documentId = document.documentID
-//        self.bingoSheet = document.get("bingoSheet") as! BingoSheet
-//        self.
-//    }
+    }  
 }
+
+
+public class BingoSheetInProgressDataFromFirebase {
+    
+    let startedAt: Timestamp
+    let documentId: String?
+    let bingoSheetDocumentId: String?
+    var tasksAreDone: [[Bool]]
+    var isDone: Bool?
+    
+    init(document: QueryDocumentSnapshot) {
+        self.startedAt = document.get("startedAt") as? Timestamp ?? Timestamp()
+        self.documentId = document.documentID
+        self.bingoSheetDocumentId = document.get("bingoSheetDocumentId") as? String ?? ""
+        let tasksAredoneSingleArray = document.get("tasksAreDone") as? [Bool] ?? [Bool]()
+        self.tasksAreDone = tasksAredoneSingleArray.chunked(by: 3)
+        self.isDone = document.get("isDone") as? Bool ?? false
+    }
+}
+
+
+
+
+
 //        self.bingoSheet = dic["bingoSheet"] as? BingoSheet ?? BingoSheet(dic: ["createdAt": Timestamp(), "documentId": String.self])
 
 
