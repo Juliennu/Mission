@@ -11,7 +11,7 @@
 import UIKit
 import GoogleMobileAds
 import SnapKit//AutoLayoutを簡潔にかけるライブラリ
-import UserNotifications
+//import UserNotifications
 import Lottie//Animation
 import Firebase
 

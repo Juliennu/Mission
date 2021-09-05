@@ -12,13 +12,17 @@ class FirstViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         checkUser()
+        view.backgroundColor = iconBackgroundColor
 
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        //ATTの許可通知
+        setUpAppTrackimgTransparency()
+        
         //初回起動時にはログイン画面を表示する
         let ud = UserDefaults.standard
         let firstLaunchKey = "firstLaunch"
@@ -35,7 +39,7 @@ class FirstViewController: UIViewController {
         } else {
             //セグエを使って移動
             performSegue(withIdentifier: "moveToTabBarController", sender: nil)
-            
+
 
         }
     }
