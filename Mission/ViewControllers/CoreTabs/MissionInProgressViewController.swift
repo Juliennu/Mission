@@ -207,8 +207,10 @@ class MissionInProgressViewController: UIViewController {
             //iPad用
             bingoWidth = viewWidthInt / 15 * 10
         }
+        
+        let navBarHeight = Int((navigationController?.navigationBar.frame.size.height)!)
         // scrollViewの画面表示サイズを指定
-        scrollView = UIScrollView(frame: CGRect(x: 0, y: 20, width: viewWidthInt, height: 100 + bingoWidth + 80))
+        scrollView = UIScrollView(frame: CGRect(x: 0, y: navBarHeight, width: viewWidthInt, height: 100 + bingoWidth + 80))
         // scrollViewのデリゲートになる
         scrollView.delegate = self
         scrollView.backgroundColor = viewBackgroundColor
@@ -323,9 +325,6 @@ class MissionInProgressViewController: UIViewController {
     }
     
     
-
-    
-    
     
     func drawBingoSheet() {
         
@@ -399,21 +398,18 @@ class MissionInProgressViewController: UIViewController {
         }
         
         let viewWidthInt = Int(self.view.frame.size.width)
-        var bingoWidth = viewWidthInt - 40//スマホ用
-        if viewWidthInt > 700 {
-            //iPad用
-            bingoWidth = viewWidthInt / 15 * 10
-        }
+        let heightInt = Int(self.scrollView.frame.size.height)
+        
         // scrollViewの画面表示サイズを指定
-//        scrollView = UIScrollView(frame: CGRect(x: 0, y: 20, width: viewWidthInt, height: 100 + bingoWidth + 80))
-        let size = CGSize(width: viewWidthInt, height: 100 + bingoWidth + 80)
-//        let size = CGRect(x: 0, y: 20, width: viewWidthInt, height: 100 + bingoWidth + 80)//view.frame.size//スクリーンショットを撮る座標と縦横幅を指定->@AdMobの範囲は外す。
+        let size = CGSize(width: viewWidthInt, height: heightInt)
         UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
-        view.drawHierarchy(in: view.frame, afterScreenUpdates: true)
-        let screenShotImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!  //スリーンショットがUIImage型で取得できる
+        //scrollViewをスクショの範囲に指定
+        view.drawHierarchy(in: view.frame, afterScreenUpdates: true)//self.scrollView.frame
+        //スリーンショットをUIImage型で取得
+        let screenShotImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
         
-        //＠ビンゴシートが完了か否かでメッセージを変える
+        //ビンゴシートが完了か否かでメッセージを変える
         var message = ""
         if bingoSheetsInProgress[currentPageIndex].isDone == false {
             message = "ビンゴミッションに挑戦中！"
@@ -421,11 +417,12 @@ class MissionInProgressViewController: UIViewController {
           message = "ビンゴミッションをクリア☆"
         }
         
-        
         let activityViewController = UIActivityViewController(activityItems: [message, screenShotImage], applicationActivities: nil)
-        self.present(activityViewController, animated: true, completion: nil)
         
-        //@シュミレーター上でimageとして保存しようとするとクラッシュするのを直す
+        //iOS8のiPad用：初期化しないとクラッシュするため以下1文追加
+        activityViewController.popoverPresentationController?.sourceView = self.view
+        self.present(activityViewController, animated: true, completion: nil)
+
     }
     
     //ビンゴシート削除
@@ -613,11 +610,12 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
         if taskIsDone == false {
             currentBingo.tasksAreDone[indexPath.section][indexPath.row] = true
             taskIsDoneSoundPlay()
-            bingoSheetsInProgress[currentPageIndex].isDone = false
+            
         //完了タスクセル押下時
         } else {
             currentBingo.tasksAreDone[indexPath.section][indexPath.row] = false
             taskIsUndoneSoundPlay()
+            bingoSheetsInProgress[currentPageIndex].isDone = false
         }
         
         collectionView.reloadData()
@@ -685,7 +683,7 @@ extension MissionInProgressViewController: UICollectionViewDelegate, UICollectio
             //UIAlertControllerクラスのインスタンスを生成
             let actionSheet = UIAlertController(title: message, message: "", preferredStyle: .alert)//.actionSheet:画面下部から出てくるアラート//.alert:画面中央に表示されるアラート
             //UIAlertControllerにActionを追加
-            let title = ["お疲れ様でした☕️", "いい感じです🍀", "さすが！", "バッチリです✨", "すごい!👏", "がんばってますね😌", "エライ！", "その調子！", "素晴らしい🌟", "やりました🎉", "その調子！"]
+            let title = ["お疲れ様でした☕️", "いい感じです🍀", "さすが！", "バッチリです✨", "すごい!👏", "がんばってますね😌", "エライ！", "その調子！", "素晴らしい🌟", "やりました🎉", "その調子！", "Nice🌟"]
             actionSheet.addAction(UIAlertAction(title: title.randomElement(), style: .default, handler: nil))
             //Alertを表示
             present(actionSheet, animated: true, completion: nil)

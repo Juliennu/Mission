@@ -19,11 +19,15 @@
 	<key>CFBundleShortVersionString</key>
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-4434300298107671~1133508022</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>画像を保存します</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>画像を保存します</string>
 	<key>NSUserTrackingUsageDescription</key>
 	<string>許可をすることであなたに不適切な広告が表示されなくなります。</string>
 	<key>UIAppFonts</key>

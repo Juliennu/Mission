@@ -57,6 +57,8 @@ class FolderViewController: UIViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellId")
         tableView.delegate = self
         tableView.dataSource = self
+        //空cellのseparatorを消す
+        tableView.tableFooterView = UIView()
 
         
         //ボタンの設定
@@ -100,20 +102,23 @@ class FolderViewController: UIViewController {
                 for document in querySnapshot!.documents {
                     //Firestoreから取得した情報をBingoSheet型のモデルに変換
                     let bingosheet = BingoSheet(document: document)
-                    
-                    self.appendBingoSheet(bingoSheet: bingosheet)
+                    self.bingosheets.append(bingosheet)
+//                    self.appendBingoSheet(bingoSheet: bingosheet)
 
                 }
+                self.sortByCreatedAt()
+                self.tableView.reloadData()
             }
         }
     }
     
-    public func appendBingoSheet(bingoSheet: BingoSheet) {
-        //モデルをbingosheets配列に追加する
-        bingosheets.append(bingoSheet)
-        sortByCreatedAt()
-        tableView.reloadData()
-    }
+//    public func appendBingoSheet(bingoSheet: BingoSheet) {
+//        //モデルをbingosheets配列に追加する
+//        bingosheets.append(bingoSheet)
+//        sortByCreatedAt()
+//        tableView.reloadData()
+//
+//    }
     
     
     

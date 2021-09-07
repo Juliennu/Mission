@@ -14,7 +14,8 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var loginButton: UIButton!
-//    @IBOutlet weak var dontHaveAccountButton: UIButton!
+    @IBOutlet weak var dontHaveAccountButton: UIButton!
+    @IBOutlet weak var closeButton: UIButton!
     
 
     
@@ -44,7 +45,8 @@ class LoginViewController: UIViewController {
         loginButton.addTarget(self, action: #selector(tappedLoginButton), for: .touchUpInside)
         loginButton.isEnabled = false
         loginButton.backgroundColor = UIColor.rgb(red: 100, green: 100, blue: 100, alpha: 1.0)
-//        dontHaveAccountButton.addTarget(self, action: #selector(tappedDontHaveAccountButton), for: .touchUpInside)
+        dontHaveAccountButton.addTarget(self, action: #selector(tappedDontHaveAccountButton), for: .touchUpInside)
+        closeButton.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
     }
     
     //ログイン処理
@@ -95,10 +97,22 @@ class LoginViewController: UIViewController {
         }
     }
     
-    //@SignUpVCへ遷移
-//    @objc func tappedDontHaveAccountButton() {
-//
-//    }
+    @objc private func closeButtonTapped() {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    //SignUpVCへ遷移
+    @objc func tappedDontHaveAccountButton() {
+        
+        let storyboard = UIStoryboard(name: "SignUp", bundle: nil)
+        let signUpVC = storyboard.instantiateViewController(identifier: "SignUpViewController")
+        signUpVC.modalPresentationStyle = .fullScreen
+        signUpVC.modalTransitionStyle = .flipHorizontal
+        present(signUpVC, animated: true)
+        
+//        self.navigationController?.pushViewController(signUpVC, animated: true)
+
+    }
     
     //textfieldの枠外をタップしたときにedit状態を終了
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

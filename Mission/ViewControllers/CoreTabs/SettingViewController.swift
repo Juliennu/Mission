@@ -50,15 +50,15 @@ final class SettingViewController: UIViewController {
         data.append(section0)
         
         let section1 = [
-            SettingCellModel(title: "メールアドレス登録") { [ weak self] in
-                self?.didTapResister()
-            },
-            SettingCellModel(title: "ログイン") { [ weak self] in
+//            SettingCellModel(title: "メールアドレス登録") { [ weak self] in
+//                self?.didTapResister()
+//            },
+            SettingCellModel(title: "ログイン・メールアドレス登録") { [ weak self] in
                 self?.didTapLogin()
             },
-            SettingCellModel(title: "ログアウト") { [ weak self] in
-                self?.didTapLogOut()
-            }
+//            SettingCellModel(title: "ログアウト") { [ weak self] in
+//                self?.didTapLogOut()
+//            }
 
         ]
         data.append(section1)
@@ -80,71 +80,75 @@ final class SettingViewController: UIViewController {
     }
     
     
-    //@匿名から永久アカウントへの昇格。既に永久アカウントの場合は無効にする。
-    private func didTapResister() {
-        //SignUpVCへ遷移
-        let storyboard = UIStoryboard.init(name: "SignUp", bundle: nil)
-        let signUpVC = storyboard.instantiateViewController(withIdentifier: "SignUpViewController") as! SignUpViewController
-        navigationController?.pushViewController(signUpVC, animated: true)
-    }
+    //@匿名から永久アカウントへの昇格。既に永久アカウントの場合は無効にする。-> Firebaseの方でログアウトしないとログインできない仕様になっているっぽい。
+//    private func didTapResister() {
+//        //SignUpVCへ遷移
+//        let storyboard = UIStoryboard.init(name: "SignUp", bundle: nil)
+//        let signUpVC = storyboard.instantiateViewController(withIdentifier: "SignUpViewController") as! SignUpViewController
+//        signUpVC.modalPresentationStyle = .fullScreen
+//        present(signUpVC, animated: true)
+////        navigationController?.pushViewController(signUpVC, animated: true)
+//    }
     
     private func didTapLogin() {
         let storyboard = UIStoryboard(name: "Login", bundle: nil)
-        let vc = storyboard.instantiateViewController(identifier: "LoginViewController") as! LoginViewController
+        let loginVC = storyboard.instantiateViewController(identifier: "LoginViewController") as! LoginViewController
+        loginVC.modalPresentationStyle = .fullScreen
+        present(loginVC, animated: true)
 
-        navigationController?.pushViewController(vc, animated: true)
+//        navigationController?.pushViewController(loginVC, animated: true)
     }
     
     
     
-    private func didTapLogOut() {
-        //ログアウトの意向についてアラートで確認
-        let actionSheet = UIAlertController(title: "ログアウトしますか", message: nil, preferredStyle: .actionSheet)//actionSheetは選択肢のボタンのこと？
-        actionSheet.addAction(UIAlertAction(title: "キャンセル", style: .cancel, handler: nil))
-        actionSheet.addAction(UIAlertAction(title: "ログアウト", style: .destructive, handler: {_ in//style: .destructiveは赤字ボタン＝危険信号
-            
-            AuthManager.shared.logOut(completion: { success in//class名 + classインスタンス +　関数名でpublicのクラスや関数を利用できる！
-                DispatchQueue.main.async {
-                    if success {
-                        //ログイン画面へ遷移
-                        
-                        let storyboard = UIStoryboard.init(name: "Login", bundle: nil)
-                        let loginVC = storyboard.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
-                        loginVC.modalPresentationStyle = .fullScreen
-                        self.present(loginVC, animated: true) {
-                            //ログイン後のルートビューコントローラーをFolderViewControllerにする
-                            self.navigationController?.popViewController(animated: true)
-                            self.tabBarController?.selectedIndex = 0
-                        }
-//                        self.navigationController?.pushViewController(loginVC, animated: true)
-                        
-                        
-//                        let loginVC = LoginViewController()
-//                    //こうすると、ただInstanceを作成しているだけなので、Storyboardの情報は入っていきません。なので、IBOutletしても、nil、つまりそんなのないよってなるわけです。
+//    private func didTapLogOut() {
+//        //ログアウトの意向についてアラートで確認
+//        let actionSheet = UIAlertController(title: "ログアウトしますか", message: "", preferredStyle: .actionSheet)//actionSheetは選択肢のボタンのこと？//メールアドレス登録をしていない場合、\n保存されたデータにアクセスできなくなります。
+//        actionSheet.addAction(UIAlertAction(title: "キャンセル", style: .cancel, handler: nil))
+//        actionSheet.addAction(UIAlertAction(title: "ログアウト", style: .destructive, handler: {_ in//style: .destructiveは赤字ボタン＝危険信号
+//
+//            AuthManager.shared.logOut(completion: { success in//class名 + classインスタンス +　関数名でpublicのクラスや関数を利用できる！
+//                DispatchQueue.main.async {
+//                    if success {
+//                        //ログイン画面へ遷移
+//
+//                        let storyboard = UIStoryboard.init(name: "Login", bundle: nil)
+//                        let loginVC = storyboard.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
 //                        loginVC.modalPresentationStyle = .fullScreen
 //                        self.present(loginVC, animated: true) {
 //                            //ログイン後のルートビューコントローラーをFolderViewControllerにする
 //                            self.navigationController?.popViewController(animated: true)
 //                            self.tabBarController?.selectedIndex = 0
 //                        }
-                    } else {
-                        //エラー発生時(iPadにて操作時)
-                        fatalError("ログアウトに失敗しました")
-                    }
-                }
-
-            })
-            
-        }))
-        
-        //iPad用ではうまく動作しないレイアウト調整らしい
-        actionSheet.popoverPresentationController?.sourceView = tableview
-        actionSheet.popoverPresentationController?.sourceRect = tableview.bounds
-        
-        present(actionSheet, animated: true, completion: nil)
-
-
-    }
+////                        self.navigationController?.pushViewController(loginVC, animated: true)
+//
+//
+////                        let loginVC = LoginViewController()
+////                    //こうすると、ただInstanceを作成しているだけなので、Storyboardの情報は入っていきません。なので、IBOutletしても、nil、つまりそんなのないよってなるわけです。
+////                        loginVC.modalPresentationStyle = .fullScreen
+////                        self.present(loginVC, animated: true) {
+////                            //ログイン後のルートビューコントローラーをFolderViewControllerにする
+////                            self.navigationController?.popViewController(animated: true)
+////                            self.tabBarController?.selectedIndex = 0
+////                        }
+//                    } else {
+//                        //エラー発生時(iPadにて操作時)
+//                        fatalError("ログアウトに失敗しました")
+//                    }
+//                }
+//
+//            })
+//
+//        }))
+//
+//        //iPad用ではうまく動作しないレイアウト調整らしい
+//        actionSheet.popoverPresentationController?.sourceView = tableview
+//        actionSheet.popoverPresentationController?.sourceRect = tableview.bounds
+//
+//        present(actionSheet, animated: true, completion: nil)
+//
+//
+//    }
 
 
 }

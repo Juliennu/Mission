@@ -14,8 +14,9 @@ import PKHUD
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var registerButton: UIButton!
-//    @IBOutlet weak var alreadyHaveAccountButton: UIButton!
+    @IBOutlet weak var alreadyHaveAccountButton: UIButton!
     
+    @IBOutlet weak var closeButton: UIButton!
     
     let db = Firestore.firestore()
     
@@ -31,22 +32,24 @@ import PKHUD
     
     func setUpViews() {
         
-        registerButton.layer.cornerRadius = 12//Thread 1: Fatal error: Unexpectedly found nil while implicitly unwrapping an Optional value
-        //@StoryboardとVCの紐付けができていないのでは
-        
-        registerButton.addTarget(self, action: #selector(tappedRegisterButton), for: .touchUpInside)
-        
-//        alreadyHaveAccountButton.addTarget(self, action: #selector(tappedAlreadyHaveAccountButton), for: .touchUpInside)
-        
         emailTextField.delegate = self
         passwordTextField.delegate = self
         
         emailTextField.tag = 0
         passwordTextField.tag = 1
         
+        registerButton.layer.cornerRadius = 12//Thread 1: Fatal error: Unexpectedly found nil while implicitly unwrapping an Optional value
+        //@StoryboardとVCの紐付けができていないのでは
+        
+        registerButton.addTarget(self, action: #selector(tappedRegisterButton), for: .touchUpInside)
         
         registerButton.isEnabled = false
         registerButton.backgroundColor = .rgb(red: 100, green: 100, blue: 100, alpha: 1.0)
+        
+        alreadyHaveAccountButton.addTarget(self, action: #selector(tappedAlreadyHaveAccountButton), for: .touchUpInside)
+        
+        closeButton.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
+        
     }
     
 
@@ -156,11 +159,27 @@ import PKHUD
 //        }
 //    }
     
+    @objc private func closeButtonTapped() {
+        //Modalを閉じる
+        presentingViewController?.presentingViewController?.dismiss(animated: true, completion: nil)
+        
+//        view.window?.rootViewController?.dismiss(animated: true, completion: nil)
+//        dismiss(animated: true, completion: nil)
+    }
     
     //既にアカウントありの場合、ログイン画面へ遷移
-//    @objc func tappedAlreadyHaveAccountButton() {
-//
-//    }
+    @objc func tappedAlreadyHaveAccountButton() {
+        dismiss(animated: true, completion: nil)
+//        navigationController?.popViewController(animated: true)
+        
+//        let storyboard = UIStoryboard(name: "Login", bundle: nil)
+//        let loginVC = storyboard.instantiateViewController(identifier: "LoginViewController")
+//        loginVC.modalPresentationStyle = .fullScreen
+//        present(loginVC, animated: true)
+        
+//        self.navigationController?.pushViewController(signUpVC, animated: true)
+
+    }
     
     //textfieldの枠外をタップしたときにedit状態を終了してくれる
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -214,7 +233,7 @@ extension SignUpViewController: UITextFieldDelegate {
         } else {
             registerButton.isEnabled = true
             //オレンジ
-            registerButton.backgroundColor = buttonOrange//.rgb(red: 255, green: 159, blue: 0, alpha: 1.0)
+            registerButton.backgroundColor = iconBackgroundColor//.rgb(red: 255, green: 159, blue: 0, alpha: 1.0)
         }
     }
     
